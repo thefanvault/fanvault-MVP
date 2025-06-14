@@ -61,7 +61,14 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				fanvault: {
+					pink: 'hsl(var(--fanvault-pink))',
+					red: 'hsl(var(--fanvault-red))'
 				}
+			},
+			backgroundImage: {
+				'fanvault-gradient': 'var(--fanvault-gradient)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
