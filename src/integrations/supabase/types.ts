@@ -41,6 +41,45 @@ export type Database = {
           },
         ]
       }
+      creator_settings: {
+        Row: {
+          created_at: string
+          default_return_address: string | null
+          default_shipping_cost: number | null
+          id: string
+          storefront_banner_url: string | null
+          storefront_public: boolean | null
+          stripe_connect_id: string | null
+          stripe_connect_status: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          default_return_address?: string | null
+          default_shipping_cost?: number | null
+          id?: string
+          storefront_banner_url?: string | null
+          storefront_public?: boolean | null
+          stripe_connect_id?: string | null
+          stripe_connect_status?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          default_return_address?: string | null
+          default_shipping_cost?: number | null
+          id?: string
+          storefront_banner_url?: string | null
+          storefront_public?: boolean | null
+          stripe_connect_id?: string | null
+          stripe_connect_status?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       items: {
         Row: {
           auction_end: string
@@ -263,6 +302,42 @@ export type Database = {
           updated_at?: string
           user_id?: string
           zip_code?: string
+        }
+        Relationships: []
+      }
+      user_preferences: {
+        Row: {
+          created_at: string
+          email_auction_ending: boolean | null
+          email_marketing: boolean | null
+          email_new_items: boolean | null
+          email_outbid_alerts: boolean | null
+          email_win_notifications: boolean | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email_auction_ending?: boolean | null
+          email_marketing?: boolean | null
+          email_new_items?: boolean | null
+          email_outbid_alerts?: boolean | null
+          email_win_notifications?: boolean | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email_auction_ending?: boolean | null
+          email_marketing?: boolean | null
+          email_new_items?: boolean | null
+          email_outbid_alerts?: boolean | null
+          email_win_notifications?: boolean | null
+          id?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
