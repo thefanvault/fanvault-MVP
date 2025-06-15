@@ -27,6 +27,8 @@ import DMCAGuidelines from "./pages/legal/DMCAGuidelines";
 import AcceptableUse from "./pages/legal/AcceptableUse";
 import Status from "./pages/Status";
 import Forbidden from "./pages/error/Forbidden";
+import AdminModeration from "./pages/admin/AdminModeration";
+import AdminImpersonation from "./pages/admin/AdminImpersonation";
 
 const queryClient = new QueryClient();
 
@@ -60,6 +62,8 @@ const App = () => (
           <Route path="/legal/acceptable-use" element={<AcceptableUse />} />
           <Route path="/status" element={<Status />} />
           <Route path="/403" element={<Forbidden />} />
+          <Route path="/admin/moderation" element={<AdminModeration />} />
+          <Route path="/admin/impersonate/:userId" element={<AdminImpersonation />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
