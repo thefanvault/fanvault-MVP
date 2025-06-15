@@ -44,7 +44,7 @@ const SignUp = () => {
     
     // Route based on creator toggle
     if (data.isCreator) {
-      navigate("/onboarding");
+      navigate("/onboarding/creator/profile");
     } else {
       navigate("/discover");
     }
