@@ -9,6 +9,89 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      bids: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          item_id: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          item_id: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          item_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bids_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      items: {
+        Row: {
+          auction_end: string
+          auction_start: string
+          condition: string | null
+          content_url: string | null
+          created_at: string
+          creator_id: string
+          current_bid: number | null
+          current_bid_user: string | null
+          description: string | null
+          id: string
+          images: string[]
+          signed: boolean | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          auction_end: string
+          auction_start: string
+          condition?: string | null
+          content_url?: string | null
+          created_at?: string
+          creator_id: string
+          current_bid?: number | null
+          current_bid_user?: string | null
+          description?: string | null
+          id?: string
+          images?: string[]
+          signed?: boolean | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          auction_end?: string
+          auction_start?: string
+          condition?: string | null
+          content_url?: string | null
+          created_at?: string
+          creator_id?: string
+          current_bid?: number | null
+          current_bid_user?: string | null
+          description?: string | null
+          id?: string
+          images?: string[]
+          signed?: boolean | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       payment_methods: {
         Row: {
           brand: string
@@ -45,6 +128,36 @@ export type Database = {
           stripe_payment_method_id?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string | null
+          id: string
+          updated_at?: string
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          username?: string | null
         }
         Relationships: []
       }
