@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Eye, EyeOff, ArrowLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -95,7 +95,13 @@ const SignUp = () => {
         <Button 
           variant="ghost" 
           size="sm" 
-          onClick={() => navigate(-1)}
+          onClick={() => {
+            if (window.history.length > 1) {
+              navigate(-1);
+            } else {
+              navigate("/");
+            }
+          }}
           className="mb-4 -ml-2"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
@@ -206,9 +212,9 @@ const SignUp = () => {
           {/* Login Link */}
           <div className="text-center">
             <span className="text-muted-foreground">Already have an account? </span>
-            <a href="/login" className="text-fanvault-pink hover:underline font-medium">
+            <Link to="/login" className="text-fanvault-pink hover:underline font-medium">
               Log in
-            </a>
+            </Link>
           </div>
 
           {/* Privacy Note */}

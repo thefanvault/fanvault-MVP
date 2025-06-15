@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
 const loginSchema = z.object({
@@ -91,7 +91,13 @@ const Login = () => {
         <Button 
           variant="ghost" 
           size="sm" 
-          onClick={() => navigate(-1)}
+          onClick={() => {
+            if (window.history.length > 1) {
+              navigate(-1);
+            } else {
+              navigate("/");
+            }
+          }}
           className="mb-4 -ml-2"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
@@ -173,9 +179,9 @@ const Login = () => {
 
             <div className="text-center">
               <span className="text-muted-foreground">Don't have an account yet? </span>
-              <a href="/signup" className="text-fanvault-pink hover:underline">
+              <Link to="/signup" className="text-fanvault-pink hover:underline">
                 Sign up
-              </a>
+              </Link>
             </div>
 
             <div className="text-center pt-4 border-t">
