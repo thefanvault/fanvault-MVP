@@ -10,7 +10,7 @@ export function MobileNav({ currentPath = "/" }: MobileNavProps) {
     { icon: Home, label: "Home", href: "/" },
     { icon: Search, label: "Discover", href: "/discover" },
     { icon: User, label: "Profile", href: "/profile" },
-    { icon: Settings, label: "Dashboard", href: "/dashboard" },
+    { icon: Settings, label: "Settings", href: "/settings" },
   ];
 
   return (
