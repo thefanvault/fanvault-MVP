@@ -75,7 +75,7 @@ const Index = () => {
               <Button size="lg" variant="secondary" className="text-lg px-8">
                 Start Bidding
               </Button>
-              <Button size="lg" variant="outline" className="text-lg px-8 border-white text-white hover:bg-white hover:text-fanvault-pink">
+              <Button size="lg" variant="outline" className="text-lg px-8 border-white text-white hover:bg-white hover:bg-fanvault-gradient hover:text-white">
                 Become a Creator
               </Button>
             </div>
