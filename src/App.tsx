@@ -15,6 +15,7 @@ import CreatorOnboardingProfile from "./pages/onboarding/CreatorProfile";
 import CreatorSocial from "./pages/onboarding/CreatorSocial";
 import CreatorPayout from "./pages/onboarding/CreatorPayout";
 import Settings from "./pages/Settings";
+import ListNewItem from "./pages/ListNewItem";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ const App = () => (
           <Route path="/onboarding/creator/social" element={<CreatorSocial />} />
           <Route path="/onboarding/creator/payout" element={<CreatorPayout />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/list-new-item" element={<ListNewItem />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

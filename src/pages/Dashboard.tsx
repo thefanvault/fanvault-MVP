@@ -86,9 +86,11 @@ const Dashboard = () => {
 
         {/* Primary Action */}
         <div className="mb-8">
-          <Button size="lg" className="bg-fanvault-gradient text-white font-semibold px-8 py-3 rounded-lg">
-            <Plus className="h-5 w-5 mr-2" />
-            List New Item
+          <Button size="lg" className="bg-fanvault-gradient text-white font-semibold px-8 py-3 rounded-lg" asChild>
+            <a href="/list-new-item">
+              <Plus className="h-5 w-5 mr-2" />
+              List New Item
+            </a>
           </Button>
         </div>
 
@@ -103,9 +105,11 @@ const Dashboard = () => {
                 <p className="text-muted-foreground mb-4">
                   You have no items listed. Tap List New Item to create your first auction!
                 </p>
-                <Button className="bg-fanvault-gradient">
-                  <Plus className="h-4 w-4 mr-2" />
-                  List New Item
+                <Button className="bg-fanvault-gradient" asChild>
+                  <a href="/list-new-item">
+                    <Plus className="h-4 w-4 mr-2" />
+                    List New Item
+                  </a>
                 </Button>
               </div>
             ) : (
