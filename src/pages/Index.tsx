@@ -1,3 +1,6 @@
+import { Header } from "@/components/layout/Header";
+import { MobileNav } from "@/components/layout/MobileNav";
+import { Footer } from "@/components/layout/Footer";
 import { AuctionCard } from "@/components/auctions/AuctionCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -55,118 +58,125 @@ const Index = () => {
   const newAuctions = liveAuctions.slice(2);
 
   return (
-    <>
-      {/* Hero Section */}
-      <section className="bg-fanvault-gradient text-white py-16 md:py-24">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Bid on Exclusive Items from Your Favorite Creators
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
-            Discover unique collectibles, limited edition merch, and personal items directly from creators you love.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="text-lg px-8">
-              Start Bidding
-            </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 border-white bg-gradient-to-br from-fanvault-pink to-fanvault-red text-white hover:opacity-90">
-              Become a Creator
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      <div className="container mx-auto px-4">
-        {/* Stats Section */}
-        <section className="py-12 border-b">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="bg-fanvault-gradient w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <TrendingUp className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold mb-2">$2.4M+</h3>
-              <p className="text-muted-foreground">Total Sales</p>
-            </div>
-            <div className="text-center">
-              <div className="bg-fanvault-gradient w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Zap className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold mb-2">50K+</h3>
-              <p className="text-muted-foreground">Active Bidders</p>
-            </div>
-            <div className="text-center">
-              <div className="bg-fanvault-gradient w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Clock className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold mb-2">24/7</h3>
-              <p className="text-muted-foreground">Live Auctions</p>
+    <div className="min-h-screen bg-background">
+      <Header />
+      
+      <main className="pb-20 md:pb-6">
+        {/* Hero Section */}
+        <section className="bg-fanvault-gradient text-white py-16 md:py-24">
+          <div className="container mx-auto px-4 text-center">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              Bid on Exclusive Items from Your Favorite Creators
+            </h1>
+            <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
+              Discover unique collectibles, limited edition merch, and personal items directly from creators you love.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" variant="secondary" className="text-lg px-8">
+                Start Bidding
+              </Button>
+              <Button size="lg" variant="outline" className="text-lg px-8 border-white bg-gradient-to-br from-fanvault-pink to-fanvault-red text-white hover:opacity-90">
+                Become a Creator
+              </Button>
             </div>
           </div>
         </section>
 
-        {/* Ending Soon Section */}
-        {endingSoonAuctions.length > 0 && (
+        <div className="container mx-auto px-4">
+          {/* Stats Section */}
+          <section className="py-12 border-b">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="bg-fanvault-gradient w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <TrendingUp className="h-8 w-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold mb-2">$2.4M+</h3>
+                <p className="text-muted-foreground">Total Sales</p>
+              </div>
+              <div className="text-center">
+                <div className="bg-fanvault-gradient w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Zap className="h-8 w-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold mb-2">50K+</h3>
+                <p className="text-muted-foreground">Active Bidders</p>
+              </div>
+              <div className="text-center">
+                <div className="bg-fanvault-gradient w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Clock className="h-8 w-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold mb-2">24/7</h3>
+                <p className="text-muted-foreground">Live Auctions</p>
+              </div>
+            </div>
+          </section>
+
+          {/* Ending Soon Section */}
+          {endingSoonAuctions.length > 0 && (
+            <section className="py-12">
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center space-x-3">
+                  <Badge variant="destructive" className="animate-pulse">
+                    🔥 Ending Soon
+                  </Badge>
+                  <h2 className="text-3xl font-bold">Don't Miss Out</h2>
+                </div>
+                <Button variant="outline">
+                  View All
+                </Button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {endingSoonAuctions.map((auction) => (
+                  <AuctionCard key={auction.id} {...auction} />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Live Auctions */}
           <section className="py-12">
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center space-x-3">
-                <Badge variant="destructive" className="animate-pulse">
-                  🔥 Ending Soon
+                <Badge className="bg-fanvault-red animate-pulse">
+                  🔴 LIVE
                 </Badge>
-                <h2 className="text-3xl font-bold">Don't Miss Out</h2>
+                <h2 className="text-3xl font-bold">Live Auctions</h2>
+              </div>
+              <Button variant="outline">
+                View All
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {liveAuctions.map((auction) => (
+                <AuctionCard key={auction.id} {...auction} />
+              ))}
+            </div>
+          </section>
+
+          {/* New Items */}
+          <section className="py-12">
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center space-x-3">
+                <Badge variant="secondary">
+                  ✨ New
+                </Badge>
+                <h2 className="text-3xl font-bold">Fresh Drops</h2>
               </div>
               <Button variant="outline">
                 View All
               </Button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {endingSoonAuctions.map((auction) => (
+              {newAuctions.map((auction) => (
                 <AuctionCard key={auction.id} {...auction} />
               ))}
             </div>
           </section>
-        )}
+        </div>
+      </main>
 
-        {/* Live Auctions */}
-        <section className="py-12">
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center space-x-3">
-              <Badge className="bg-fanvault-red animate-pulse">
-                🔴 LIVE
-              </Badge>
-              <h2 className="text-3xl font-bold">Live Auctions</h2>
-            </div>
-            <Button variant="outline">
-              View All
-            </Button>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {liveAuctions.map((auction) => (
-              <AuctionCard key={auction.id} {...auction} />
-            ))}
-          </div>
-        </section>
-
-        {/* New Items */}
-        <section className="py-12">
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center space-x-3">
-              <Badge variant="secondary">
-                ✨ New
-              </Badge>
-              <h2 className="text-3xl font-bold">Fresh Drops</h2>
-            </div>
-            <Button variant="outline">
-              View All
-            </Button>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {newAuctions.map((auction) => (
-              <AuctionCard key={auction.id} {...auction} />
-            ))}
-          </div>
-        </section>
-      </div>
-    </>
+      <Footer />
+      <MobileNav currentPath="/" />
+    </div>
   );
 };
 
