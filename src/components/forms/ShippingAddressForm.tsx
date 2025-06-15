@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { toast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -64,11 +65,31 @@ const US_STATES = [
   { value: "WY", label: "Wyoming" },
 ];
 
+const COUNTRIES = [
+  { value: "US", label: "United States" },
+  { value: "CA", label: "Canada" },
+  { value: "GB", label: "United Kingdom" },
+  { value: "AU", label: "Australia" },
+  { value: "DE", label: "Germany" },
+  { value: "FR", label: "France" },
+  { value: "JP", label: "Japan" },
+  { value: "IT", label: "Italy" },
+  { value: "ES", label: "Spain" },
+  { value: "NL", label: "Netherlands" },
+  { value: "BR", label: "Brazil" },
+  { value: "MX", label: "Mexico" },
+  { value: "IN", label: "India" },
+  { value: "CN", label: "China" },
+  { value: "RU", label: "Russia" },
+  { value: "KR", label: "South Korea" },
+];
+
 const shippingAddressSchema = z.object({
   fullName: z.string().min(1, "Full name is required"),
   streetAddress: z.string().min(1, "Street address is required"),
   apartment: z.string().optional(),
   city: z.string().min(1, "City is required"),
+  country: z.string().min(1, "Country is required"),
   state: z.string().min(1, "State is required"),
   zipCode: z.string().min(5, "ZIP code must be at least 5 characters"),
   phone: z.string().min(10, "Phone number must be at least 10 digits"),
@@ -82,6 +103,7 @@ interface ShippingAddressFormProps {
 
 export function ShippingAddressForm({ onSuccess }: ShippingAddressFormProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [showCountryRestriction, setShowCountryRestriction] = useState(false);
 
   const form = useForm<ShippingAddressForm>({
     resolver: zodResolver(shippingAddressSchema),
@@ -90,11 +112,21 @@ export function ShippingAddressForm({ onSuccess }: ShippingAddressFormProps) {
       streetAddress: "",
       apartment: "",
       city: "",
+      country: "",
       state: "",
       zipCode: "",
       phone: "",
     },
   });
+
+  const handleCountryChange = (countryValue: string) => {
+    form.setValue("country", countryValue);
+    if (countryValue !== "US") {
+      setShowCountryRestriction(true);
+      // Reset country selection to allow user to choose again
+      form.setValue("country", "");
+    }
+  };
 
   const onSubmit = async (data: ShippingAddressForm) => {
     setIsLoading(true);
@@ -136,64 +168,22 @@ export function ShippingAddressForm({ onSuccess }: ShippingAddressFormProps) {
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
-      <CardHeader>
-        <CardTitle>Shipping Address</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="fullName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Full Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your full name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="streetAddress"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Street Address</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your street address" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="apartment"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Apartment, suite, etc. (optional)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter apartment, suite, etc." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <>
+      <Card className="w-full max-w-2xl mx-auto">
+        <CardHeader>
+          <CardTitle>Shipping Address</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
-                name="city"
+                name="fullName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>City</FormLabel>
+                    <FormLabel>Full Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter city" {...field} />
+                      <Input placeholder="Enter your full name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -202,20 +192,48 @@ export function ShippingAddressForm({ onSuccess }: ShippingAddressFormProps) {
 
               <FormField
                 control={form.control}
-                name="state"
+                name="streetAddress"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>State</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormLabel>Street Address</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your street address" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="apartment"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Apartment, suite, etc. (optional)</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter apartment, suite, etc." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="country"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Country</FormLabel>
+                    <Select onValueChange={handleCountryChange} value={field.value}>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select state" />
+                        <SelectTrigger className="bg-background">
+                          <SelectValue placeholder="Select country" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
-                        {US_STATES.map((state) => (
-                          <SelectItem key={state.value} value={state.value}>
-                            {state.label}
+                      <SelectContent className="bg-background border z-50">
+                        {COUNTRIES.map((country) => (
+                          <SelectItem key={country.value} value={country.value}>
+                            {country.label}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -224,48 +242,105 @@ export function ShippingAddressForm({ onSuccess }: ShippingAddressFormProps) {
                   </FormItem>
                 )}
               />
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="zipCode"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>ZIP Code</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter ZIP code" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="city"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>City</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter city" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone Number</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter phone number" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+                <FormField
+                  control={form.control}
+                  name="state"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>State</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="bg-background">
+                            <SelectValue placeholder="Select state" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="bg-background border z-50">
+                          {US_STATES.map((state) => (
+                            <SelectItem key={state.value} value={state.value}>
+                              {state.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-            <Button 
-              type="submit" 
-              className="w-full" 
-              disabled={isLoading || !form.formState.isValid}
-            >
-              {isLoading ? "Saving..." : "Save & Continue"}
-            </Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="zipCode"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>ZIP Code</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter ZIP code" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone Number</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter phone number" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <Button 
+                type="submit" 
+                className="w-full" 
+                disabled={isLoading || !form.formState.isValid}
+              >
+                {isLoading ? "Saving..." : "Save & Continue"}
+              </Button>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+
+      <AlertDialog open={showCountryRestriction} onOpenChange={setShowCountryRestriction}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Service Not Available</AlertDialogTitle>
+            <AlertDialogDescription>
+              Sorry, FanVault is currently only available in the United States. We're working to expand to more countries in the future.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => setShowCountryRestriction(false)}>
+              Understood
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }
