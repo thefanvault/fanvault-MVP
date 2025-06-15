@@ -38,18 +38,24 @@ const Login = () => {
 
   const email = watch("email");
   const password = watch("password");
-  const isFormValid = email && password && !errors.email && !errors.password;
+  
+  // Simplified validation - just check if we have values and no errors
+  const isFormValid = Boolean(email && password && email.length > 0 && password.length > 0);
 
   const onSubmit = async (data: LoginFormData) => {
+    console.log("Login attempt with:", data.email);
     setIsLoading(true);
     
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data: authData, error } = await supabase.auth.signInWithPassword({
         email: data.email,
         password: data.password,
       });
 
+      console.log("Auth response:", { authData, error });
+
       if (error) {
+        console.error("Login error:", error);
         toast({
           title: "Login Failed",
           description: error.message,
@@ -58,24 +64,12 @@ const Login = () => {
         return;
       }
 
-      // Check if user has a profile to determine where to redirect
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('username')
-          .eq('id', user.id)
-          .maybeSingle();
-        
-        if (profile?.username) {
-          navigate("/");
-        } else {
-          navigate("/");
-        }
-      }
+      console.log("Login successful, redirecting...");
+      navigate("/");
     } catch (error) {
+      console.error("Unexpected login error:", error);
       toast({
-        title: "Login Failed",
+        title: "Login Failed", 
         description: "An unexpected error occurred",
         variant: "destructive",
       });
