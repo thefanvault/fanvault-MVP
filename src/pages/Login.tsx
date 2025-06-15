@@ -29,11 +29,16 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid }
+    formState: { errors },
+    watch
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     mode: "onChange"
   });
+
+  const email = watch("email");
+  const password = watch("password");
+  const isFormValid = email && password && !errors.email && !errors.password;
 
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
@@ -63,9 +68,9 @@ const Login = () => {
           .maybeSingle();
         
         if (profile?.username) {
-          navigate("/dashboard");
+          navigate("/");
         } else {
-          navigate("/discover");
+          navigate("/");
         }
       }
     } catch (error) {
@@ -159,7 +164,7 @@ const Login = () => {
 
             <Button 
               type="submit"
-              disabled={!isValid || isLoading}
+              disabled={!isFormValid || isLoading}
               className="w-full h-12 bg-fanvault-gradient text-lg"
             >
               {isLoading ? "Logging in..." : "Log in"}

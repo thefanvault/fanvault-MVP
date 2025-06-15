@@ -1,14 +1,33 @@
 import { Button } from "@/components/ui/button";
-import { Search, Bell, User } from "lucide-react";
+import { Search, Bell, User, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 export function Header() {
   const { user, userRole } = useAuth();
+  const { toast } = useToast();
 
   const getProfilePath = () => {
     if (!user) return "/signup";
     return userRole === 'creator' ? "/dashboard" : "/settings";
+  };
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      toast({
+        title: "Logout Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Logged out",
+        description: "You have been successfully logged out.",
+      });
+    }
   };
 
   return (
@@ -46,10 +65,25 @@ export function Header() {
               <User className="h-5 w-5" />
             </Link>
           </Button>
-          {!user && (
-            <Button className="hidden md:inline-flex bg-fanvault-gradient" asChild>
-              <Link to="/signup">Sign Up</Link>
+          {user ? (
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={handleLogout}
+              className="hidden md:inline-flex"
+            >
+              <LogOut className="h-4 w-4 mr-2" />
+              Logout
             </Button>
+          ) : (
+            <>
+              <Button variant="ghost" size="sm" asChild className="hidden md:inline-flex">
+                <Link to="/login">Login</Link>
+              </Button>
+              <Button className="hidden md:inline-flex bg-fanvault-gradient" asChild>
+                <Link to="/signup">Sign Up</Link>
+              </Button>
+            </>
           )}
         </div>
       </div>
