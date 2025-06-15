@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Header } from "@/components/layout/Header";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { Button } from "@/components/ui/button";
@@ -5,8 +6,11 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Clock, Users, Heart, Share, Shield } from "lucide-react";
+import { BidConfirmationModal } from "@/components/modals/BidConfirmationModal";
 
 const ItemDetail = () => {
+  const [isBidModalOpen, setIsBidModalOpen] = useState(false);
+  
   const item = {
     id: "1",
     title: "Vintage Band T-Shirt",
@@ -15,6 +19,7 @@ const ItemDetail = () => {
     currentBid: 45,
     bidCount: 12,
     timeRemaining: "2h 15m",
+    minimumIncrement: 5,
     images: [
       "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=600&fit=crop",
       "https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=600&h=600&fit=crop"
@@ -30,11 +35,41 @@ const ItemDetail = () => {
     shipping: "Standard shipping included"
   };
 
+  // Mock payment methods
+  const paymentMethods = [
+    {
+      id: "pm_1",
+      last_four: "4242",
+      brand: "visa",
+      is_default: true
+    },
+    {
+      id: "pm_2", 
+      last_four: "0005",
+      brand: "mastercard",
+      is_default: false
+    }
+  ];
+
   const bids = [
     { amount: 45, bidder: "fan123", time: "2 minutes ago" },
     { amount: 40, bidder: "collector_x", time: "15 minutes ago" },
     { amount: 35, bidder: "vintage_lover", time: "1 hour ago" }
   ];
+
+  const handleConfirmBid = async (bidAmount: number, paymentMethodId: string): Promise<boolean> => {
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    // Mock validation - 10% chance of failure for demo
+    if (Math.random() < 0.1) {
+      throw new Error("Bid amount too low. Another bid was placed before yours.");
+    }
+    
+    // In a real app, this would call your bidding API
+    console.log(`Placing bid: $${bidAmount} with payment method: ${paymentMethodId}`);
+    return true;
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -118,7 +153,10 @@ const ItemDetail = () => {
                   </div>
                 </div>
                 
-                <Button className="w-full h-12 bg-fanvault-gradient text-lg mb-4">
+                <Button 
+                  className="w-full h-12 bg-fanvault-gradient text-lg mb-4"
+                  onClick={() => setIsBidModalOpen(true)}
+                >
                   Place Bid
                 </Button>
                 
@@ -168,6 +206,17 @@ const ItemDetail = () => {
             </div>
           </div>
         </div>
+
+        {/* Bid Confirmation Modal */}
+        <BidConfirmationModal
+          isOpen={isBidModalOpen}
+          onClose={() => setIsBidModalOpen(false)}
+          currentHighestBid={item.currentBid}
+          minimumIncrement={item.minimumIncrement}
+          itemTitle={item.title}
+          paymentMethods={paymentMethods}
+          onConfirmBid={handleConfirmBid}
+        />
       </main>
 
       <MobileNav />
