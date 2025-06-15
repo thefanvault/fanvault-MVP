@@ -19,6 +19,7 @@ import ListNewItem from "./pages/ListNewItem";
 import AddressAdd from "./pages/AddressAdd";
 import PaymentAdd from "./pages/PaymentAdd";
 import NotFound from "./pages/NotFound";
+import OrderReceipt from "./pages/OrderReceipt";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,7 @@ const App = () => (
           <Route path="/list-new-item" element={<ListNewItem />} />
           <Route path="/address/add" element={<AddressAdd />} />
           <Route path="/payment/add" element={<PaymentAdd />} />
+          <Route path="/orders/:id" element={<OrderReceipt />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
