@@ -92,6 +92,66 @@ export type Database = {
         }
         Relationships: []
       }
+      orders: {
+        Row: {
+          carrier: string | null
+          created_at: string
+          final_bid_amount: number
+          id: string
+          item_id: string
+          shipping_address_id: string
+          shipping_cost: number
+          status: string
+          total_amount: number
+          tracking_number: string | null
+          updated_at: string
+          winner_id: string
+        }
+        Insert: {
+          carrier?: string | null
+          created_at?: string
+          final_bid_amount: number
+          id?: string
+          item_id: string
+          shipping_address_id: string
+          shipping_cost?: number
+          status?: string
+          total_amount: number
+          tracking_number?: string | null
+          updated_at?: string
+          winner_id: string
+        }
+        Update: {
+          carrier?: string | null
+          created_at?: string
+          final_bid_amount?: number
+          id?: string
+          item_id?: string
+          shipping_address_id?: string
+          shipping_cost?: number
+          status?: string
+          total_amount?: number
+          tracking_number?: string | null
+          updated_at?: string
+          winner_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_shipping_address_id_fkey"
+            columns: ["shipping_address_id"]
+            isOneToOne: false
+            referencedRelation: "shipping_addresses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       payment_methods: {
         Row: {
           brand: string
