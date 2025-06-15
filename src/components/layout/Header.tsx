@@ -37,8 +37,8 @@ export function Header() {
               <User className="h-5 w-5" />
             </a>
           </Button>
-          <Button className="hidden md:inline-flex bg-fanvault-gradient">
-            Sign Up
+          <Button className="hidden md:inline-flex bg-fanvault-gradient" asChild>
+            <a href="/signup">Sign Up</a>
           </Button>
         </div>
       </div>
