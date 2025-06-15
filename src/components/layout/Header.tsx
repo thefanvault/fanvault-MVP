@@ -1,7 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Search, Bell, User } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { Link } from "react-router-dom";
 
 export function Header() {
+  const { user, userRole } = useAuth();
+
+  const getProfilePath = () => {
+    if (!user) return "/signup";
+    return userRole === 'creator' ? "/dashboard" : "/settings";
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between px-4">
@@ -33,13 +42,15 @@ export function Header() {
             <Bell className="h-5 w-5" />
           </Button>
           <Button variant="ghost" size="icon" asChild>
-            <a href="/signup">
+            <Link to={getProfilePath()}>
               <User className="h-5 w-5" />
-            </a>
+            </Link>
           </Button>
-          <Button className="hidden md:inline-flex bg-fanvault-gradient" asChild>
-            <a href="/signup">Sign Up</a>
-          </Button>
+          {!user && (
+            <Button className="hidden md:inline-flex bg-fanvault-gradient" asChild>
+              <Link to="/signup">Sign Up</Link>
+            </Button>
+          )}
         </div>
       </div>
     </header>
