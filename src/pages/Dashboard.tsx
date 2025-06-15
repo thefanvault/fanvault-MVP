@@ -73,7 +73,7 @@ const Dashboard = () => {
             <p className="text-muted-foreground">@{handle}</p>
             <div className="mt-2">
               <p className="text-lg font-semibold text-primary">
-                Vault Balance: ${vaultBalance.toLocaleString()}
+                Total Sales: ${vaultBalance.toLocaleString()}
               </p>
               {vaultBalance <= 0 && (
                 <p className="text-sm text-muted-foreground">
