@@ -95,10 +95,11 @@ const Login = () => {
 
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-fanvault-gradient rounded-lg flex items-center justify-center mx-auto mb-4">
-            <span className="text-white font-bold text-2xl">★</span>
-          </div>
-          <h1 className="text-2xl font-bold">FANVAULT</h1>
+          <img 
+            src="/lovable-uploads/fd3f8e13-bb94-4e8c-9fcb-8a76cf9277a9.png" 
+            alt="FanVault Logo" 
+            className="h-12 mx-auto mb-4"
+          />
         </div>
 
         <Card>
