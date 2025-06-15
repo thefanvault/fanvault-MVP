@@ -56,11 +56,27 @@ const Login = () => {
 
       if (error) {
         console.error("Login error:", error);
-        toast({
-          title: "Login Failed",
-          description: error.message,
-          variant: "destructive",
-        });
+        
+        // Check for specific error types and show appropriate messages
+        if (error.message.includes("Invalid login credentials")) {
+          toast({
+            title: "Login Failed",
+            description: "The password you entered is incorrect",
+            variant: "destructive",
+          });
+        } else if (error.message.includes("Email not confirmed")) {
+          toast({
+            title: "Email Not Verified",
+            description: "Please check your email to verify your account",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Login Failed",
+            description: "There was an issue logging in. Please try again.",
+            variant: "destructive",
+          });
+        }
         return;
       }
 
