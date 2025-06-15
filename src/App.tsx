@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { Layout } from "@/components/layout/Layout";
 import Index from "./pages/Index";
 import Discover from "./pages/Discover";
 import Login from "./pages/Login";
@@ -41,33 +42,37 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/discover" element={<Discover />} />
+          {/* Auth routes without layout */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/creator/:username" element={<CreatorProfile />} />
-          <Route path="/item/:id" element={<ItemDetail />} />
-          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/onboarding/creator/profile" element={<CreatorOnboardingProfile />} />
           <Route path="/onboarding/creator/social" element={<CreatorSocial />} />
           <Route path="/onboarding/creator/payout" element={<CreatorPayout />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/list-new-item" element={<ListNewItem />} />
-          <Route path="/address/add" element={<AddressAdd />} />
-          <Route path="/payment/add" element={<PaymentAdd />} />
-          <Route path="/bids/active" element={<BidDashboard />} />
-          <Route path="/orders/:id" element={<OrderReceipt />} />
-          <Route path="/legal/terms" element={<TermsOfService />} />
-          <Route path="/legal/privacy" element={<PrivacyPolicy />} />
-          <Route path="/legal/dmca" element={<DMCAGuidelines />} />
-          <Route path="/legal/acceptable-use" element={<AcceptableUse />} />
-          <Route path="/status" element={<Status />} />
-          <Route path="/403" element={<Forbidden />} />
-          <Route path="/admin/moderation" element={<AdminModeration />} />
-          <Route path="/admin/impersonate/:userId" element={<AdminImpersonation />} />
+          
+          {/* Main app routes with layout */}
+          <Route path="/" element={<Layout><Index /></Layout>} />
+          <Route path="/discover" element={<Layout><Discover /></Layout>} />
+          <Route path="/creator/:username" element={<Layout><CreatorProfile /></Layout>} />
+          <Route path="/item/:id" element={<Layout><ItemDetail /></Layout>} />
+          <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
+          <Route path="/settings" element={<Layout><Settings /></Layout>} />
+          <Route path="/list-new-item" element={<Layout><ListNewItem /></Layout>} />
+          <Route path="/address/add" element={<Layout><AddressAdd /></Layout>} />
+          <Route path="/payment/add" element={<Layout><PaymentAdd /></Layout>} />
+          <Route path="/bids/active" element={<Layout><BidDashboard /></Layout>} />
+          <Route path="/orders/:id" element={<Layout><OrderReceipt /></Layout>} />
+          <Route path="/legal/terms" element={<Layout><TermsOfService /></Layout>} />
+          <Route path="/legal/privacy" element={<Layout><PrivacyPolicy /></Layout>} />
+          <Route path="/legal/dmca" element={<Layout><DMCAGuidelines /></Layout>} />
+          <Route path="/legal/acceptable-use" element={<Layout><AcceptableUse /></Layout>} />
+          <Route path="/status" element={<Layout><Status /></Layout>} />
+          <Route path="/403" element={<Layout><Forbidden /></Layout>} />
+          <Route path="/admin/moderation" element={<Layout><AdminModeration /></Layout>} />
+          <Route path="/admin/impersonate/:userId" element={<Layout><AdminImpersonation /></Layout>} />
+          
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<Layout><NotFound /></Layout>} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
