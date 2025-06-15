@@ -68,8 +68,6 @@ const Discover = () => {
     }
   ];
 
-  const categories = ["All Creators", "Verified", "Trending", "New"];
-
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -90,20 +88,6 @@ const Discover = () => {
               className="pl-10 h-12 rounded-full"
             />
           </div>
-        </div>
-
-        {/* Category Filters */}
-        <div className="flex flex-wrap gap-2 mb-8 justify-center">
-          {categories.map((category, index) => (
-            <Button
-              key={category}
-              variant={index === 0 ? "default" : "outline"}
-              className={index === 0 ? "bg-fanvault-gradient" : ""}
-              size="sm"
-            >
-              {category}
-            </Button>
-          ))}
         </div>
 
         {/* Featured Creators */}
