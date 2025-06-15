@@ -21,6 +21,12 @@ import PaymentAdd from "./pages/PaymentAdd";
 import NotFound from "./pages/NotFound";
 import OrderReceipt from "./pages/OrderReceipt";
 import BidDashboard from "./pages/BidDashboard";
+import TermsOfService from "./pages/legal/TermsOfService";
+import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
+import DMCAGuidelines from "./pages/legal/DMCAGuidelines";
+import AcceptableUse from "./pages/legal/AcceptableUse";
+import Status from "./pages/Status";
+import Forbidden from "./pages/error/Forbidden";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +54,12 @@ const App = () => (
           <Route path="/payment/add" element={<PaymentAdd />} />
           <Route path="/bids/active" element={<BidDashboard />} />
           <Route path="/orders/:id" element={<OrderReceipt />} />
+          <Route path="/legal/terms" element={<TermsOfService />} />
+          <Route path="/legal/privacy" element={<PrivacyPolicy />} />
+          <Route path="/legal/dmca" element={<DMCAGuidelines />} />
+          <Route path="/legal/acceptable-use" element={<AcceptableUse />} />
+          <Route path="/status" element={<Status />} />
+          <Route path="/403" element={<Forbidden />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

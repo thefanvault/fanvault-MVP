@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { MobileNav } from "@/components/layout/MobileNav";
+import { Footer } from "@/components/layout/Footer";
 import { AuctionCard } from "@/components/auctions/AuctionCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -173,6 +174,7 @@ const Index = () => {
         </div>
       </main>
 
+      <Footer />
       <MobileNav currentPath="/" />
     </div>
   );
