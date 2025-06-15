@@ -32,8 +32,10 @@ export function Header() {
           <Button variant="ghost" size="icon">
             <Bell className="h-5 w-5" />
           </Button>
-          <Button variant="ghost" size="icon">
-            <User className="h-5 w-5" />
+          <Button variant="ghost" size="icon" asChild>
+            <a href="/signup">
+              <User className="h-5 w-5" />
+            </a>
           </Button>
           <Button className="hidden md:inline-flex bg-fanvault-gradient">
             Sign Up
