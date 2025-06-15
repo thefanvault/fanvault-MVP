@@ -234,7 +234,7 @@ const CreatorProfile = () => {
               </Button>
               <Button
                 type="submit"
-                disabled={!isValid || (username && username.length >= 3 && usernameAvailable !== true)}
+                disabled={!isValid || (username && username.length >= 3 && usernameAvailable === false)}
                 className="flex-1 bg-fanvault-gradient hover:opacity-90"
               >
                 Next
