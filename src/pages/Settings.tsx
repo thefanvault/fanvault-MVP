@@ -43,14 +43,17 @@ const Settings = () => {
 
   const [isStripeConnected] = useState(true);
   const [showConnectDialog, setShowConnectDialog] = useState(false);
+  const [selectedPlatform, setSelectedPlatform] = useState<any>(null);
+  const [socialUrl, setSocialUrl] = useState("");
+  const [urlError, setUrlError] = useState("");
 
   // Available platforms to connect
   const availablePlatforms = [
-    { id: "instagram", name: "Instagram", icon: Instagram },
-    { id: "youtube", name: "YouTube", icon: Youtube },
-    { id: "tiktok", name: "TikTok", icon: Twitter }, // Using Twitter icon as placeholder
-    { id: "onlyfans", name: "OnlyFans", icon: Globe }, // Using Globe icon as placeholder
-    { id: "fansly", name: "Fansly", icon: Globe }, // Using Globe icon as placeholder
+    { id: "instagram", name: "Instagram", icon: Instagram, domain: "instagram.com" },
+    { id: "youtube", name: "YouTube", icon: Youtube, domain: "youtube.com" },
+    { id: "tiktok", name: "TikTok", icon: Twitter, domain: "tiktok.com" },
+    { id: "onlyfans", name: "OnlyFans", icon: Globe, domain: "onlyfans.com" },
+    { id: "fansly", name: "Fansly", icon: Globe, domain: "fansly.com" },
   ];
 
   // Filter out already connected platforms
@@ -95,21 +98,60 @@ const Settings = () => {
     });
   };
 
-  const handleConnectAccount = (platformId: string, platformName: string) => {
-    // In a real app, this would initiate OAuth flow or redirect to platform auth
+  const validateUrl = (url: string, domain: string) => {
+    try {
+      const urlObj = new URL(url);
+      return urlObj.hostname.includes(domain);
+    } catch {
+      return false;
+    }
+  };
+
+  const handleSelectPlatform = (platform: any) => {
+    setSelectedPlatform(platform);
+    setSocialUrl("");
+    setUrlError("");
+  };
+
+  const handleUrlChange = (value: string) => {
+    setSocialUrl(value);
+    setUrlError("");
+  };
+
+  const handleConnectAccount = () => {
+    if (!selectedPlatform || !socialUrl.trim()) {
+      setUrlError("Please enter a valid URL");
+      return;
+    }
+
+    const platform = availablePlatforms.find(p => p.id === selectedPlatform.id);
+    if (!platform) return;
+
+    if (!validateUrl(socialUrl, platform.domain)) {
+      setUrlError(`Please enter a valid ${platform.name} URL (must contain ${platform.domain})`);
+      return;
+    }
+
+    const urlObj = new URL(socialUrl);
+    const handle = urlObj.pathname.split('/').filter(Boolean)[0] || 'username';
+
     const newAccount = {
-      id: platformId,
-      platform: platformName,
-      icon: availablePlatforms.find(p => p.id === platformId)?.icon || Globe,
-      handle: `@username`,
-      url: `https://${platformId}.com/username`
+      id: platform.id,
+      platform: platform.name,
+      icon: platform.icon,
+      handle: `@${handle}`,
+      url: socialUrl
     };
     
     setConnectedAccounts(prev => [...prev, newAccount]);
     setShowConnectDialog(false);
+    setSelectedPlatform(null);
+    setSocialUrl("");
+    setUrlError("");
+    
     toast({
       title: "Account connected",
-      description: `${platformName} account has been linked to your profile`,
+      description: `${platform.name} account has been linked to your profile`,
     });
   };
 
@@ -258,7 +300,14 @@ const Settings = () => {
                 
                 {/* Connect Account Button */}
                 {unconnectedPlatforms.length > 0 && (
-                  <Dialog open={showConnectDialog} onOpenChange={setShowConnectDialog}>
+                  <Dialog open={showConnectDialog} onOpenChange={(open) => {
+                    setShowConnectDialog(open);
+                    if (!open) {
+                      setSelectedPlatform(null);
+                      setSocialUrl("");
+                      setUrlError("");
+                    }
+                  }}>
                     <DialogTrigger asChild>
                       <Button variant="outline" className="w-full border-dashed">
                         <Plus className="h-4 w-4 mr-2" />
@@ -267,20 +316,69 @@ const Settings = () => {
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
-                        <DialogTitle>Connect Social Account</DialogTitle>
+                        <DialogTitle>
+                          {selectedPlatform ? `Connect ${selectedPlatform.name}` : "Connect Social Account"}
+                        </DialogTitle>
                       </DialogHeader>
-                      <div className="space-y-3">
-                        {unconnectedPlatforms.map((platform) => (
-                          <Button
-                            key={platform.id}
-                            variant="outline"
-                            className="w-full justify-start"
-                            onClick={() => handleConnectAccount(platform.id, platform.name)}
-                          >
-                            <platform.icon className="h-5 w-5 mr-3" />
-                            Connect {platform.name}
-                          </Button>
-                        ))}
+                      <div className="space-y-4">
+                        {!selectedPlatform ? (
+                          // Platform selection
+                          <div className="space-y-3">
+                            <p className="text-sm text-muted-foreground">Choose a platform to connect:</p>
+                            {unconnectedPlatforms.map((platform) => (
+                              <Button
+                                key={platform.id}
+                                variant="outline"
+                                className="w-full justify-start"
+                                onClick={() => handleSelectPlatform(platform)}
+                              >
+                                <platform.icon className="h-5 w-5 mr-3" />
+                                {platform.name}
+                              </Button>
+                            ))}
+                          </div>
+                        ) : (
+                          // URL input form
+                          <div className="space-y-4">
+                            <div className="flex items-center space-x-3 p-3 bg-muted rounded-lg">
+                              <selectedPlatform.icon className="h-5 w-5" />
+                              <span className="font-medium">{selectedPlatform.name}</span>
+                            </div>
+                            
+                            <div className="space-y-2">
+                              <label className="text-sm font-medium">Profile URL</label>
+                              <Input
+                                placeholder={`https://${selectedPlatform.domain}/your-username`}
+                                value={socialUrl}
+                                onChange={(e) => handleUrlChange(e.target.value)}
+                                className={urlError ? "border-destructive" : ""}
+                              />
+                              {urlError && (
+                                <p className="text-sm text-destructive">{urlError}</p>
+                              )}
+                              <p className="text-xs text-muted-foreground">
+                                Enter your full {selectedPlatform.name} profile URL
+                              </p>
+                            </div>
+                            
+                            <div className="flex space-x-2 pt-2">
+                              <Button 
+                                variant="outline" 
+                                onClick={() => setSelectedPlatform(null)}
+                                className="flex-1"
+                              >
+                                Back
+                              </Button>
+                              <Button 
+                                onClick={handleConnectAccount}
+                                className="flex-1 bg-fanvault-gradient"
+                                disabled={!socialUrl.trim()}
+                              >
+                                Connect
+                              </Button>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </DialogContent>
                   </Dialog>
