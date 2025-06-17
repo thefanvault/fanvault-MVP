@@ -43,8 +43,11 @@ const Login = () => {
   const isFormValid = Boolean(email && password && email.length > 0 && password.length > 0);
 
   const onSubmit = async (data: LoginFormData) => {
+    console.log("=== LOGIN FORM SUBMIT STARTED ===");
     console.log("Login attempt with:", data.email);
+    console.log("Form data:", data);
     setIsLoading(true);
+    console.log("Loading state set to true");
     
     try {
       const { data: authData, error } = await supabase.auth.signInWithPassword({

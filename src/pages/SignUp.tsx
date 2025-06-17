@@ -40,7 +40,11 @@ const SignUp = () => {
   const isCreator = watch("isCreator");
 
   const onSubmit = async (data: SignUpFormData) => {
+    console.log("=== SIGNUP FORM SUBMIT STARTED ===");
+    console.log("Signup attempt with:", data.email);
+    console.log("Form data:", data);
     setIsLoading(true);
+    console.log("Loading state set to true");
     
     try {
       const redirectUrl = `${window.location.origin}/`;
