@@ -7,8 +7,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Clock, Users, Heart, Share, Shield } from "lucide-react";
 import { BidConfirmationModal } from "@/components/modals/BidConfirmationModal";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const ItemDetail = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [isBidModalOpen, setIsBidModalOpen] = useState(false);
   
   const item = {
@@ -155,7 +159,13 @@ const ItemDetail = () => {
                 
                 <Button 
                   className="w-full h-12 bg-fanvault-gradient text-lg mb-4"
-                  onClick={() => setIsBidModalOpen(true)}
+                  onClick={() => {
+                    if (!user) {
+                      navigate('/login');
+                      return;
+                    }
+                    setIsBidModalOpen(true);
+                  }}
                 >
                   Place Bid
                 </Button>

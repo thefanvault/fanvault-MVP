@@ -5,8 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
-import { Loader2, CreditCard, X } from "lucide-react";
+import { Loader2, CreditCard, X, Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
 
 interface PaymentMethod {
   id: string;
@@ -158,9 +159,17 @@ export function BidConfirmationModal({
           </div>
 
           {/* Payment Method Selection */}
-          {paymentMethods.length > 0 && (
-            <div className="space-y-3">
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
               <Label>Payment Method</Label>
+              <Button variant="outline" size="sm" asChild>
+                <Link to="/payment/add">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add New
+                </Link>
+              </Button>
+            </div>
+            {paymentMethods.length > 0 ? (
               <RadioGroup
                 value={selectedPaymentMethod}
                 onValueChange={setSelectedPaymentMethod}
@@ -183,8 +192,18 @@ export function BidConfirmationModal({
                   </div>
                 ))}
               </RadioGroup>
-            </div>
-          )}
+            ) : (
+              <div className="text-center py-4">
+                <p className="text-sm text-muted-foreground mb-3">No payment methods found</p>
+                <Button variant="outline" asChild>
+                  <Link to="/payment/add">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Payment Method
+                  </Link>
+                </Button>
+              </div>
+            )}
+          </div>
 
           {/* Action Buttons */}
           <div className="flex space-x-3 pt-2">
