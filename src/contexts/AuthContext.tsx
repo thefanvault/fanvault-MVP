@@ -33,24 +33,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
+        // Only synchronous state updates here
         setSession(session);
         setUser(session?.user ?? null);
+        setLoading(false);
         
+        // Defer Supabase calls with setTimeout to prevent deadlocks
         if (session?.user) {
-          // Check if user has completed creator onboarding
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('username')
-            .eq('id', session.user.id)
-            .maybeSingle();
-          
-          setUserRole(profile?.username ? 'creator' : 'fan');
+          setTimeout(() => {
+            // Check if user has completed creator onboarding
+            supabase
+              .from('profiles')
+              .select('username')
+              .eq('id', session.user.id)
+              .maybeSingle()
+              .then(({ data: profile }) => {
+                setUserRole(profile?.username ? 'creator' : 'fan');
+              });
+          }, 0);
         } else {
           setUserRole(null);
         }
-        
-        setLoading(false);
       }
     );
 
