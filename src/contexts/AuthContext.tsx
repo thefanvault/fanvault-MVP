@@ -49,9 +49,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             .eq('user_id', session.user.id)
             .single();
           
-          setUserRole(profile?.is_creator ? 'creator' : 'fan');
+          const isCreator = profile?.is_creator;
+          setUserRole(isCreator ? 'creator' : 'fan');
+          console.log('User role determined:', isCreator ? 'creator' : 'fan', 'for user:', session.user.id);
         } else {
           setUserRole(null);
+          console.log('User logged out, role cleared');
         }
         
         setLoading(false);

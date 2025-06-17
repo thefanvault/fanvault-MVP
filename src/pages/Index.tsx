@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { Footer } from "@/components/layout/Footer";
@@ -5,8 +7,19 @@ import { AuctionCard } from "@/components/auctions/AuctionCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Clock, Zap } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Index = () => {
+  const navigate = useNavigate();
+  const { user, userRole, loading } = useAuth();
+
+  // Redirect creators to dashboard
+  useEffect(() => {
+    if (!loading && user && userRole === 'creator') {
+      console.log('Redirecting creator to dashboard');
+      navigate('/dashboard');
+    }
+  }, [user, userRole, loading, navigate]);
   // Mock data for live auctions
   const liveAuctions = [
     {

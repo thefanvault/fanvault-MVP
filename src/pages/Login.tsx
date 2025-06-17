@@ -11,6 +11,7 @@ import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate, Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email format"),
@@ -25,6 +26,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { userRole } = useAuth();
 
   const {
     register,
@@ -46,6 +48,7 @@ const Login = () => {
     setIsLoading(true);
     
     try {
+      console.log('Attempting login for:', data.email);
       const { error } = await supabase.auth.signInWithPassword({
         email: data.email,
         password: data.password,
@@ -65,6 +68,7 @@ const Login = () => {
           description: errorMessage,
           variant: "destructive",
         });
+        setIsLoading(false);
         return;
       }
 
@@ -73,14 +77,43 @@ const Login = () => {
         description: "You have successfully logged in.",
       });
       
-      navigate("/");
+      // Wait a moment for the AuthContext to update user role
+      setTimeout(() => {
+        // Get the latest session to check user role
+        supabase.auth.getSession().then(async ({ data: { session } }) => {
+          if (session?.user) {
+            console.log('Session found, checking user profile for:', session.user.id);
+            // Check user profile to determine role and redirect
+            const { data: profile } = await supabase
+              .from('profiles')
+              .select('is_creator')
+              .eq('user_id', session.user.id)
+              .single();
+            
+            console.log('Profile data:', profile);
+            const isCreator = profile?.is_creator;
+            
+            if (isCreator) {
+              console.log('Redirecting to dashboard for creator');
+              navigate("/dashboard");
+            } else {
+              console.log('Redirecting to home for fan');
+              navigate("/");
+            }
+          } else {
+            console.log('No session found, redirecting to home');
+            navigate("/");
+          }
+          setIsLoading(false);
+        });
+      }, 500); // Small delay to ensure AuthContext has updated
+      
     } catch (error) {
       toast({
         title: "Login Failed", 
         description: "An unexpected error occurred",
         variant: "destructive",
       });
-    } finally {
       setIsLoading(false);
     }
   };
