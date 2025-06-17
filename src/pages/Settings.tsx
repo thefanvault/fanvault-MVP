@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "@/components/layout/Header";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { Button } from "@/components/ui/button";
@@ -12,17 +12,26 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Globe, Lock, Copy, Edit, Trash2, LogOut, Twitter, Instagram, CheckCircle, CreditCard, Plus, Youtube } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 const Settings = () => {
   const { toast } = useToast();
+  const { user, signOut } = useAuth();
   const [isStorefrontPublic, setIsStorefrontPublic] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   
-  // Profile state - in real app, this would come from user context/API
-  const [creatorProfile, setCreatorProfile] = useState({
-    display_name: "Kayvon Moshiri",
-    username: "kayvonmoshiri",
-    bio: "Creator of amazing content and collector of vintage items. Building my vault one piece at a time.",
-    avatar_url: "https://images.unsplash.com/photo-1494790108755-2616b612e04f?w=150&h=150&fit=crop&crop=face"
+  // Profile state - fetch from Supabase
+  const [creatorProfile, setCreatorProfile] = useState<{
+    display_name: string | null;
+    username: string | null;
+    bio: string | null;
+    avatar_url: string | null;
+  }>({
+    display_name: null,
+    username: null,
+    bio: null,
+    avatar_url: null
   });
 
   const [connectedAccounts, setConnectedAccounts] = useState([
@@ -48,6 +57,69 @@ const Settings = () => {
   const [socialUrl, setSocialUrl] = useState("");
   const [urlError, setUrlError] = useState("");
 
+  // Load user profile from Supabase
+  useEffect(() => {
+    const loadProfile = async () => {
+      if (!user) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const { data: profile, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('user_id', user.id)
+          .single();
+
+        if (error && error.code !== 'PGRST116') {
+          console.error('Error loading profile:', error);
+          toast({
+            title: "Error loading profile",
+            description: "Could not load your profile data",
+            variant: "destructive",
+          });
+        } else if (profile) {
+          setCreatorProfile({
+            display_name: profile.display_name,
+            username: profile.username,
+            bio: profile.bio,
+            avatar_url: profile.avatar_url
+          });
+        } else {
+          // No profile exists, create one
+          const { data: newProfile, error: createError } = await supabase
+            .from('profiles')
+            .insert({
+              user_id: user.id,
+              display_name: user.email?.split('@')[0] || 'User',
+              username: user.email?.split('@')[0]?.toLowerCase() || 'user',
+              is_creator: true
+            })
+            .select()
+            .single();
+
+          if (createError) {
+            console.error('Error creating profile:', createError);
+          } else if (newProfile) {
+            setCreatorProfile({
+              display_name: newProfile.display_name,
+              username: newProfile.username,
+              bio: newProfile.bio,
+              avatar_url: newProfile.avatar_url
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Error in loadProfile:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadProfile();
+  }, [user, toast]);
+
   // Available platforms to connect
   const availablePlatforms = [
     { id: "instagram", name: "Instagram", icon: Instagram, domain: "instagram.com" },
@@ -62,8 +134,8 @@ const Settings = () => {
     platform => !connectedAccounts.find(account => account.id === platform.id)
   );
 
-  const publicUrl = `https://fanvault.app/creator/${creatorProfile.username}`;
-  const magicLink = `https://fanvault.app/creator/${creatorProfile.username}?token=abc123def456`;
+  const publicUrl = `https://fanvault.app/creator/${creatorProfile.username || 'user'}`;
+  const magicLink = `https://fanvault.app/creator/${creatorProfile.username || 'user'}?token=abc123def456`;
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -90,12 +162,20 @@ const Settings = () => {
     });
   };
 
-  const handleLogout = () => {
-    // Implement logout logic here
-    toast({
-      title: "Logged out",
-      description: "You have been successfully logged out",
-    });
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      toast({
+        title: "Logged out",
+        description: "You have been successfully logged out",
+      });
+    } catch (error) {
+      toast({
+        title: "Error logging out",
+        description: "There was a problem logging you out",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleStorefrontToggle = (checked: boolean) => {
@@ -164,6 +244,41 @@ const Settings = () => {
       description: `${platform.name} account has been linked to your profile`,
     });
   };
+
+  // Redirect if not logged in
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Card className="w-full max-w-md">
+          <CardContent className="pt-6 text-center">
+            <h2 className="text-2xl font-bold mb-2">Please sign in</h2>
+            <p className="text-muted-foreground mb-4">You need to be logged in to access settings</p>
+            <Button onClick={() => window.location.href = '/login'} className="bg-fanvault-gradient">
+              Sign In
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <main className="container mx-auto px-4 pt-6 pb-20 md:pb-6">
+          <div className="max-w-2xl mx-auto space-y-8">
+            <div className="text-center">
+              <h1 className="text-3xl font-bold mb-2">Settings</h1>
+              <p className="text-muted-foreground">Loading your profile...</p>
+            </div>
+          </div>
+        </main>
+        <MobileNav currentPath="/settings" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">

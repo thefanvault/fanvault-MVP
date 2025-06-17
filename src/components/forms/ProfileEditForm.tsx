@@ -120,7 +120,7 @@ export const ProfileEditForm = ({ profile, onProfileUpdate }: ProfileEditFormPro
             <Avatar className="h-24 w-24">
               <AvatarImage src={formData.avatar_url || undefined} alt="Profile" />
               <AvatarFallback>
-                {formData.display_name?.split(' ').map(n => n[0]).join('') || 'U'}
+                {(formData.display_name || 'U').split(' ').map(n => n[0]).join('')}
               </AvatarFallback>
             </Avatar>
             <div className="flex items-center space-x-2">
