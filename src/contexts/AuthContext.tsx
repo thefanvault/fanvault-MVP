@@ -7,6 +7,7 @@ interface AuthContextType {
   session: Session | null;
   loading: boolean;
   userRole: 'creator' | 'fan' | null;
+  signOut: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -14,6 +15,7 @@ const AuthContext = createContext<AuthContextType>({
   session: null,
   loading: true,
   userRole: null,
+  signOut: async () => {},
 });
 
 export const useAuth = () => {
@@ -33,35 +35,31 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        // Only synchronous state updates here
+      async (event, session) => {
+        console.log('Auth state changed:', event, session?.user?.id);
+        
         setSession(session);
         setUser(session?.user ?? null);
-        setLoading(false);
         
-        // Defer Supabase calls with setTimeout to prevent deadlocks
         if (session?.user) {
-          setTimeout(() => {
-            // Check if user has completed creator onboarding
-            supabase
-              .from('profiles')
-              .select('username')
-              .eq('id', session.user.id)
-              .maybeSingle()
-              .then(({ data: profile }) => {
-                setUserRole(profile?.username ? 'creator' : 'fan');
-              });
-          }, 0);
+          // Check user profile to determine role
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('is_creator')
+            .eq('user_id', session.user.id)
+            .single();
+          
+          setUserRole(profile?.is_creator ? 'creator' : 'fan');
         } else {
           setUserRole(null);
         }
+        
+        setLoading(false);
       }
     );
 
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
       if (!session) {
         setLoading(false);
       }
@@ -70,11 +68,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => subscription.unsubscribe();
   }, []);
 
+  const signOut = async () => {
+    await supabase.auth.signOut();
+  };
+
   const value = {
     user,
     session,
     loading,
     userRole,
+    signOut,
   };
 
   return (

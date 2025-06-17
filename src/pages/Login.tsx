@@ -43,50 +43,38 @@ const Login = () => {
   const isFormValid = Boolean(email && password && email.length > 0 && password.length > 0);
 
   const onSubmit = async (data: LoginFormData) => {
-    console.log("=== LOGIN FORM SUBMIT STARTED ===");
-    console.log("Login attempt with:", data.email);
-    console.log("Form data:", data);
     setIsLoading(true);
-    console.log("Loading state set to true");
     
     try {
-      const { data: authData, error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signInWithPassword({
         email: data.email,
         password: data.password,
       });
 
-      console.log("Auth response:", { authData, error });
-
       if (error) {
-        console.error("Login error:", error);
+        let errorMessage = "There was an issue logging in. Please try again.";
         
-        // Check for specific error types and show appropriate messages
         if (error.message.includes("Invalid login credentials")) {
-          toast({
-            title: "Login Failed",
-            description: "The password you entered is incorrect",
-            variant: "destructive",
-          });
+          errorMessage = "Invalid email or password";
         } else if (error.message.includes("Email not confirmed")) {
-          toast({
-            title: "Email Not Verified",
-            description: "Please check your email to verify your account",
-            variant: "destructive",
-          });
-        } else {
-          toast({
-            title: "Login Failed",
-            description: "There was an issue logging in. Please try again.",
-            variant: "destructive",
-          });
+          errorMessage = "Please check your email to verify your account";
         }
+        
+        toast({
+          title: "Login Failed",
+          description: errorMessage,
+          variant: "destructive",
+        });
         return;
       }
 
-      console.log("Login successful, redirecting...");
+      toast({
+        title: "Welcome back!",
+        description: "You have successfully logged in.",
+      });
+      
       navigate("/");
     } catch (error) {
-      console.error("Unexpected login error:", error);
       toast({
         title: "Login Failed", 
         description: "An unexpected error occurred",

@@ -40,11 +40,7 @@ const SignUp = () => {
   const isCreator = watch("isCreator");
 
   const onSubmit = async (data: SignUpFormData) => {
-    console.log("=== SIGNUP FORM SUBMIT STARTED ===");
-    console.log("Signup attempt with:", data.email);
-    console.log("Form data:", data);
     setIsLoading(true);
-    console.log("Loading state set to true");
     
     try {
       const redirectUrl = `${window.location.origin}/`;
@@ -62,9 +58,17 @@ const SignUp = () => {
       });
 
       if (error) {
+        let errorMessage = "An unexpected error occurred";
+        
+        if (error.message.includes("already registered")) {
+          errorMessage = "An account with this email already exists";
+        } else if (error.message.includes("Password should be")) {
+          errorMessage = "Password should be at least 6 characters";
+        }
+        
         toast({
           title: "Sign Up Failed",
-          description: error.message,
+          description: errorMessage,
           variant: "destructive",
         });
         return;
@@ -72,15 +76,11 @@ const SignUp = () => {
 
       toast({
         title: "Account Created!",
-        description: "Please check your email to verify your account.",
+        description: "You can now start using FanVault.",
       });
 
-      // Route based on creator toggle
-      if (data.isCreator) {
-        navigate("/onboarding/creator/profile");
-      } else {
-        navigate("/discover");
-      }
+      // Navigate to discover page for all users
+      navigate("/discover");
     } catch (error) {
       toast({
         title: "Sign Up Failed",

@@ -317,7 +317,9 @@ export type Database = {
           created_at: string
           display_name: string | null
           id: string
+          is_creator: boolean | null
           updated_at: string
+          user_id: string
           username: string | null
         }
         Insert: {
@@ -325,8 +327,10 @@ export type Database = {
           bio?: string | null
           created_at?: string
           display_name?: string | null
-          id: string
+          id?: string
+          is_creator?: boolean | null
           updated_at?: string
+          user_id: string
           username?: string | null
         }
         Update: {
@@ -335,7 +339,9 @@ export type Database = {
           created_at?: string
           display_name?: string | null
           id?: string
+          is_creator?: boolean | null
           updated_at?: string
+          user_id?: string
           username?: string | null
         }
         Relationships: []
