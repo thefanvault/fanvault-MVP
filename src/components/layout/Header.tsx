@@ -57,14 +57,18 @@ export function Header() {
           <Button variant="ghost" size="icon" className="md:hidden">
             <Search className="h-5 w-5" />
           </Button>
-          <Button variant="ghost" size="icon">
-            <Bell className="h-5 w-5" />
-          </Button>
-          <Button variant="ghost" size="icon" asChild>
-            <Link to={getProfilePath()}>
-              <User className="h-5 w-5" />
-            </Link>
-          </Button>
+          {user && (
+            <>
+              <Button variant="ghost" size="icon">
+                <Bell className="h-5 w-5" />
+              </Button>
+              <Button variant="ghost" size="icon" asChild>
+                <Link to={getProfilePath()}>
+                  <User className="h-5 w-5" />
+                </Link>
+              </Button>
+            </>
+          )}
           {user ? (
             <Button 
               variant="ghost" 
