@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Header } from "@/components/layout/Header";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { Button } from "@/components/ui/button";
+import { ProfileEditForm } from "@/components/forms/ProfileEditForm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
@@ -16,13 +17,13 @@ const Settings = () => {
   const { toast } = useToast();
   const [isStorefrontPublic, setIsStorefrontPublic] = useState(true);
   
-  // Mock data - in real app, this would come from user context/API
-  const creatorProfile = {
-    name: "Kayvon Moshiri",
-    handle: "kayvonmoshiri",
+  // Profile state - in real app, this would come from user context/API
+  const [creatorProfile, setCreatorProfile] = useState({
+    display_name: "Kayvon Moshiri",
+    username: "kayvonmoshiri",
     bio: "Creator of amazing content and collector of vintage items. Building my vault one piece at a time.",
-    avatar: "https://images.unsplash.com/photo-1494790108755-2616b612e04f?w=150&h=150&fit=crop&crop=face"
-  };
+    avatar_url: "https://images.unsplash.com/photo-1494790108755-2616b612e04f?w=150&h=150&fit=crop&crop=face"
+  });
 
   const [connectedAccounts, setConnectedAccounts] = useState([
     {
@@ -61,8 +62,8 @@ const Settings = () => {
     platform => !connectedAccounts.find(account => account.id === platform.id)
   );
 
-  const publicUrl = `https://fanvault.app/creator/${creatorProfile.handle}`;
-  const magicLink = `https://fanvault.app/creator/${creatorProfile.handle}?token=abc123def456`;
+  const publicUrl = `https://fanvault.app/creator/${creatorProfile.username}`;
+  const magicLink = `https://fanvault.app/creator/${creatorProfile.username}?token=abc123def456`;
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -70,6 +71,15 @@ const Settings = () => {
       title: "Copied!",
       description: "Link copied to clipboard",
     });
+  };
+
+  const handleProfileUpdate = (updatedProfile: any) => {
+    setCreatorProfile(prev => ({
+      ...prev,
+      display_name: updatedProfile.display_name,
+      bio: updatedProfile.bio,
+      avatar_url: updatedProfile.avatar_url
+    }));
   };
 
   const handleRemoveAccount = (accountId: string) => {
@@ -175,18 +185,18 @@ const Settings = () => {
             <CardContent className="space-y-6">
               <div className="flex items-center space-x-4">
                 <Avatar className="h-20 w-20">
-                  <AvatarImage src={creatorProfile.avatar} alt="Profile" />
-                  <AvatarFallback>{creatorProfile.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                  <AvatarImage src={creatorProfile.avatar_url} alt="Profile" />
+                  <AvatarFallback>{creatorProfile.display_name?.split(' ').map(n => n[0]).join('') || 'U'}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
-                  <h3 className="text-xl font-semibold">{creatorProfile.name}</h3>
-                  <p className="text-muted-foreground">@{creatorProfile.handle}</p>
+                  <h3 className="text-xl font-semibold">{creatorProfile.display_name}</h3>
+                  <p className="text-muted-foreground">@{creatorProfile.username}</p>
                   <Badge className="mt-2">Creator</Badge>
                 </div>
-                <Button variant="outline" className="self-start">
-                  <Edit className="h-4 w-4 mr-2" />
-                  Edit Profile
-                </Button>
+                <ProfileEditForm 
+                  profile={creatorProfile}
+                  onProfileUpdate={handleProfileUpdate}
+                />
               </div>
               
               {creatorProfile.bio && (
