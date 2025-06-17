@@ -8,7 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Globe, Lock, Copy, Edit, Trash2, LogOut, Twitter, Instagram, CheckCircle, CreditCard } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Globe, Lock, Copy, Edit, Trash2, LogOut, Twitter, Instagram, CheckCircle, CreditCard, Plus, Youtube } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const Settings = () => {
@@ -41,6 +42,21 @@ const Settings = () => {
   ]);
 
   const [isStripeConnected] = useState(true);
+  const [showConnectDialog, setShowConnectDialog] = useState(false);
+
+  // Available platforms to connect
+  const availablePlatforms = [
+    { id: "instagram", name: "Instagram", icon: Instagram },
+    { id: "youtube", name: "YouTube", icon: Youtube },
+    { id: "tiktok", name: "TikTok", icon: Twitter }, // Using Twitter icon as placeholder
+    { id: "onlyfans", name: "OnlyFans", icon: Globe }, // Using Globe icon as placeholder
+    { id: "fansly", name: "Fansly", icon: Globe }, // Using Globe icon as placeholder
+  ];
+
+  // Filter out already connected platforms
+  const unconnectedPlatforms = availablePlatforms.filter(
+    platform => !connectedAccounts.find(account => account.id === platform.id)
+  );
 
   const publicUrl = `https://fanvault.app/creator/${creatorProfile.handle}`;
   const magicLink = `https://fanvault.app/creator/${creatorProfile.handle}?token=abc123def456`;
@@ -76,6 +92,24 @@ const Settings = () => {
       description: checked 
         ? "Your storefront is discoverable by anyone" 
         : "Only fans with the link can view your storefront",
+    });
+  };
+
+  const handleConnectAccount = (platformId: string, platformName: string) => {
+    // In a real app, this would initiate OAuth flow or redirect to platform auth
+    const newAccount = {
+      id: platformId,
+      platform: platformName,
+      icon: availablePlatforms.find(p => p.id === platformId)?.icon || Globe,
+      handle: `@username`,
+      url: `https://${platformId}.com/username`
+    };
+    
+    setConnectedAccounts(prev => [...prev, newAccount]);
+    setShowConnectDialog(false);
+    toast({
+      title: "Account connected",
+      description: `${platformName} account has been linked to your profile`,
     });
   };
 
@@ -220,6 +254,36 @@ const Settings = () => {
                       </AlertDialog>
                     </div>
                   ))
+                )}
+                
+                {/* Connect Account Button */}
+                {unconnectedPlatforms.length > 0 && (
+                  <Dialog open={showConnectDialog} onOpenChange={setShowConnectDialog}>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" className="w-full border-dashed">
+                        <Plus className="h-4 w-4 mr-2" />
+                        Connect Account
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Connect Social Account</DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-3">
+                        {unconnectedPlatforms.map((platform) => (
+                          <Button
+                            key={platform.id}
+                            variant="outline"
+                            className="w-full justify-start"
+                            onClick={() => handleConnectAccount(platform.id, platform.name)}
+                          >
+                            <platform.icon className="h-5 w-5 mr-3" />
+                            Connect {platform.name}
+                          </Button>
+                        ))}
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 )}
               </div>
 
