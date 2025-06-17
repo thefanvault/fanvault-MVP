@@ -63,6 +63,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
+      // This will be handled by the auth state change listener above
+      // Just make sure loading is set to false if no session
       if (!session) {
         setLoading(false);
       }
