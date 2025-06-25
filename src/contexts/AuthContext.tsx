@@ -1,3 +1,4 @@
+
 import { createContext, useContext, useState, useEffect } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
@@ -84,9 +85,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          // Fetch user profile
-          const profileData = await fetchProfile(session.user.id);
-          setProfile(profileData);
+          // Fetch user profile after a small delay to allow the trigger to complete
+          setTimeout(async () => {
+            const profileData = await fetchProfile(session.user.id);
+            setProfile(profileData);
+            console.log('Profile loaded:', profileData);
+          }, 100);
         } else {
           setProfile(null);
         }
@@ -112,12 +116,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const redirectUrl = `${window.location.origin}/`;
       
+      console.log('Signing up with metadata:', metadata);
+      
       const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           emailRedirectTo: redirectUrl,
-          data: metadata
+          data: {
+            display_name: metadata.display_name || metadata.name || email.split('@')[0],
+            is_creator: metadata.isCreator || false
+          }
         }
       });
 
@@ -130,10 +139,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signIn = async (email: string, password: string) => {
     try {
+      console.log('Attempting to sign in:', email);
+      
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password
       });
+
+      if (error) {
+        console.error('Sign in error:', error);
+      } else {
+        console.log('Sign in successful');
+      }
 
       return { error };
     } catch (error) {

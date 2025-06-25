@@ -52,9 +52,15 @@ const SignUp = () => {
     setIsLoading(true);
     
     try {
+      console.log('Signing up with data:', {
+        email: data.email,
+        isCreator: data.isCreator,
+        name: data.name
+      });
+
       const { error } = await signUp(data.email, data.password, {
         display_name: data.name || data.email.split('@')[0],
-        is_creator: data.isCreator
+        isCreator: data.isCreator
       });
       
       if (error) {
@@ -75,9 +81,10 @@ const SignUp = () => {
           });
         }
       } else {
+        console.log('Sign up successful');
         toast({
           title: "Account Created!",
-          description: "Please check your email to verify your account.",
+          description: "Please check your email to verify your account before signing in.",
         });
         navigate("/login");
       }
@@ -189,13 +196,15 @@ const SignUp = () => {
           </div>
 
           {/* Creator Toggle */}
-          <div className="flex items-center justify-between p-4 border rounded-lg">
+          <div className="flex items-center justify-between p-4 border rounded-lg bg-muted/50">
             <div className="space-y-1">
               <Label htmlFor="creator-toggle" className="text-sm font-medium">
-                Are you a creator?
+                {isCreator ? "🎨 Creator Account" : "👤 Fan Account"}
               </Label>
               <p className="text-xs text-muted-foreground">
-                Creators can both buy and sell on FanVault
+                {isCreator 
+                  ? "You can sell items and manage auctions" 
+                  : "You can bid on items and follow creators"}
               </p>
             </div>
             <Switch
@@ -219,7 +228,7 @@ const SignUp = () => {
             disabled={!isValid || isLoading}
             className="w-full bg-fanvault-gradient hover:opacity-90 rounded-lg h-12 text-base font-semibold"
           >
-            {isLoading ? "Creating Account..." : "Create Account"}
+            {isLoading ? "Creating Account..." : `Create ${isCreator ? "Creator" : "Fan"} Account`}
           </Button>
 
           {/* Login Link */}

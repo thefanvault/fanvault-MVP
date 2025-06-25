@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,14 +25,20 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { signIn, user, loading } = useAuth();
+  const { signIn, user, userRole, loading } = useAuth();
 
   // Redirect if already logged in
   useEffect(() => {
     if (!loading && user) {
-      navigate("/");
+      console.log('User logged in, redirecting. User role:', userRole);
+      // Redirect creators to dashboard, fans to home
+      if (userRole === 'creator') {
+        navigate("/dashboard");
+      } else {
+        navigate("/");
+      }
     }
-  }, [user, loading, navigate]);
+  }, [user, userRole, loading, navigate]);
 
   const {
     register,
@@ -54,6 +59,7 @@ const Login = () => {
     setIsLoading(true);
     
     try {
+      console.log('Attempting login for:', data.email);
       const { error } = await signIn(data.email, data.password);
       
       if (error) {
@@ -64,11 +70,12 @@ const Login = () => {
           variant: "destructive",
         });
       } else {
+        console.log('Login successful');
         toast({
           title: "Welcome back!",
           description: "You have been successfully logged in.",
         });
-        navigate("/");
+        // Navigation will be handled by the useEffect above
       }
     } catch (error) {
       console.error('Login error:', error);
