@@ -1,9 +1,12 @@
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Eye, EyeOff, ArrowLeft } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Eye, EyeOff, ArrowLeft, AlertTriangle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,6 +26,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorDialog, setErrorDialog] = useState({ open: false, title: "", message: "" });
   const navigate = useNavigate();
   const { toast } = useToast();
   const { signIn, user, userRole, loading } = useAuth();
@@ -64,10 +68,27 @@ const Login = () => {
       
       if (error) {
         console.error('Login error:', error);
-        toast({
-          title: "Login Failed",
-          description: error.message || "Invalid email or password",
-          variant: "destructive",
+        
+        // Show error popup instead of toast
+        let errorTitle = "Login Failed";
+        let errorMessage = "Please check your credentials and try again.";
+        
+        if (error.message?.includes('Invalid login credentials')) {
+          errorMessage = "Invalid email or password. Please check your credentials and try again.";
+        } else if (error.message?.includes('Email not confirmed')) {
+          errorTitle = "Email Not Verified";
+          errorMessage = "Please check your email and click the verification link before signing in.";
+        } else if (error.message?.includes('Too many requests')) {
+          errorTitle = "Too Many Attempts";
+          errorMessage = "Too many login attempts. Please wait a few minutes before trying again.";
+        } else if (error.message) {
+          errorMessage = error.message;
+        }
+        
+        setErrorDialog({
+          open: true,
+          title: errorTitle,
+          message: errorMessage
         });
       } else {
         console.log('Login successful');
@@ -79,10 +100,10 @@ const Login = () => {
       }
     } catch (error) {
       console.error('Login error:', error);
-      toast({
-        title: "Login Failed", 
-        description: "An unexpected error occurred",
-        variant: "destructive",
+      setErrorDialog({
+        open: true,
+        title: "Login Failed",
+        message: "An unexpected error occurred. Please try again."
       });
     } finally {
       setIsLoading(false);
@@ -209,6 +230,31 @@ const Login = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Error Dialog */}
+      <Dialog open={errorDialog.open} onOpenChange={(open) => setErrorDialog({ ...errorDialog, open })}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-destructive" />
+              {errorDialog.title}
+            </DialogTitle>
+          </DialogHeader>
+          <Alert variant="destructive">
+            <AlertDescription>
+              {errorDialog.message}
+            </AlertDescription>
+          </Alert>
+          <div className="flex justify-end mt-4">
+            <Button 
+              onClick={() => setErrorDialog({ ...errorDialog, open: false })}
+              variant="default"
+            >
+              Try Again
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
