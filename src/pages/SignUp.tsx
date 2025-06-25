@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Eye, EyeOff, ArrowLeft, CheckCircle, Mail } from "lucide-react";
+import { Eye, EyeOff, ArrowLeft, CheckCircle, Mail, Clock } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
@@ -26,6 +26,11 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+  const [userMetadata, setUserMetadata] = useState<any>({});
+  const [resendCooldown, setResendCooldown] = useState(60);
+  const [canResend, setCanResend] = useState(false);
+  const [isResending, setIsResending] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
   const { signUp, user, loading } = useAuth();
@@ -36,6 +41,29 @@ const SignUp = () => {
       navigate("/");
     }
   }, [user, loading, navigate]);
+
+  // Countdown timer for resend functionality
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    
+    if (emailSent && resendCooldown > 0) {
+      interval = setInterval(() => {
+        setResendCooldown((prev) => {
+          if (prev <= 1) {
+            setCanResend(true);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, [emailSent, resendCooldown]);
 
   const {
     register,
@@ -50,46 +78,61 @@ const SignUp = () => {
 
   const isCreator = watch("isCreator");
 
+  const performSignUp = async (email: string, password: string, metadata: any) => {
+    console.log('Signing up with data:', {
+      email: email,
+      isCreator: metadata.isCreator,
+      name: metadata.display_name
+    });
+
+    const { error } = await signUp(email, password, metadata);
+    
+    if (error) {
+      console.error('Sign up error:', error);
+      
+      // Handle specific error messages
+      if (error.message?.includes('already registered')) {
+        toast({
+          title: "Account Exists",
+          description: "An account with this email already exists. Please sign in instead.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Sign Up Failed",
+          description: error.message || "Failed to create account",
+          variant: "destructive",
+        });
+      }
+      return false;
+    } else {
+      console.log('Sign up successful - email verification required');
+      toast({
+        title: "Account Created!",
+        description: "Please check your email to verify your account before signing in.",
+      });
+      return true;
+    }
+  };
+
   const onSubmit = async (data: SignUpFormData) => {
     setIsLoading(true);
     
     try {
-      console.log('Signing up with data:', {
-        email: data.email,
-        isCreator: data.isCreator,
-        name: data.name
-      });
-
-      const { error } = await signUp(data.email, data.password, {
+      const metadata = {
         display_name: data.name || data.email.split('@')[0],
         isCreator: data.isCreator
-      });
+      };
+
+      const success = await performSignUp(data.email, data.password, metadata);
       
-      if (error) {
-        console.error('Sign up error:', error);
-        
-        // Handle specific error messages
-        if (error.message?.includes('already registered')) {
-          toast({
-            title: "Account Exists",
-            description: "An account with this email already exists. Please sign in instead.",
-            variant: "destructive",
-          });
-        } else {
-          toast({
-            title: "Sign Up Failed",
-            description: error.message || "Failed to create account",
-            variant: "destructive",
-          });
-        }
-      } else {
-        console.log('Sign up successful - email verification required');
+      if (success) {
         setUserEmail(data.email);
+        setUserPassword(data.password);
+        setUserMetadata(metadata);
         setEmailSent(true);
-        toast({
-          title: "Account Created!",
-          description: "Please check your email to verify your account before signing in.",
-        });
+        setResendCooldown(60);
+        setCanResend(false);
       }
     } catch (error) {
       console.error('Sign up error:', error);
@@ -100,6 +143,34 @@ const SignUp = () => {
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleResendVerification = async () => {
+    if (!canResend || isResending) return;
+    
+    setIsResending(true);
+    
+    try {
+      const success = await performSignUp(userEmail, userPassword, userMetadata);
+      
+      if (success) {
+        setResendCooldown(60);
+        setCanResend(false);
+        toast({
+          title: "Email Resent!",
+          description: "We've sent another verification email to your inbox.",
+        });
+      }
+    } catch (error) {
+      console.error('Resend error:', error);
+      toast({
+        title: "Resend Failed",
+        description: "Failed to resend verification email. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsResending(false);
     }
   };
 
@@ -151,6 +222,25 @@ const SignUp = () => {
             </div>
           </div>
 
+          {/* Resend Verification */}
+          <div className="mb-6">
+            {!canResend ? (
+              <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
+                <Clock className="h-4 w-4" />
+                <span>Resend available in {resendCooldown}s</span>
+              </div>
+            ) : (
+              <Button
+                onClick={handleResendVerification}
+                disabled={isResending}
+                variant="outline"
+                className="w-full"
+              >
+                {isResending ? "Resending..." : "Resend Verification Email"}
+              </Button>
+            )}
+          </div>
+
           {/* Actions */}
           <div className="space-y-3">
             <Button 
@@ -167,6 +257,10 @@ const SignUp = () => {
               onClick={() => {
                 setEmailSent(false);
                 setUserEmail("");
+                setUserPassword("");
+                setUserMetadata({});
+                setResendCooldown(60);
+                setCanResend(false);
               }}
               className="w-full"
             >
@@ -176,7 +270,7 @@ const SignUp = () => {
 
           {/* Help Text */}
           <p className="text-xs text-muted-foreground mt-6">
-            Didn't receive the email? Check your spam folder or try signing up again.
+            Didn't receive the email? Check your spam folder or use the resend option above.
           </p>
         </div>
       </div>
