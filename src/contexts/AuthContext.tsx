@@ -1,3 +1,4 @@
+
 import { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
@@ -42,16 +43,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          // Check user profile to determine role
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('is_creator')
-            .eq('user_id', session.user.id)
-            .single();
-          
-          const isCreator = profile?.is_creator;
-          setUserRole(isCreator ? 'creator' : 'fan');
-          console.log('User role determined:', isCreator ? 'creator' : 'fan', 'for user:', session.user.id);
+          // Use setTimeout to avoid potential deadlocks in onAuthStateChange
+          setTimeout(async () => {
+            try {
+              const { data: profile } = await supabase
+                .from('profiles')
+                .select('is_creator')
+                .eq('user_id', session.user.id)
+                .single();
+              
+              const isCreator = profile?.is_creator;
+              setUserRole(isCreator ? 'creator' : 'fan');
+              console.log('User role determined:', isCreator ? 'creator' : 'fan', 'for user:', session.user.id);
+            } catch (error) {
+              console.error('Error fetching user profile:', error);
+              setUserRole('fan'); // Default to fan if profile fetch fails
+            }
+          }, 0);
         } else {
           setUserRole(null);
           console.log('User logged out, role cleared');
@@ -63,7 +71,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
-      // This will be handled by the auth state change listener above
+      console.log('Initial session check:', session?.user?.id);
+      // The auth state change listener will handle the session
       // Just make sure loading is set to false if no session
       if (!session) {
         setLoading(false);
@@ -74,6 +83,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const signOut = async () => {
+    console.log('Signing out user');
     await supabase.auth.signOut();
   };
 

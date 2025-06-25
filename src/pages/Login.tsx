@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,7 +12,6 @@ import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate, Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/contexts/AuthContext";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email format"),
@@ -26,7 +26,6 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { userRole } = useAuth();
 
   const {
     register,
@@ -41,7 +40,6 @@ const Login = () => {
   const email = watch("email");
   const password = watch("password");
   
-  // Simplified validation - just check if we have values and no errors
   const isFormValid = Boolean(email && password && email.length > 0 && password.length > 0);
 
   const onSubmit = async (data: LoginFormData) => {
@@ -49,12 +47,13 @@ const Login = () => {
     
     try {
       console.log('Attempting login for:', data.email);
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data: authData, error } = await supabase.auth.signInWithPassword({
         email: data.email,
         password: data.password,
       });
 
       if (error) {
+        console.error('Login error:', error);
         let errorMessage = "There was an issue logging in. Please try again.";
         
         if (error.message.includes("Invalid login credentials")) {
@@ -72,48 +71,23 @@ const Login = () => {
         return;
       }
 
+      console.log('Login successful:', authData);
       toast({
         title: "Welcome back!",
         description: "You have successfully logged in.",
       });
       
-      // Wait a moment for the AuthContext to update user role
-      setTimeout(() => {
-        // Get the latest session to check user role
-        supabase.auth.getSession().then(async ({ data: { session } }) => {
-          if (session?.user) {
-            console.log('Session found, checking user profile for:', session.user.id);
-            // Check user profile to determine role and redirect
-            const { data: profile } = await supabase
-              .from('profiles')
-              .select('is_creator')
-              .eq('user_id', session.user.id)
-              .single();
-            
-            console.log('Profile data:', profile);
-            const isCreator = profile?.is_creator;
-            
-            if (isCreator) {
-              console.log('Redirecting to dashboard for creator');
-              navigate("/dashboard");
-            } else {
-              console.log('Redirecting to home for fan');
-              navigate("/");
-            }
-          } else {
-            console.log('No session found, redirecting to home');
-            navigate("/");
-          }
-          setIsLoading(false);
-        });
-      }, 500); // Small delay to ensure AuthContext has updated
+      // Simple redirect to home page - let the AuthContext handle role-based redirects
+      navigate("/");
       
     } catch (error) {
+      console.error('Unexpected login error:', error);
       toast({
         title: "Login Failed", 
         description: "An unexpected error occurred",
         variant: "destructive",
       });
+    } finally {
       setIsLoading(false);
     }
   };
