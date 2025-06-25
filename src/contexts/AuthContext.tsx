@@ -57,6 +57,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const fetchProfile = async (userId: string) => {
     try {
+      console.log('Fetching profile for user:', userId);
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
@@ -68,6 +69,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         return null;
       }
 
+      console.log('Profile fetched successfully:', data);
       return data;
     } catch (error) {
       console.error('Error fetching profile:', error);
@@ -101,6 +103,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     // Check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log('Initial session check:', session?.user?.email);
       if (session) {
         setSession(session);
         setUser(session.user);
@@ -141,18 +144,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       console.log('Attempting to sign in:', email);
       
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
       });
 
       if (error) {
-        console.error('Sign in error:', error);
-      } else {
-        console.log('Sign in successful');
+        console.error('Sign in error:', error.message);
+        return { error };
       }
 
-      return { error };
+      console.log('Sign in successful for user:', data.user?.email);
+      return { error: null };
     } catch (error) {
       console.error('Sign in error:', error);
       return { error };
