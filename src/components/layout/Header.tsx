@@ -1,8 +1,8 @@
+
 import { Button } from "@/components/ui/button";
 import { Search, Bell, User, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 export function Header() {

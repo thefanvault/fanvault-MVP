@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,7 +8,6 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Edit, Upload } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 
 interface ProfileEditFormProps {
@@ -40,12 +40,7 @@ export const ProfileEditForm = ({ profile, onProfileUpdate }: ProfileEditFormPro
 
     setIsLoading(true);
     try {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${user.id}-${Math.random()}.${fileExt}`;
-      const filePath = `avatars/${fileName}`;
-
-      // Upload to Supabase storage (if storage is configured)
-      // For now, we'll use a placeholder URL
+      // Simulate image upload
       const imageUrl = URL.createObjectURL(file);
       setFormData(prev => ({ ...prev, avatar_url: imageUrl }));
       
@@ -70,20 +65,16 @@ export const ProfileEditForm = ({ profile, onProfileUpdate }: ProfileEditFormPro
 
     setIsLoading(true);
     try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .update({
-          display_name: formData.display_name.trim() || null,
-          bio: formData.bio.trim() || null,
-          avatar_url: formData.avatar_url || null,
-        })
-        .eq('user_id', user.id)
-        .select()
-        .single();
+      // Simulate profile update
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      const updatedProfile = {
+        display_name: formData.display_name.trim() || null,
+        bio: formData.bio.trim() || null,
+        avatar_url: formData.avatar_url || null,
+      };
 
-      if (error) throw error;
-
-      onProfileUpdate(data);
+      onProfileUpdate(updatedProfile);
       setIsOpen(false);
       
       toast({

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,7 +9,6 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 const signUpSchema = z.object({
@@ -43,48 +43,21 @@ const SignUp = () => {
     setIsLoading(true);
     
     try {
-      const redirectUrl = `${window.location.origin}/`;
+      console.log('Sign up attempt:', data);
       
-      const { error } = await supabase.auth.signUp({
-        email: data.email,
-        password: data.password,
-        options: {
-          emailRedirectTo: redirectUrl,
-          data: {
-            name: data.name,
-            is_creator: data.isCreator
-          }
-        }
-      });
-
-      if (error) {
-        let errorMessage = "An unexpected error occurred";
-        
-        if (error.message.includes("already registered")) {
-          errorMessage = "An account with this email already exists";
-        } else if (error.message.includes("Password should be")) {
-          errorMessage = "Password should be at least 6 characters";
-        }
-        
-        toast({
-          title: "Sign Up Failed",
-          description: errorMessage,
-          variant: "destructive",
-        });
-        return;
-      }
-
+      // Simulate signup process
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
       toast({
-        title: "Account Created!",
-        description: "You can now start using FanVault.",
+        title: "Signup Demo",
+        description: "No backend connected. This is just the UI.",
       });
 
-      // Navigate to discover page for all users
-      navigate("/discover");
+      navigate("/");
     } catch (error) {
       toast({
         title: "Sign Up Failed",
-        description: "An unexpected error occurred",
+        description: "No backend connected",
         variant: "destructive",
       });
     } finally {

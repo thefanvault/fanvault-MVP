@@ -9,7 +9,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { supabase } from "@/integrations/supabase/client";
 import { useNavigate, Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
@@ -46,45 +45,23 @@ const Login = () => {
     setIsLoading(true);
     
     try {
-      console.log('Attempting login for:', data.email);
-      const { data: authData, error } = await supabase.auth.signInWithPassword({
-        email: data.email,
-        password: data.password,
-      });
-
-      if (error) {
-        console.error('Login error:', error);
-        let errorMessage = "There was an issue logging in. Please try again.";
-        
-        if (error.message.includes("Invalid login credentials")) {
-          errorMessage = "Invalid email or password";
-        } else if (error.message.includes("Email not confirmed")) {
-          errorMessage = "Please check your email to verify your account";
-        }
-        
-        toast({
-          title: "Login Failed",
-          description: errorMessage,
-          variant: "destructive",
-        });
-        setIsLoading(false);
-        return;
-      }
-
-      console.log('Login successful:', authData);
+      console.log('Login attempt:', data.email);
+      
+      // Simulate login process
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
       toast({
-        title: "Welcome back!",
-        description: "You have successfully logged in.",
+        title: "Login Demo",
+        description: "No backend connected. This is just the UI.",
       });
       
-      // Simple redirect to home page - let the AuthContext handle role-based redirects
       navigate("/");
       
     } catch (error) {
-      console.error('Unexpected login error:', error);
+      console.error('Login error:', error);
       toast({
         title: "Login Failed", 
-        description: "An unexpected error occurred",
+        description: "No backend connected",
         variant: "destructive",
       });
     } finally {
