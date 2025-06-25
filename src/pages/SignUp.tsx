@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Eye, EyeOff, ArrowLeft } from "lucide-react";
+import { Eye, EyeOff, ArrowLeft, CheckCircle, Mail } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
@@ -24,6 +24,8 @@ type SignUpFormData = z.infer<typeof signUpSchema>;
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
   const navigate = useNavigate();
   const { toast } = useToast();
   const { signUp, user, loading } = useAuth();
@@ -81,12 +83,13 @@ const SignUp = () => {
           });
         }
       } else {
-        console.log('Sign up successful');
+        console.log('Sign up successful - email verification required');
+        setUserEmail(data.email);
+        setEmailSent(true);
         toast({
           title: "Account Created!",
           description: "Please check your email to verify your account before signing in.",
         });
-        navigate("/login");
       }
     } catch (error) {
       console.error('Sign up error:', error);
@@ -104,6 +107,78 @@ const SignUp = () => {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">Loading...</div>
+      </div>
+    );
+  }
+
+  // Show email verification screen after successful signup
+  if (emailSent) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <div className="w-full max-w-md text-center">
+          {/* Logo */}
+          <div className="mb-8">
+            <img 
+              src="/lovable-uploads/a4c880dd-a727-40e6-b3eb-1fa7df905859.png" 
+              alt="FanVault Logo" 
+              className="h-12 mx-auto mb-4"
+            />
+          </div>
+
+          {/* Success Icon */}
+          <div className="mb-6">
+            <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+              <CheckCircle className="h-8 w-8 text-green-600" />
+            </div>
+            <h1 className="text-2xl font-bold mb-2">Check Your Email</h1>
+            <p className="text-muted-foreground">
+              We've sent a verification link to <strong>{userEmail}</strong>
+            </p>
+          </div>
+
+          {/* Instructions */}
+          <div className="bg-muted/50 border rounded-lg p-4 mb-6">
+            <div className="flex items-start space-x-3">
+              <Mail className="h-5 w-5 text-fanvault-pink mt-0.5 flex-shrink-0" />
+              <div className="text-left">
+                <h3 className="font-medium mb-1">Next Steps:</h3>
+                <ol className="text-sm text-muted-foreground space-y-1">
+                  <li>1. Check your email inbox (and spam folder)</li>
+                  <li>2. Click the verification link in the email</li>
+                  <li>3. Return here and sign in to your account</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="space-y-3">
+            <Button 
+              className="w-full bg-fanvault-gradient" 
+              asChild
+            >
+              <Link to="/login">
+                Go to Sign In
+              </Link>
+            </Button>
+            
+            <Button 
+              variant="ghost" 
+              onClick={() => {
+                setEmailSent(false);
+                setUserEmail("");
+              }}
+              className="w-full"
+            >
+              Back to Sign Up
+            </Button>
+          </div>
+
+          {/* Help Text */}
+          <p className="text-xs text-muted-foreground mt-6">
+            Didn't receive the email? Check your spam folder or try signing up again.
+          </p>
+        </div>
       </div>
     );
   }
