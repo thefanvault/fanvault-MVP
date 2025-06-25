@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -10,6 +10,7 @@ import { Switch } from "@/components/ui/switch";
 import { Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 const signUpSchema = z.object({
   name: z.string().optional(),
@@ -25,6 +26,14 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { signUp, user, loading } = useAuth();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (!loading && user) {
+      navigate("/");
+    }
+  }, [user, loading, navigate]);
 
   const {
     register,
@@ -43,27 +52,54 @@ const SignUp = () => {
     setIsLoading(true);
     
     try {
-      console.log('Sign up attempt:', data);
-      
-      // Simulate signup process
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      toast({
-        title: "Signup Demo",
-        description: "No backend connected. This is just the UI.",
+      const { error } = await signUp(data.email, data.password, {
+        display_name: data.name || data.email.split('@')[0],
+        is_creator: data.isCreator
       });
-
-      navigate("/");
+      
+      if (error) {
+        console.error('Sign up error:', error);
+        
+        // Handle specific error messages
+        if (error.message?.includes('already registered')) {
+          toast({
+            title: "Account Exists",
+            description: "An account with this email already exists. Please sign in instead.",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Sign Up Failed",
+            description: error.message || "Failed to create account",
+            variant: "destructive",
+          });
+        }
+      } else {
+        toast({
+          title: "Account Created!",
+          description: "Please check your email to verify your account.",
+        });
+        navigate("/login");
+      }
     } catch (error) {
+      console.error('Sign up error:', error);
       toast({
         title: "Sign Up Failed",
-        description: "No backend connected",
+        description: "An unexpected error occurred",
         variant: "destructive",
       });
     } finally {
       setIsLoading(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">

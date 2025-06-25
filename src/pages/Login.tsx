@@ -5,12 +5,13 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff, ArrowLeft } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useNavigate, Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email format"),
@@ -25,6 +26,14 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { signIn, user, loading } = useAuth();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (!loading && user) {
+      navigate("/");
+    }
+  }, [user, loading, navigate]);
 
   const {
     register,
@@ -45,29 +54,41 @@ const Login = () => {
     setIsLoading(true);
     
     try {
-      console.log('Login attempt:', data.email);
+      const { error } = await signIn(data.email, data.password);
       
-      // Simulate login process
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      toast({
-        title: "Login Demo",
-        description: "No backend connected. This is just the UI.",
-      });
-      
-      navigate("/");
-      
+      if (error) {
+        console.error('Login error:', error);
+        toast({
+          title: "Login Failed",
+          description: error.message || "Invalid email or password",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Welcome back!",
+          description: "You have been successfully logged in.",
+        });
+        navigate("/");
+      }
     } catch (error) {
       console.error('Login error:', error);
       toast({
         title: "Login Failed", 
-        description: "No backend connected",
+        description: "An unexpected error occurred",
         variant: "destructive",
       });
     } finally {
       setIsLoading(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
@@ -175,7 +196,7 @@ const Login = () => {
                 <span>Secure login</span>
               </div>
               <p className="text-xs text-muted-foreground mt-1">
-                Your information is encrypted and never stored on our servers
+                Your information is encrypted and secure
               </p>
             </div>
           </CardContent>

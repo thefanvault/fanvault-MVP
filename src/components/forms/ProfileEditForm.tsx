@@ -21,7 +21,7 @@ interface ProfileEditFormProps {
 
 export const ProfileEditForm = ({ profile, onProfileUpdate }: ProfileEditFormProps) => {
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { updateProfile } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -36,11 +36,11 @@ export const ProfileEditForm = ({ profile, onProfileUpdate }: ProfileEditFormPro
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file || !user) return;
+    if (!file) return;
 
     setIsLoading(true);
     try {
-      // Simulate image upload
+      // Simulate image upload - in a real app, you'd upload to Supabase Storage
       const imageUrl = URL.createObjectURL(file);
       setFormData(prev => ({ ...prev, avatar_url: imageUrl }));
       
@@ -61,18 +61,20 @@ export const ProfileEditForm = ({ profile, onProfileUpdate }: ProfileEditFormPro
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) return;
 
     setIsLoading(true);
     try {
-      // Simulate profile update
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
       const updatedProfile = {
         display_name: formData.display_name.trim() || null,
         bio: formData.bio.trim() || null,
         avatar_url: formData.avatar_url || null,
       };
+
+      const { error } = await updateProfile(updatedProfile);
+      
+      if (error) {
+        throw error;
+      }
 
       onProfileUpdate(updatedProfile);
       setIsOpen(false);
