@@ -37,9 +37,9 @@ const Login = () => {
       console.log('User logged in, redirecting. User role:', userRole);
       // Redirect creators to dashboard, fans to home
       if (userRole === 'creator') {
-        navigate("/dashboard");
+        navigate("/dashboard", { replace: true });
       } else {
-        navigate("/");
+        navigate("/", { replace: true });
       }
     }
   }, [user, userRole, loading, navigate]);
@@ -96,7 +96,15 @@ const Login = () => {
           title: "Welcome back!",
           description: "You have been successfully logged in.",
         });
-        // Navigation will be handled by the useEffect above
+        
+        // Force navigation after successful login
+        setTimeout(() => {
+          if (userRole === 'creator') {
+            navigate("/dashboard", { replace: true });
+          } else {
+            navigate("/", { replace: true });
+          }
+        }, 100);
       }
     } catch (error) {
       console.error('Login error:', error);

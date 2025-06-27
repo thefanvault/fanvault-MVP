@@ -46,33 +46,27 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<any>({
-    id: 'mock-user-id',
-    email: 'demo@example.com'
-  });
-  const [session, setSession] = useState<any>({
-    user: {
-      id: 'mock-user-id',
-      email: 'demo@example.com'
-    }
-  });
-  const [profile, setProfile] = useState<UserProfile>({
-    id: 'mock-profile-id',
-    user_id: 'mock-user-id',
-    username: 'demo_user',
-    display_name: 'Demo User',
-    bio: 'This is a demo profile',
-    avatar_url: null,
-    is_creator: true,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  });
-  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [session, setSession] = useState<any>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const userRole: 'creator' | 'fan' | null = profile?.is_creator ? 'creator' : profile ? 'fan' : null;
 
   useEffect(() => {
-    // Simulate initial loading
+    // Check if there's a stored session
+    const storedUser = localStorage.getItem('fanvault_auth_user');
+    const storedProfile = localStorage.getItem('fanvault_auth_profile');
+    
+    if (storedUser && storedProfile) {
+      const userData = JSON.parse(storedUser);
+      const profileData = JSON.parse(storedProfile);
+      
+      setUser(userData);
+      setProfile(profileData);
+      setSession({ user: userData });
+    }
+    
     setLoading(false);
   }, []);
 
@@ -101,6 +95,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setProfile(mockProfile);
       setSession({ user: mockUser });
 
+      // Store in localStorage for persistence
+      localStorage.setItem('fanvault_auth_user', JSON.stringify(mockUser));
+      localStorage.setItem('fanvault_auth_profile', JSON.stringify(mockProfile));
+
       return { error: null };
     } catch (error) {
       console.error('Mock sign up error:', error);
@@ -117,8 +115,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         email: email
       };
 
+      const mockProfile = {
+        id: 'mock-profile-id',
+        user_id: 'mock-user-id',
+        username: email.split('@')[0],
+        display_name: email.split('@')[0],
+        bio: 'This is a demo profile',
+        avatar_url: null,
+        is_creator: false, // Default to fan, can be changed in profile
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+
       setUser(mockUser);
+      setProfile(mockProfile);
       setSession({ user: mockUser });
+
+      // Store in localStorage for persistence
+      localStorage.setItem('fanvault_auth_user', JSON.stringify(mockUser));
+      localStorage.setItem('fanvault_auth_profile', JSON.stringify(mockProfile));
       
       return { error: null };
     } catch (error) {
@@ -132,6 +147,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(null);
       setSession(null);
       setProfile(null);
+      
+      // Clear localStorage
+      localStorage.removeItem('fanvault_auth_user');
+      localStorage.removeItem('fanvault_auth_profile');
     } catch (error) {
       console.error('Mock sign out error:', error);
     }
@@ -143,6 +162,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const updatedProfile = { ...profile, ...updates } as UserProfile;
       setProfile(updatedProfile);
+      
+      // Update localStorage
+      localStorage.setItem('fanvault_auth_profile', JSON.stringify(updatedProfile));
+      
       return { error: null };
     } catch (error) {
       console.error('Mock update profile error:', error);
