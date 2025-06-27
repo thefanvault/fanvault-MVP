@@ -68,7 +68,7 @@ export function AppSidebar() {
                           }`
                         }
                       >
-                        <item.icon className="h-5 w-5 flex-shrink-0" />
+                        <item.icon className="h-5 w-5 flex-shrink-0 text-black" />
                         <span className="block text-black">
                           {item.title}
                         </span>
