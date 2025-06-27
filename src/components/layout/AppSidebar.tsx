@@ -48,7 +48,7 @@ export function AppSidebar() {
   const isCollapsed = state === "collapsed";
 
   return (
-    <Sidebar className="border-r border-border">
+    <Sidebar className="border-r border-border w-[11rem]">
       <SidebarContent className="bg-background">
         <SidebarGroup>
           <SidebarGroupContent>
