@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Header } from "@/components/layout/Header";
 import { MobileNav } from "@/components/layout/MobileNav";
@@ -8,6 +9,8 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Plus, Clock, Copy, Globe, Lock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/layout/AppSidebar";
 
 const Dashboard = () => {
   const { toast } = useToast();
@@ -57,164 +60,175 @@ const Dashboard = () => {
   const magicLink = `https://fanvault.app/creator/${handle}?token=abc123def456`;
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      
-      <main className="container mx-auto px-4 pt-6 pb-20 md:pb-6">
-        {/* Creator Header */}
-        <div className="flex items-center space-x-4 mb-8">
-          <img 
-            src="https://images.unsplash.com/photo-1494790108755-2616b612e04f?w=150&h=150&fit=crop&crop=face" 
-            alt="Profile"
-            className="w-16 h-16 rounded-full"
-          />
-          <div>
-            <h1 className="text-2xl font-bold">Welcome, {creatorName}!</h1>
-            <p className="text-muted-foreground">@{handle}</p>
-            <div className="mt-2">
-              <p className="text-lg font-semibold text-primary">
-                Total Sales: ${vaultBalance.toLocaleString()}
-              </p>
-              {vaultBalance <= 0 && (
-                <p className="text-sm text-muted-foreground">
-                  You haven't sold anything yet – list an item!
-                </p>
-              )}
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full bg-background">
+        <AppSidebar />
+        
+        <div className="flex-1 flex flex-col">
+          <header className="h-16 border-b flex items-center px-4">
+            <SidebarTrigger />
+            <div className="ml-4">
+              <h1 className="text-lg font-semibold">Creator Dashboard</h1>
             </div>
-          </div>
-        </div>
-
-        {/* Primary Action */}
-        <div className="mb-8">
-          <Button size="lg" className="bg-fanvault-gradient text-white font-semibold px-8 py-3 rounded-lg" asChild>
-            <a href="/list-new-item">
-              <Plus className="h-5 w-5 mr-2" />
-              List New Item
-            </a>
-          </Button>
-        </div>
-
-        {/* Active Auctions */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Active Auctions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {activeAuctions.length === 0 ? (
-              <div className="text-center py-8">
-                <p className="text-muted-foreground mb-4">
-                  You have no items listed. Tap List New Item to create your first auction!
-                </p>
-                <Button className="bg-fanvault-gradient" asChild>
-                  <a href="/list-new-item">
-                    <Plus className="h-4 w-4 mr-2" />
-                    List New Item
-                  </a>
-                </Button>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {activeAuctions.map((auction) => (
-                  <div key={auction.id} className="flex items-center space-x-4 p-4 border rounded-lg hover:bg-muted/50 cursor-pointer">
-                    <img 
-                      src={auction.image} 
-                      alt={auction.title}
-                      className="w-16 h-16 rounded-lg object-cover"
-                    />
-                    <div className="flex-1">
-                      <h4 className="font-medium">{auction.title}</h4>
-                      <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                        <Clock className="h-4 w-4" />
-                        <span>⏳ {auction.timeLeft} left</span>
-                      </div>
-                      <p className="text-sm font-medium">
-                        {auction.bidCount} bids, highest: ${auction.currentBid}
-                      </p>
-                    </div>
-                    <Badge className="bg-green-100 text-green-800">Live</Badge>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Recent Sales */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Recent Sales</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {recentSales.length === 0 ? (
-              <p className="text-muted-foreground text-center py-4">
-                Sold Items: 0
-              </p>
-            ) : (
-              <div className="space-y-4">
-                {recentSales.map((sale) => (
-                  <div key={sale.id} className="flex justify-between items-center p-4 border rounded-lg">
-                    <div>
-                      <h4 className="font-medium">{sale.title}</h4>
-                      <p className="text-sm text-muted-foreground">{sale.soldDate}</p>
-                    </div>
-                    <p className="font-semibold text-green-600">${sale.salePrice}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Storefront Access */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Storefront Access</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                {isStorefrontPublic ? <Globe className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
-                <span className="font-medium">
-                  Storefront: {isStorefrontPublic ? "Public" : "Private"}
-                </span>
-              </div>
-              <Switch
-                checked={isStorefrontPublic}
-                onCheckedChange={setIsStorefrontPublic}
+          </header>
+          
+          <main className="flex-1 container mx-auto px-4 pt-6 pb-20 md:pb-6">
+            {/* Creator Header */}
+            <div className="flex items-center space-x-4 mb-8">
+              <img 
+                src="https://images.unsplash.com/photo-1494790108755-2616b612e04f?w=150&h=150&fit=crop&crop=face" 
+                alt="Profile"
+                className="w-16 h-16 rounded-full"
               />
-            </div>
-            
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-muted-foreground">
-                {isStorefrontPublic ? "Public URL" : "Magic Link"}
-              </label>
-              <div className="flex space-x-2">
-                <Input
-                  value={isStorefrontPublic ? publicUrl : magicLink}
-                  readOnly
-                  className="flex-1"
-                />
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => copyToClipboard(isStorefrontPublic ? publicUrl : magicLink)}
-                >
-                  <Copy className="h-4 w-4" />
-                </Button>
+              <div>
+                <h1 className="text-2xl font-bold">Welcome, {creatorName}!</h1>
+                <p className="text-muted-foreground">@{handle}</p>
+                <div className="mt-2">
+                  <p className="text-lg font-semibold text-primary">
+                    Total Sales: ${vaultBalance.toLocaleString()}
+                  </p>
+                  {vaultBalance <= 0 && (
+                    <p className="text-sm text-muted-foreground">
+                      You haven't sold anything yet – list an item!
+                    </p>
+                  )}
+                </div>
               </div>
-              <p className="text-xs text-muted-foreground">
-                {isStorefrontPublic 
-                  ? "Your profile is discoverable by anyone" 
-                  : "Share this private link with your fans"
-                }
-              </p>
             </div>
-          </CardContent>
-        </Card>
-      </main>
 
-      <MobileNav currentPath="/dashboard" />
-    </div>
+            {/* Primary Action */}
+            <div className="mb-8">
+              <Button size="lg" className="bg-fanvault-gradient text-white font-semibold px-8 py-3 rounded-lg" asChild>
+                <a href="/list-new-item">
+                  <Plus className="h-5 w-5 mr-2" />
+                  List New Item
+                </a>
+              </Button>
+            </div>
+
+            {/* Active Auctions */}
+            <Card className="mb-8">
+              <CardHeader>
+                <CardTitle>Active Auctions</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {activeAuctions.length === 0 ? (
+                  <div className="text-center py-8">
+                    <p className="text-muted-foreground mb-4">
+                      You have no items listed. Tap List New Item to create your first auction!
+                    </p>
+                    <Button className="bg-fanvault-gradient" asChild>
+                      <a href="/list-new-item">
+                        <Plus className="h-4 w-4 mr-2" />
+                        List New Item
+                      </a>
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {activeAuctions.map((auction) => (
+                      <div key={auction.id} className="flex items-center space-x-4 p-4 border rounded-lg hover:bg-muted/50 cursor-pointer">
+                        <img 
+                          src={auction.image} 
+                          alt={auction.title}
+                          className="w-16 h-16 rounded-lg object-cover"
+                        />
+                        <div className="flex-1">
+                          <h4 className="font-medium">{auction.title}</h4>
+                          <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                            <Clock className="h-4 w-4" />
+                            <span>⏳ {auction.timeLeft} left</span>
+                          </div>
+                          <p className="text-sm font-medium">
+                            {auction.bidCount} bids, highest: ${auction.currentBid}
+                          </p>
+                        </div>
+                        <Badge className="bg-green-100 text-green-800">Live</Badge>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Recent Sales */}
+            <Card className="mb-8">
+              <CardHeader>
+                <CardTitle>Recent Sales</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {recentSales.length === 0 ? (
+                  <p className="text-muted-foreground text-center py-4">
+                    Sold Items: 0
+                  </p>
+                ) : (
+                  <div className="space-y-4">
+                    {recentSales.map((sale) => (
+                      <div key={sale.id} className="flex justify-between items-center p-4 border rounded-lg">
+                        <div>
+                          <h4 className="font-medium">{sale.title}</h4>
+                          <p className="text-sm text-muted-foreground">{sale.soldDate}</p>
+                        </div>
+                        <p className="font-semibold text-green-600">${sale.salePrice}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Storefront Access */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Storefront Access</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    {isStorefrontPublic ? <Globe className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
+                    <span className="font-medium">
+                      Storefront: {isStorefrontPublic ? "Public" : "Private"}
+                    </span>
+                  </div>
+                  <Switch
+                    checked={isStorefrontPublic}
+                    onCheckedChange={setIsStorefrontPublic}
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-muted-foreground">
+                    {isStorefrontPublic ? "Public URL" : "Magic Link"}
+                  </label>
+                  <div className="flex space-x-2">
+                    <Input
+                      value={isStorefrontPublic ? publicUrl : magicLink}
+                      readOnly
+                      className="flex-1"
+                    />
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => copyToClipboard(isStorefrontPublic ? publicUrl : magicLink)}
+                    >
+                      <Copy className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {isStorefrontPublic 
+                      ? "Your profile is discoverable by anyone" 
+                      : "Share this private link with your fans"
+                    }
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </main>
+
+          <MobileNav currentPath="/dashboard" />
+        </div>
+      </div>
+    </SidebarProvider>
   );
 };
 
