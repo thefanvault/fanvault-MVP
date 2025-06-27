@@ -64,12 +64,12 @@ export function AppSidebar() {
                           `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
                             isActive
                               ? "bg-primary text-primary-foreground font-medium"
-                              : "text-sidebar-foreground hover:text-sidebar-foreground hover:bg-sidebar-accent"
+                              : "text-black hover:text-black hover:bg-sidebar-accent"
                           }`
                         }
                       >
                         <item.icon className="h-5 w-5 flex-shrink-0" />
-                        <span className={`${isCollapsed ? 'sr-only' : 'block'}`}>
+                        <span className="block text-black">
                           {item.title}
                         </span>
                       </NavLink>
