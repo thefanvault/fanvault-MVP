@@ -69,7 +69,9 @@ export function AppSidebar() {
                         }
                       >
                         <item.icon className="h-5 w-5" />
-                        {!isCollapsed && <span>{item.title}</span>}
+                        <span className={`${isCollapsed ? 'group-data-[collapsible=icon]:sr-only' : ''}`}>
+                          {item.title}
+                        </span>
                       </NavLink>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
