@@ -1,7 +1,5 @@
 
 import { createContext, useContext, useState, useEffect } from 'react';
-import { User, Session } from '@supabase/supabase-js';
-import { supabase } from '@/integrations/supabase/client';
 
 interface UserProfile {
   id: string;
@@ -16,8 +14,8 @@ interface UserProfile {
 }
 
 interface AuthContextType {
-  user: User | null;
-  session: Session | null;
+  user: any | null;
+  session: any | null;
   profile: UserProfile | null;
   loading: boolean;
   userRole: 'creator' | 'fan' | null;
@@ -31,7 +29,7 @@ const AuthContext = createContext<AuthContextType>({
   user: null,
   session: null,
   profile: null,
-  loading: true,
+  loading: false,
   userRole: null,
   signUp: async () => ({ error: null }),
   signIn: async () => ({ error: null }),
@@ -48,128 +46,94 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
-  const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<any>({
+    id: 'mock-user-id',
+    email: 'demo@example.com'
+  });
+  const [session, setSession] = useState<any>({
+    user: {
+      id: 'mock-user-id',
+      email: 'demo@example.com'
+    }
+  });
+  const [profile, setProfile] = useState<UserProfile>({
+    id: 'mock-profile-id',
+    user_id: 'mock-user-id',
+    username: 'demo_user',
+    display_name: 'Demo User',
+    bio: 'This is a demo profile',
+    avatar_url: null,
+    is_creator: true,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  });
+  const [loading, setLoading] = useState(false);
 
   const userRole: 'creator' | 'fan' | null = profile?.is_creator ? 'creator' : profile ? 'fan' : null;
 
-  const fetchProfile = async (userId: string) => {
-    try {
-      console.log('Fetching profile for user:', userId);
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', userId)
-        .single();
-
-      if (error) {
-        console.error('Error fetching profile:', error);
-        return null;
-      }
-
-      console.log('Profile fetched successfully:', data);
-      return data;
-    } catch (error) {
-      console.error('Error fetching profile:', error);
-      return null;
-    }
-  };
-
   useEffect(() => {
-    // Set up auth state listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('Auth state changed:', event, session?.user?.email);
-        
-        setSession(session);
-        setUser(session?.user ?? null);
-        
-        if (session?.user) {
-          // Fetch user profile after a small delay to allow the trigger to complete
-          setTimeout(async () => {
-            const profileData = await fetchProfile(session.user.id);
-            setProfile(profileData);
-            console.log('Profile loaded:', profileData);
-          }, 100);
-        } else {
-          setProfile(null);
-        }
-        
-        setLoading(false);
-      }
-    );
-
-    // Check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      console.log('Initial session check:', session?.user?.email);
-      if (session) {
-        setSession(session);
-        setUser(session.user);
-        fetchProfile(session.user.id).then(setProfile);
-      }
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
+    // Simulate initial loading
+    setLoading(false);
   }, []);
 
   const signUp = async (email: string, password: string, metadata: any = {}) => {
     try {
-      const redirectUrl = `${window.location.origin}/`;
+      console.log('Mock sign up:', email, metadata);
       
-      console.log('Signing up with metadata:', metadata);
+      const mockUser = {
+        id: 'new-user-id',
+        email: email
+      };
       
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: redirectUrl,
-          data: {
-            display_name: metadata.display_name || metadata.name || email.split('@')[0],
-            is_creator: metadata.isCreator || false
-          }
-        }
-      });
+      const mockProfile = {
+        id: 'new-profile-id',
+        user_id: 'new-user-id',
+        username: email.split('@')[0],
+        display_name: metadata.display_name || metadata.name || email.split('@')[0],
+        bio: null,
+        avatar_url: null,
+        is_creator: metadata.isCreator || false,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
 
-      return { error };
+      setUser(mockUser);
+      setProfile(mockProfile);
+      setSession({ user: mockUser });
+
+      return { error: null };
     } catch (error) {
-      console.error('Sign up error:', error);
+      console.error('Mock sign up error:', error);
       return { error };
     }
   };
 
   const signIn = async (email: string, password: string) => {
     try {
-      console.log('Attempting to sign in:', email);
+      console.log('Mock sign in:', email);
       
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      });
+      const mockUser = {
+        id: 'mock-user-id',
+        email: email
+      };
 
-      if (error) {
-        console.error('Sign in error:', error.message);
-        return { error };
-      }
-
-      console.log('Sign in successful for user:', data.user?.email);
+      setUser(mockUser);
+      setSession({ user: mockUser });
+      
       return { error: null };
     } catch (error) {
-      console.error('Sign in error:', error);
+      console.error('Mock sign in error:', error);
       return { error };
     }
   };
 
   const signOut = async () => {
     try {
-      await supabase.auth.signOut();
       setUser(null);
       setSession(null);
       setProfile(null);
     } catch (error) {
-      console.error('Sign out error:', error);
+      console.error('Mock sign out error:', error);
     }
   };
 
@@ -177,20 +141,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (!user) return { error: 'No user logged in' };
 
     try {
-      const { error } = await supabase
-        .from('profiles')
-        .update(updates)
-        .eq('user_id', user.id);
-
-      if (!error) {
-        // Refresh profile data
-        const updatedProfile = await fetchProfile(user.id);
-        setProfile(updatedProfile);
-      }
-
-      return { error };
+      const updatedProfile = { ...profile, ...updates } as UserProfile;
+      setProfile(updatedProfile);
+      return { error: null };
     } catch (error) {
-      console.error('Update profile error:', error);
+      console.error('Mock update profile error:', error);
       return { error };
     }
   };

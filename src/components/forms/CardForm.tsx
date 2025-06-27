@@ -1,25 +1,10 @@
+
 import { useState } from "react";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { toast } from "@/components/ui/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-
-const CARD_ELEMENT_OPTIONS = {
-  style: {
-    base: {
-      fontSize: "16px",
-      color: "hsl(var(--foreground))",
-      "::placeholder": {
-        color: "hsl(var(--muted-foreground))",
-      },
-    },
-    invalid: {
-      color: "hsl(var(--destructive))",
-    },
-  },
-  hidePostalCode: true,
-};
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
 
 interface CardFormProps {
   onSuccess?: () => void;
@@ -27,48 +12,24 @@ interface CardFormProps {
 }
 
 export function CardForm({ onSuccess, showTitle = true }: CardFormProps) {
-  const stripe = useStripe();
-  const elements = useElements();
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [cardData, setCardData] = useState({
+    cardNumber: '',
+    expiryDate: '',
+    cvv: '',
+    name: ''
+  });
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    if (!stripe || !elements) {
-      return;
-    }
-
     setIsLoading(true);
 
     try {
-      const cardElement = elements.getElement(CardElement);
-      if (!cardElement) {
-        throw new Error("Card element not found");
-      }
-
-      // Create payment method
-      const { error: stripeError, paymentMethod } = await stripe.createPaymentMethod({
-        type: "card",
-        card: cardElement,
-      });
-
-      if (stripeError) {
-        throw stripeError;
-      }
-
-      // Save payment method to backend
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        throw new Error("User not authenticated");
-      }
-
-      const { error } = await supabase.functions.invoke("create-payment-method", {
-        body: { payment_method_id: paymentMethod.id },
-      });
-
-      if (error) {
-        throw error;
-      }
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      console.log('Mock payment method saved:', cardData);
 
       toast({
         title: "Card saved successfully",
@@ -88,6 +49,10 @@ export function CardForm({ onSuccess, showTitle = true }: CardFormProps) {
     }
   };
 
+  const handleInputChange = (field: string, value: string) => {
+    setCardData(prev => ({ ...prev, [field]: value }));
+  };
+
   return (
     <Card className="w-full max-w-2xl mx-auto">
       {showTitle && (
@@ -97,13 +62,60 @@ export function CardForm({ onSuccess, showTitle = true }: CardFormProps) {
       )}
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="p-4 border border-input rounded-md bg-background">
-            <CardElement options={CARD_ELEMENT_OPTIONS} />
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="name">Cardholder Name</Label>
+              <Input
+                id="name"
+                placeholder="John Doe"
+                value={cardData.name}
+                onChange={(e) => handleInputChange('name', e.target.value)}
+                required
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="cardNumber">Card Number</Label>
+              <Input
+                id="cardNumber"
+                placeholder="1234 5678 9012 3456"
+                value={cardData.cardNumber}
+                onChange={(e) => handleInputChange('cardNumber', e.target.value)}
+                maxLength={19}
+                required
+              />
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="expiryDate">Expiry Date</Label>
+                <Input
+                  id="expiryDate"
+                  placeholder="MM/YY"
+                  value={cardData.expiryDate}
+                  onChange={(e) => handleInputChange('expiryDate', e.target.value)}
+                  maxLength={5}
+                  required
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="cvv">CVV</Label>
+                <Input
+                  id="cvv"
+                  placeholder="123"
+                  value={cardData.cvv}
+                  onChange={(e) => handleInputChange('cvv', e.target.value)}
+                  maxLength={4}
+                  required
+                />
+              </div>
+            </div>
           </div>
           
           <Button 
             type="submit" 
-            disabled={!stripe || isLoading} 
+            disabled={isLoading} 
             className="w-full"
           >
             {isLoading ? "Saving..." : "Save Payment Method"}

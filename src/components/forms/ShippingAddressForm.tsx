@@ -4,13 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
-import { toast } from "@/components/ui/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const US_STATES = [
   { value: "AL", label: "Alabama" },
@@ -104,6 +102,7 @@ interface ShippingAddressFormProps {
 export function ShippingAddressForm({ onSuccess }: ShippingAddressFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [showCountryRestriction, setShowCountryRestriction] = useState(false);
+  const { toast } = useToast();
 
   const form = useForm<ShippingAddressForm>({
     resolver: zodResolver(shippingAddressSchema),
@@ -123,7 +122,6 @@ export function ShippingAddressForm({ onSuccess }: ShippingAddressFormProps) {
     form.setValue("country", countryValue);
     if (countryValue !== "US") {
       setShowCountryRestriction(true);
-      // Reset country selection to allow user to choose again
       form.setValue("country", "");
     }
   };
@@ -131,24 +129,10 @@ export function ShippingAddressForm({ onSuccess }: ShippingAddressFormProps) {
   const onSubmit = async (data: ShippingAddressForm) => {
     setIsLoading(true);
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("User not authenticated");
-
-      const { error } = await supabase
-        .from("shipping_addresses")
-        .insert({
-          user_id: user.id,
-          full_name: data.fullName,
-          street_address: data.streetAddress,
-          apartment: data.apartment,
-          city: data.city,
-          state: data.state,
-          zip_code: data.zipCode,
-          phone: data.phone,
-          is_default: true,
-        });
-
-      if (error) throw error;
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      console.log('Mock address saved:', data);
 
       toast({
         title: "Address saved successfully",

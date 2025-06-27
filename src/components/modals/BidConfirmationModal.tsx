@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -5,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
-import { Loader2, CreditCard, X, Plus } from "lucide-react";
+import { Loader2, CreditCard, Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 
@@ -38,25 +39,29 @@ export function BidConfirmationModal({
   const { toast } = useToast();
   const minimumBid = currentHighestBid + minimumIncrement;
   
+  // Mock payment methods if none provided
+  const mockPaymentMethods = paymentMethods.length > 0 ? paymentMethods : [
+    { id: "1", last_four: "4242", brand: "visa", is_default: true },
+    { id: "2", last_four: "1234", brand: "mastercard", is_default: false }
+  ];
+  
   const [bidAmount, setBidAmount] = useState(minimumBid);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
-    paymentMethods.find(pm => pm.is_default)?.id || paymentMethods[0]?.id || ""
+    mockPaymentMethods.find(pm => pm.is_default)?.id || mockPaymentMethods[0]?.id || ""
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [validationError, setValidationError] = useState("");
 
-  // Reset form when modal opens
   useEffect(() => {
     if (isOpen) {
       setBidAmount(minimumBid);
       setValidationError("");
       setSelectedPaymentMethod(
-        paymentMethods.find(pm => pm.is_default)?.id || paymentMethods[0]?.id || ""
+        mockPaymentMethods.find(pm => pm.is_default)?.id || mockPaymentMethods[0]?.id || ""
       );
     }
-  }, [isOpen, minimumBid, paymentMethods]);
+  }, [isOpen, minimumBid]);
 
-  // Validate bid amount
   const validateBid = (amount: number) => {
     if (amount < minimumBid) {
       setValidationError(`Minimum bid is $${minimumBid.toFixed(2)}`);
@@ -79,7 +84,7 @@ export function BidConfirmationModal({
       return;
     }
 
-    if (!selectedPaymentMethod && paymentMethods.length > 0) {
+    if (!selectedPaymentMethod && mockPaymentMethods.length > 0) {
       setValidationError("Please select a payment method");
       return;
     }
@@ -108,7 +113,6 @@ export function BidConfirmationModal({
   };
 
   const getBrandIcon = (brand: string) => {
-    // In a real app, you'd return actual brand icons
     return <CreditCard className="h-4 w-4" />;
   };
 
@@ -120,7 +124,6 @@ export function BidConfirmationModal({
         </DialogHeader>
 
         <div className="space-y-6">
-          {/* Item Info */}
           <div className="text-center">
             <p className="text-sm text-muted-foreground mb-1">Bidding on</p>
             <p className="font-semibold">{itemTitle}</p>
@@ -128,7 +131,6 @@ export function BidConfirmationModal({
 
           <Separator />
 
-          {/* Current Bid Info */}
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
               <span>Current Highest Bid:</span>
@@ -140,7 +142,6 @@ export function BidConfirmationModal({
             </div>
           </div>
 
-          {/* Bid Input */}
           <div className="space-y-2">
             <Label htmlFor="bid-amount">Your Bid ($)</Label>
             <Input
@@ -158,7 +159,6 @@ export function BidConfirmationModal({
             )}
           </div>
 
-          {/* Payment Method Selection */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <Label>Payment Method</Label>
@@ -169,13 +169,13 @@ export function BidConfirmationModal({
                 </Link>
               </Button>
             </div>
-            {paymentMethods.length > 0 ? (
+            {mockPaymentMethods.length > 0 ? (
               <RadioGroup
                 value={selectedPaymentMethod}
                 onValueChange={setSelectedPaymentMethod}
                 disabled={isSubmitting}
               >
-                {paymentMethods.map((method) => (
+                {mockPaymentMethods.map((method) => (
                   <div key={method.id} className="flex items-center space-x-2">
                     <RadioGroupItem value={method.id} id={method.id} />
                     <Label 
@@ -205,7 +205,6 @@ export function BidConfirmationModal({
             )}
           </div>
 
-          {/* Action Buttons */}
           <div className="flex space-x-3 pt-2">
             <Button
               variant="outline"
