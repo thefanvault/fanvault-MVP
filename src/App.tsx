@@ -30,6 +30,7 @@ import Status from "./pages/Status";
 import Forbidden from "./pages/error/Forbidden";
 import AdminModeration from "./pages/admin/AdminModeration";
 import AdminImpersonation from "./pages/admin/AdminImpersonation";
+import Orders from "./pages/Orders";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +54,7 @@ const App = () => (
           <Route path="/onboarding/creator/social" element={<CreatorSocial />} />
           <Route path="/onboarding/creator/payout" element={<CreatorPayout />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/orders" element={<Orders />} />
           <Route path="/list-new-item" element={<ListNewItem />} />
           <Route path="/address/add" element={<AddressAdd />} />
           <Route path="/payment/add" element={<PaymentAdd />} />
