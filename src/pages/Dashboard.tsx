@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Header } from "@/components/layout/Header";
 import { MobileNav } from "@/components/layout/MobileNav";
@@ -72,7 +73,7 @@ const Dashboard = () => {
           </header>
           
           <main className="flex-1 flex justify-center">
-            <div className="w-[70%] px-4 pt-6 pb-20 md:pb-6">
+            <div className="w-full max-w-4xl px-4 pt-6 pb-20 md:pb-6">
               {/* Creator Header */}
               <div className="flex items-center space-x-4 mb-8">
                 <img 
