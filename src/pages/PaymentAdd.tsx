@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
@@ -45,6 +46,21 @@ const PaymentAdd = () => {
     toast({
       title: "Payment method removed",
       description: "Your payment method has been successfully removed.",
+    });
+  };
+
+  const handleToggleDefault = (paymentMethodId: string) => {
+    setSavedPaymentMethods(prev => 
+      prev.map(pm => ({
+        ...pm,
+        is_default: pm.id === paymentMethodId
+      }))
+    );
+    
+    const selectedMethod = savedPaymentMethods.find(pm => pm.id === paymentMethodId);
+    toast({
+      title: "Default payment method updated",
+      description: `${selectedMethod?.brand} •••• ${selectedMethod?.last_four} is now your default payment method.`,
     });
   };
 
@@ -139,14 +155,26 @@ const PaymentAdd = () => {
                             </p>
                           </div>
                         </div>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleDeletePaymentMethod(paymentMethod.id)}
-                          className="text-red-600 hover:text-red-700"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
+                        <div className="flex items-center space-x-4">
+                          <div className="flex items-center space-x-2">
+                            <Label htmlFor={`default-${paymentMethod.id}`} className="text-sm">
+                              Default
+                            </Label>
+                            <Switch
+                              id={`default-${paymentMethod.id}`}
+                              checked={paymentMethod.is_default}
+                              onCheckedChange={() => handleToggleDefault(paymentMethod.id)}
+                            />
+                          </div>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDeletePaymentMethod(paymentMethod.id)}
+                            className="text-red-600 hover:text-red-700"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </div>
                     ))}
                   </CardContent>
