@@ -65,7 +65,7 @@ const Dashboard = () => {
       <Header />
       
       <SidebarProvider>
-        <div className="flex w-full">
+        <div className="flex w-full pt-16">
           <AppSidebar />
           
           <div className="flex-1 flex flex-col">
