@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Header } from "@/components/layout/Header";
 import { MobileNav } from "@/components/layout/MobileNav";
@@ -7,18 +6,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
-import { Plus, Clock, Copy, Globe, Lock } from "lucide-react";
+import { Plus, Clock, Copy, Globe, Lock, ExternalLink } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Dashboard = () => {
   const { toast } = useToast();
+  const { profile } = useAuth();
   const [isStorefrontPublic, setIsStorefrontPublic] = useState(true);
   
   const vaultBalance = 247.89;
   const creatorName = "Kayvon Moshiri";
-  const handle = "kayvonmoshiri";
+  const handle = profile?.username || "kayvonmoshiri";
 
   const activeAuctions = [
     {
@@ -97,12 +98,19 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              {/* Primary Action */}
-              <div className="mb-8">
+              {/* Primary Actions */}
+              <div className="mb-8 flex flex-col sm:flex-row gap-4">
                 <Button size="lg" className="bg-fanvault-gradient text-white font-semibold px-8 py-3 rounded-lg" asChild>
                   <a href="/list-new-item">
                     <Plus className="h-5 w-5 mr-2" />
                     List New Item
+                  </a>
+                </Button>
+                
+                <Button size="lg" variant="outline" className="font-semibold px-8 py-3 rounded-lg" asChild>
+                  <a href={`/creator/${handle}`} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="h-5 w-5 mr-2" />
+                    My FanVault Page
                   </a>
                 </Button>
               </div>
