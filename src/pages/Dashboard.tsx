@@ -69,7 +69,7 @@ const Dashboard = () => {
           <AppSidebar />
           
           <div className="flex-1 flex flex-col">
-            <header className="h-16 border-b flex items-center px-4">
+            <header className="h-12 border-b flex items-center px-4">
               <SidebarTrigger />
               <div className="ml-4">
                 <h1 className="text-lg font-semibold">Creator Dashboard</h1>
@@ -77,7 +77,7 @@ const Dashboard = () => {
             </header>
             
             <main className="flex-1 flex justify-center">
-              <div className="w-full max-w-4xl px-4 pt-6 pb-20 md:pb-6">
+              <div className="w-full max-w-4xl px-4 pt-4 pb-20 md:pb-6">
                 {/* Creator Header */}
                 <div className="flex items-center space-x-4 mb-8">
                   <img 
