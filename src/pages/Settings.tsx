@@ -1,5 +1,5 @@
-
 import { useState } from "react";
+import { Header } from "@/components/layout/Header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -32,140 +32,144 @@ const Settings = () => {
   };
 
   return (
-    <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-background">
-        <AppSidebar />
-        
-        <div className="flex-1 flex flex-col">
-          <header className="h-16 border-b flex items-center px-4">
-            <SidebarTrigger />
-            <div className="ml-4">
-              <h1 className="text-lg font-semibold">Settings</h1>
-            </div>
-          </header>
+    <div className="min-h-screen bg-background">
+      <Header />
+      
+      <SidebarProvider>
+        <div className="flex w-full">
+          <AppSidebar />
           
-          <main className="flex-1 flex justify-center">
-            <div className="w-full max-w-4xl px-4 pt-6 pb-20 md:pb-6">
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-lg font-medium">Profile Settings</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Manage your public profile and account preferences
-                  </p>
-                </div>
-                <Separator />
-                
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Account Information</CardTitle>
-                    <CardDescription>
-                      Update your account details and how others see you on the platform
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
+          <div className="flex-1 flex flex-col">
+            <header className="h-16 border-b flex items-center px-4">
+              <SidebarTrigger />
+              <div className="ml-4">
+                <h1 className="text-lg font-semibold">Settings</h1>
+              </div>
+            </header>
+            
+            <main className="flex-1 flex justify-center">
+              <div className="w-full max-w-4xl px-4 pt-6 pb-20 md:pb-6">
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-lg font-medium">Profile Settings</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Manage your public profile and account preferences
+                    </p>
+                  </div>
+                  <Separator />
+                  
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Account Information</CardTitle>
+                      <CardDescription>
+                        Update your account details and how others see you on the platform
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="username">Username</Label>
+                          <Input
+                            id="username"
+                            value={profile.username}
+                            onChange={(e) => setProfile({ ...profile, username: e.target.value })}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="email">Email</Label>
+                          <Input
+                            id="email"
+                            type="email"
+                            value={profile.email}
+                            onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+                          />
+                        </div>
+                      </div>
+                      
                       <div className="space-y-2">
-                        <Label htmlFor="username">Username</Label>
+                        <Label htmlFor="phone">Phone Number</Label>
                         <Input
-                          id="username"
-                          value={profile.username}
-                          onChange={(e) => setProfile({ ...profile, username: e.target.value })}
+                          id="phone"
+                          type="tel"
+                          placeholder="(555) 123-4567"
+                          value={profile.phone}
+                          onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
                         />
                       </div>
+                      
                       <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          value={profile.email}
-                          onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+                        <Label htmlFor="bio">Bio</Label>
+                        <Textarea
+                          id="bio"
+                          placeholder="Tell people about yourself..."
+                          value={profile.bio}
+                          onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
                         />
                       </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number</Label>
-                      <Input
-                        id="phone"
-                        type="tel"
-                        placeholder="(555) 123-4567"
-                        value={profile.phone}
-                        onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
-                      />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="bio">Bio</Label>
-                      <Textarea
-                        id="bio"
-                        placeholder="Tell people about yourself..."
-                        value={profile.bio}
-                        onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
-                      />
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Preferences</CardTitle>
-                    <CardDescription>
-                      Configure your notification and privacy settings
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="space-y-0.5">
-                        <Label>Email Notifications</Label>
-                        <p className="text-sm text-muted-foreground">
-                          Receive email updates about your auctions and bids
-                        </p>
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Preferences</CardTitle>
+                      <CardDescription>
+                        Configure your notification and privacy settings
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div className="space-y-0.5">
+                          <Label>Email Notifications</Label>
+                          <p className="text-sm text-muted-foreground">
+                            Receive email updates about your auctions and bids
+                          </p>
+                        </div>
+                        <Switch
+                          checked={profile.notifications}
+                          onCheckedChange={(checked) => setProfile({ ...profile, notifications: checked })}
+                        />
                       </div>
-                      <Switch
-                        checked={profile.notifications}
-                        onCheckedChange={(checked) => setProfile({ ...profile, notifications: checked })}
-                      />
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div className="space-y-0.5">
-                        <Label>Text Notifications</Label>
-                        <p className="text-sm text-muted-foreground">
-                          Receive SMS updates about your auctions and bids
-                        </p>
+                      
+                      <div className="flex items-center justify-between">
+                        <div className="space-y-0.5">
+                          <Label>Text Notifications</Label>
+                          <p className="text-sm text-muted-foreground">
+                            Receive SMS updates about your auctions and bids
+                          </p>
+                        </div>
+                        <Switch
+                          checked={profile.textNotifications}
+                          onCheckedChange={(checked) => setProfile({ ...profile, textNotifications: checked })}
+                        />
                       </div>
-                      <Switch
-                        checked={profile.textNotifications}
-                        onCheckedChange={(checked) => setProfile({ ...profile, textNotifications: checked })}
-                      />
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div className="space-y-0.5">
-                        <Label>Public Profile</Label>
-                        <p className="text-sm text-muted-foreground">
-                          Make your profile visible to other users
-                        </p>
+                      
+                      <div className="flex items-center justify-between">
+                        <div className="space-y-0.5">
+                          <Label>Public Profile</Label>
+                          <p className="text-sm text-muted-foreground">
+                            Make your profile visible to other users
+                          </p>
+                        </div>
+                        <Switch
+                          checked={profile.publicProfile}
+                          onCheckedChange={(checked) => setProfile({ ...profile, publicProfile: checked })}
+                        />
                       </div>
-                      <Switch
-                        checked={profile.publicProfile}
-                        onCheckedChange={(checked) => setProfile({ ...profile, publicProfile: checked })}
-                      />
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
 
-                <div className="flex justify-end">
-                  <Button onClick={handleSave}>Save Changes</Button>
+                  <div className="flex justify-end">
+                    <Button onClick={handleSave}>Save Changes</Button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </main>
+            </main>
 
-          <MobileNav currentPath="/settings" />
+            <MobileNav currentPath="/settings" />
+          </div>
         </div>
-      </div>
-    </SidebarProvider>
+      </SidebarProvider>
+    </div>
   );
 };
 
