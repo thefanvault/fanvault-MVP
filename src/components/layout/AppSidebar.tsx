@@ -49,7 +49,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar className="border-r border-border w-[11rem]">
-      <SidebarContent className="bg-background">
+      <SidebarContent className="bg-background pt-16">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
