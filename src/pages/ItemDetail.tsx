@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Header } from "@/components/layout/Header";
 import { MobileNav } from "@/components/layout/MobileNav";
@@ -121,12 +122,15 @@ const ItemDetail = () => {
               <div className="flex flex-wrap gap-2 mb-4">
                 <Badge variant="outline">{item.condition}</Badge>
                 {item.signed && <Badge className="bg-fanvault-pink">Signed ✍️</Badge>}
-                <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200" asChild>
-                  <a href={item.sourceContentUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 hover:bg-blue-100 transition-colors">
-                    <ExternalLink className="h-3 w-3" />
-                    View Source Content
-                  </a>
-                </Badge>
+                <a 
+                  href={item.sourceContentUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
+                >
+                  <ExternalLink className="h-3 w-3" />
+                  View Source Content
+                </a>
               </div>
               <p className="text-muted-foreground">{item.description}</p>
             </div>
