@@ -17,8 +17,10 @@ const Settings = () => {
   const [profile, setProfile] = useState({
     username: "kayvonmoshiri",
     email: "kayvon@example.com",
+    phone: "",
     bio: "Creator and collector of unique items",
     notifications: true,
+    textNotifications: false,
     publicProfile: true,
   });
 
@@ -82,6 +84,17 @@ const Settings = () => {
                     </div>
                     
                     <div className="space-y-2">
+                      <Label htmlFor="phone">Phone Number</Label>
+                      <Input
+                        id="phone"
+                        type="tel"
+                        placeholder="(555) 123-4567"
+                        value={profile.phone}
+                        onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
                       <Label htmlFor="bio">Bio</Label>
                       <Textarea
                         id="bio"
@@ -111,6 +124,19 @@ const Settings = () => {
                       <Switch
                         checked={profile.notifications}
                         onCheckedChange={(checked) => setProfile({ ...profile, notifications: checked })}
+                      />
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <Label>Text Notifications</Label>
+                        <p className="text-sm text-muted-foreground">
+                          Receive SMS updates about your auctions and bids
+                        </p>
+                      </div>
+                      <Switch
+                        checked={profile.textNotifications}
+                        onCheckedChange={(checked) => setProfile({ ...profile, textNotifications: checked })}
                       />
                     </div>
                     
