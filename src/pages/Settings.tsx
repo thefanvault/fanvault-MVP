@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Header } from "@/components/layout/Header";
 import { Button } from "@/components/ui/button";
@@ -41,7 +40,7 @@ const Settings = () => {
           <AppSidebar />
           
           <div className="flex-1 flex flex-col">
-            <header className="h-16 border-b flex items-center px-4">
+            <header className="h-12 border-b flex items-center px-4">
               <SidebarTrigger />
               <div className="ml-4">
                 <h1 className="text-lg font-semibold">Settings</h1>
@@ -49,7 +48,7 @@ const Settings = () => {
             </header>
             
             <main className="flex-1 flex justify-center">
-              <div className="w-full max-w-4xl px-4 pt-6 pb-20 md:pb-6">
+              <div className="w-full max-w-4xl px-4 pt-4 pb-20 md:pb-6">
                 <div className="space-y-6">
                   <div>
                     <h3 className="text-lg font-medium">Profile Settings</h3>
