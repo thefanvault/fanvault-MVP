@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Clock, Users, Heart, Share, Shield } from "lucide-react";
+import { Clock, Users, Heart, Share, Shield, ExternalLink } from "lucide-react";
 import { BidConfirmationModal } from "@/components/modals/BidConfirmationModal";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +28,7 @@ const ItemDetail = () => {
       "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=600&fit=crop",
       "https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=600&h=600&fit=crop"
     ],
-    mediaPreview: "https://player.vimeo.com/video/placeholder",
+    sourceContentUrl: "https://www.youtube.com/watch?v=example",
     creator: {
       name: "Sarah Smith",
       username: "sarahsmith",
@@ -81,20 +81,8 @@ const ItemDetail = () => {
       
       <main className="container mx-auto px-4 pt-6 pb-20 md:pb-6">
         <div className="grid lg:grid-cols-2 gap-8">
-          {/* Media Section */}
+          {/* Image Gallery */}
           <div className="space-y-4">
-            {/* Video Preview */}
-            <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-fanvault-gradient rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-white text-2xl">▶</span>
-                </div>
-                <p className="text-sm text-muted-foreground">📸 High-quality photos help your items sell faster</p>
-                <p className="text-xs text-muted-foreground mt-2">Preview from content where this item was featured</p>
-              </div>
-            </div>
-            
-            {/* Image Gallery */}
             <div className="grid grid-cols-2 gap-2">
               {item.images.map((image, index) => (
                 <img 
@@ -133,6 +121,12 @@ const ItemDetail = () => {
               <div className="flex flex-wrap gap-2 mb-4">
                 <Badge variant="outline">{item.condition}</Badge>
                 {item.signed && <Badge className="bg-fanvault-pink">Signed ✍️</Badge>}
+                <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200" asChild>
+                  <a href={item.sourceContentUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 hover:bg-blue-100 transition-colors">
+                    <ExternalLink className="h-3 w-3" />
+                    View Source Content
+                  </a>
+                </Badge>
               </div>
               <p className="text-muted-foreground">{item.description}</p>
             </div>
