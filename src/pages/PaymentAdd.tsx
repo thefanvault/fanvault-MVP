@@ -9,49 +9,77 @@ import { useToast } from "@/hooks/use-toast";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { MobileNav } from "@/components/layout/MobileNav";
-import { CreditCard, Lock } from "lucide-react";
+import { CreditCard, Lock, Trash2, Plus } from "lucide-react";
+import { CardForm } from "@/components/forms/CardForm";
 
 const PaymentAdd = () => {
   const { toast } = useToast();
-  const [paymentMethod, setPaymentMethod] = useState({
-    cardNumber: "",
-    expiryMonth: "",
-    expiryYear: "",
-    cvv: "",
-    cardholderName: "",
-    billingAddress: {
-      addressLine1: "",
-      city: "",
-      state: "",
-      zipCode: "",
-      country: "US",
+  const [showAddForm, setShowAddForm] = useState(false);
+  
+  // Mock saved payment methods - in a real app, this would come from your database
+  const [savedPaymentMethods, setSavedPaymentMethods] = useState([
+    {
+      id: "pm_1",
+      last_four: "4242",
+      brand: "visa",
+      exp_month: 12,
+      exp_year: 2025,
+      cardholder_name: "John Doe",
+      is_default: true
     },
-  });
+    {
+      id: "pm_2", 
+      last_four: "0005",
+      brand: "mastercard",
+      exp_month: 8,
+      exp_year: 2026,
+      cardholder_name: "John Doe",
+      is_default: false
+    }
+  ]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleDeletePaymentMethod = (paymentMethodId: string) => {
+    setSavedPaymentMethods(prev => 
+      prev.filter(pm => pm.id !== paymentMethodId)
+    );
     toast({
-      title: "Payment method added",
-      description: "Your payment method has been securely saved.",
+      title: "Payment method removed",
+      description: "Your payment method has been successfully removed.",
     });
   };
 
-  const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 20 }, (_, i) => currentYear + i);
-  const months = [
-    { value: "01", label: "01 - January" },
-    { value: "02", label: "02 - February" },
-    { value: "03", label: "03 - March" },
-    { value: "04", label: "04 - April" },
-    { value: "05", label: "05 - May" },
-    { value: "06", label: "06 - June" },
-    { value: "07", label: "07 - July" },
-    { value: "08", label: "08 - August" },
-    { value: "09", label: "09 - September" },
-    { value: "10", label: "10 - October" },
-    { value: "11", label: "11 - November" },
-    { value: "12", label: "12 - December" },
-  ];
+  const handleAddPaymentSuccess = () => {
+    // Mock adding a new payment method
+    const newPaymentMethod = {
+      id: `pm_${Date.now()}`,
+      last_four: "1234",
+      brand: "visa",
+      exp_month: 10,
+      exp_year: 2027,
+      cardholder_name: "John Doe",
+      is_default: false
+    };
+    
+    setSavedPaymentMethods(prev => [...prev, newPaymentMethod]);
+    setShowAddForm(false);
+    toast({
+      title: "Payment method added",
+      description: "Your payment method has been successfully saved.",
+    });
+  };
+
+  const getBrandColor = (brand: string) => {
+    switch (brand.toLowerCase()) {
+      case 'visa':
+        return 'text-blue-600';
+      case 'mastercard':
+        return 'text-red-600';
+      case 'amex':
+        return 'text-green-600';
+      default:
+        return 'text-gray-600';
+    }
+  };
 
   return (
     <SidebarProvider>
@@ -62,166 +90,124 @@ const PaymentAdd = () => {
           <header className="h-16 border-b flex items-center px-4">
             <SidebarTrigger />
             <div className="ml-4">
-              <h1 className="text-lg font-semibold">Payment Method</h1>
+              <h1 className="text-lg font-semibold">Payment Methods</h1>
             </div>
           </header>
           
           <main className="flex-1 flex justify-center">
-            <div className="w-full max-w-4xl px-4 pt-6 pb-20 md:pb-6">
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center space-x-2">
-                    <CreditCard className="h-5 w-5" />
-                    <CardTitle>Add Payment Method</CardTitle>
-                  </div>
-                  <CardDescription>
-                    Add a secure payment method for your purchases
-                  </CardDescription>
-                  <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                    <Lock className="h-4 w-4" />
-                    <span>Your payment information is encrypted and secure</span>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="space-y-4">
-                      <h3 className="font-medium">Card Information</h3>
-                      
-                      <div className="space-y-2">
-                        <Label htmlFor="cardNumber">Card Number</Label>
-                        <Input
-                          id="cardNumber"
-                          placeholder="1234 5678 9012 3456"
-                          value={paymentMethod.cardNumber}
-                          onChange={(e) => setPaymentMethod({ ...paymentMethod, cardNumber: e.target.value })}
-                          required
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-3 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="expiryMonth">Expiry Month</Label>
-                          <Select value={paymentMethod.expiryMonth} onValueChange={(value) => setPaymentMethod({ ...paymentMethod, expiryMonth: value })}>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Month" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {months.map((month) => (
-                                <SelectItem key={month.value} value={month.value}>
-                                  {month.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="expiryYear">Expiry Year</Label>
-                          <Select value={paymentMethod.expiryYear} onValueChange={(value) => setPaymentMethod({ ...paymentMethod, expiryYear: value })}>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Year" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {years.map((year) => (
-                                <SelectItem key={year} value={year.toString()}>
-                                  {year}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="cvv">CVV</Label>
-                          <Input
-                            id="cvv"
-                            placeholder="123"
-                            maxLength={4}
-                            value={paymentMethod.cvv}
-                            onChange={(e) => setPaymentMethod({ ...paymentMethod, cvv: e.target.value })}
-                            required
-                          />
-                        </div>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="cardholderName">Cardholder Name</Label>
-                        <Input
-                          id="cardholderName"
-                          placeholder="John Doe"
-                          value={paymentMethod.cardholderName}
-                          onChange={(e) => setPaymentMethod({ ...paymentMethod, cardholderName: e.target.value })}
-                          required
-                        />
-                      </div>
+            <div className="w-full max-w-4xl px-4 pt-6 pb-20 md:pb-6 space-y-6">
+              
+              {/* Saved Payment Methods Section */}
+              {savedPaymentMethods.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <div className="flex items-center space-x-2">
+                      <CreditCard className="h-5 w-5" />
+                      <CardTitle>Saved Payment Methods</CardTitle>
                     </div>
-
-                    <div className="space-y-4">
-                      <h3 className="font-medium">Billing Address</h3>
-                      
-                      <div className="space-y-2">
-                        <Label htmlFor="billingAddress">Address Line 1</Label>
-                        <Input
-                          id="billingAddress"
-                          value={paymentMethod.billingAddress.addressLine1}
-                          onChange={(e) => setPaymentMethod({ 
-                            ...paymentMethod, 
-                            billingAddress: { ...paymentMethod.billingAddress, addressLine1: e.target.value }
-                          })}
-                          required
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="billingCity">City</Label>
-                          <Input
-                            id="billingCity"
-                            value={paymentMethod.billingAddress.city}
-                            onChange={(e) => setPaymentMethod({ 
-                              ...paymentMethod, 
-                              billingAddress: { ...paymentMethod.billingAddress, city: e.target.value }
-                            })}
-                            required
-                          />
+                    <CardDescription>
+                      Manage your saved payment methods
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {savedPaymentMethods.map((paymentMethod) => (
+                      <div
+                        key={paymentMethod.id}
+                        className="flex items-center justify-between p-4 border rounded-lg"
+                      >
+                        <div className="flex items-center space-x-4">
+                          <CreditCard className={`h-6 w-6 ${getBrandColor(paymentMethod.brand)}`} />
+                          <div>
+                            <div className="flex items-center space-x-2">
+                              <span className="font-medium capitalize">
+                                {paymentMethod.brand}
+                              </span>
+                              <span className="text-muted-foreground">
+                                •••• {paymentMethod.last_four}
+                              </span>
+                              {paymentMethod.is_default && (
+                                <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
+                                  Default
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-sm text-muted-foreground">
+                              Expires {paymentMethod.exp_month}/{paymentMethod.exp_year}
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              {paymentMethod.cardholder_name}
+                            </p>
+                          </div>
                         </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="billingState">State</Label>
-                          <Input
-                            id="billingState"
-                            value={paymentMethod.billingAddress.state}
-                            onChange={(e) => setPaymentMethod({ 
-                              ...paymentMethod, 
-                              billingAddress: { ...paymentMethod.billingAddress, state: e.target.value }
-                            })}
-                            required
-                          />
-                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleDeletePaymentMethod(paymentMethod.id)}
+                          className="text-red-600 hover:text-red-700"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
                       </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              )}
 
-                      <div className="space-y-2">
-                        <Label htmlFor="billingZip">ZIP Code</Label>
-                        <Input
-                          id="billingZip"
-                          value={paymentMethod.billingAddress.zipCode}
-                          onChange={(e) => setPaymentMethod({ 
-                            ...paymentMethod, 
-                            billingAddress: { ...paymentMethod.billingAddress, zipCode: e.target.value }
-                          })}
-                          required
-                        />
-                      </div>
+              {/* Add Payment Method Section */}
+              {!showAddForm ? (
+                <Card>
+                  <CardHeader>
+                    <div className="flex items-center space-x-2">
+                      <Plus className="h-5 w-5" />
+                      <CardTitle>Add New Payment Method</CardTitle>
                     </div>
-
-                    <div className="flex justify-end space-x-2 pt-4">
-                      <Button type="button" variant="outline">
+                    <CardDescription>
+                      Add a secure payment method for your purchases
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button 
+                      onClick={() => setShowAddForm(true)}
+                      className="w-full"
+                    >
+                      <Plus className="h-4 w-4 mr-2" />
+                      Add Payment Method
+                    </Button>
+                  </CardContent>
+                </Card>
+              ) : (
+                <Card>
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="flex items-center space-x-2">
+                          <CreditCard className="h-5 w-5" />
+                          <CardTitle>Add Payment Method</CardTitle>
+                        </div>
+                        <CardDescription>
+                          Add a secure payment method for your purchases
+                        </CardDescription>
+                      </div>
+                      <Button
+                        variant="outline"
+                        onClick={() => setShowAddForm(false)}
+                      >
                         Cancel
                       </Button>
-                      <Button type="submit">
-                        Save Payment Method
-                      </Button>
                     </div>
-                  </form>
-                </CardContent>
-              </Card>
+                    <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                      <Lock className="h-4 w-4" />
+                      <span>Your payment information is encrypted and secure</span>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <CardForm 
+                      onSuccess={handleAddPaymentSuccess}
+                      showTitle={false}
+                    />
+                  </CardContent>
+                </Card>
+              )}
             </div>
           </main>
 
