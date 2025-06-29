@@ -1,12 +1,11 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "@/components/layout/Header";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, CarouselApi } from "@/components/ui/carousel";
 import { Clock, Users, Heart, Share, Shield, ExternalLink } from "lucide-react";
 import { BidConfirmationModal } from "@/components/modals/BidConfirmationModal";
 import { useAuth } from "@/contexts/AuthContext";
@@ -17,6 +16,7 @@ const ItemDetail = () => {
   const navigate = useNavigate();
   const [isBidModalOpen, setIsBidModalOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [api, setApi] = useState<CarouselApi>();
   
   const item = {
     id: "1",
@@ -78,6 +78,21 @@ const ItemDetail = () => {
     return true;
   };
 
+  // Effect to sync carousel with selected image index
+  useEffect(() => {
+    if (!api) return;
+    
+    api.on("select", () => {
+      setSelectedImageIndex(api.selectedScrollSnap());
+    });
+  }, [api]);
+
+  // Function to handle thumbnail click
+  const handleThumbnailClick = (index: number) => {
+    setSelectedImageIndex(index);
+    api?.scrollTo(index);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -87,7 +102,7 @@ const ItemDetail = () => {
           {/* Image Gallery with Carousel */}
           <div className="space-y-4">
             {/* Main Carousel */}
-            <Carousel className="w-full">
+            <Carousel className="w-full" setApi={setApi}>
               <CarouselContent>
                 {item.images.map((image, index) => (
                   <CarouselItem key={index}>
@@ -108,10 +123,10 @@ const ItemDetail = () => {
               {item.images.map((image, index) => (
                 <button
                   key={index}
-                  onClick={() => setSelectedImageIndex(index)}
+                  onClick={() => handleThumbnailClick(index)}
                   className={`relative overflow-hidden rounded-md border-2 transition-all ${
                     selectedImageIndex === index 
-                      ? 'border-primary shadow-md' 
+                      ? 'border-fanvault-pink shadow-md' 
                       : 'border-transparent hover:border-gray-300'
                   }`}
                 >
