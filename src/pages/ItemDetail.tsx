@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Clock, Users, Heart, Share, Shield, ExternalLink } from "lucide-react";
 import { BidConfirmationModal } from "@/components/modals/BidConfirmationModal";
 import { useAuth } from "@/contexts/AuthContext";
@@ -15,6 +16,7 @@ const ItemDetail = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [isBidModalOpen, setIsBidModalOpen] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   
   const item = {
     id: "1",
@@ -82,16 +84,43 @@ const ItemDetail = () => {
       
       <main className="container mx-auto px-4 pt-6 pb-20 md:pb-6">
         <div className="grid lg:grid-cols-2 gap-8">
-          {/* Image Gallery */}
+          {/* Image Gallery with Carousel */}
           <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-2">
+            {/* Main Carousel */}
+            <Carousel className="w-full">
+              <CarouselContent>
+                {item.images.map((image, index) => (
+                  <CarouselItem key={index}>
+                    <img 
+                      src={image} 
+                      alt={`${item.title} ${index + 1}`}
+                      className="aspect-square object-cover rounded-lg w-full"
+                    />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
+            
+            {/* Thumbnail Navigation */}
+            <div className="flex gap-2 justify-center">
               {item.images.map((image, index) => (
-                <img 
+                <button
                   key={index}
-                  src={image} 
-                  alt={`${item.title} ${index + 1}`}
-                  className="aspect-square object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
-                />
+                  onClick={() => setSelectedImageIndex(index)}
+                  className={`relative overflow-hidden rounded-md border-2 transition-all ${
+                    selectedImageIndex === index 
+                      ? 'border-primary shadow-md' 
+                      : 'border-transparent hover:border-gray-300'
+                  }`}
+                >
+                  <img 
+                    src={image} 
+                    alt={`${item.title} thumbnail ${index + 1}`}
+                    className="w-16 h-16 object-cover"
+                  />
+                </button>
               ))}
             </div>
           </div>
