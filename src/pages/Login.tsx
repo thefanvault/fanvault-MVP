@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -145,7 +146,7 @@ const Login = () => {
                 <Checkbox
                   id="keepSignedIn"
                   checked={keepSignedIn}
-                  onCheckedChange={setKeepSignedIn}
+                  onCheckedChange={(checked) => setKeepSignedIn(!!checked)}
                 />
                 <Label 
                   htmlFor="keepSignedIn" 
