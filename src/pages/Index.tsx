@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { MobileNav } from "@/components/layout/MobileNav";
@@ -80,7 +81,12 @@ const Index = () => {
               <Button size="lg" variant="secondary" className="text-lg px-8">
                 Start Bidding
               </Button>
-              <Button size="lg" variant="outline" className="text-lg px-8 border-white bg-gradient-to-br from-fanvault-pink to-fanvault-red text-white hover:opacity-90">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="text-lg px-8 border-2 border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-fanvault-pink transition-all duration-300 font-semibold"
+                onClick={() => navigate("/signup")}
+              >
                 Become a Creator
               </Button>
             </div>
