@@ -1,4 +1,5 @@
 
+
 import { Button } from "@/components/ui/button";
 import { Search, Bell, User, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -82,12 +83,18 @@ export function Header() {
               Logout
             </Button>
           ) : (
-            <Button className="hidden md:inline-flex bg-fanvault-gradient" asChild>
-              <Link to="/signup">Sign Up</Link>
-            </Button>
+            <div className="hidden md:flex items-center space-x-2">
+              <Button variant="outline" size="sm" asChild>
+                <Link to="/login">Log In</Link>
+              </Button>
+              <Button className="bg-fanvault-gradient" asChild>
+                <Link to="/signup">Sign Up</Link>
+              </Button>
+            </div>
           )}
         </div>
       </div>
     </header>
   );
 }
+
