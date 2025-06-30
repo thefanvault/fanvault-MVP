@@ -1,18 +1,18 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [searchParams] = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
   const [isCreator, setIsCreator] = useState(false);
   const [formData, setFormData] = useState({
@@ -21,6 +21,16 @@ const SignUp = () => {
     password: ""
   });
   const [loading, setLoading] = useState(false);
+
+  // Set default account type based on URL parameter
+  useEffect(() => {
+    const accountType = searchParams.get('type');
+    if (accountType === 'creator') {
+      setIsCreator(true);
+    } else if (accountType === 'fan') {
+      setIsCreator(false);
+    }
+  }, [searchParams]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({

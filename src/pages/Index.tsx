@@ -78,14 +78,19 @@ const Index = () => {
               Discover unique collectibles, limited edition merch, and personal items directly from creators you love.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" className="text-lg px-8">
+              <Button 
+                size="lg" 
+                variant="secondary" 
+                className="text-lg px-8"
+                onClick={() => navigate("/signup?type=fan")}
+              >
                 Start Bidding
               </Button>
               <Button 
                 size="lg" 
                 variant="outline" 
                 className="text-lg px-8 border-2 border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-fanvault-pink transition-all duration-300 font-semibold"
-                onClick={() => navigate("/signup")}
+                onClick={() => navigate("/signup?type=creator")}
               >
                 Become a Creator
               </Button>
