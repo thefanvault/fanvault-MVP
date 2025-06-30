@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { Button } from "@/components/ui/button";
-import { Home, LogIn, ArrowLeft, Shield } from "lucide-react";
+import { Home, ArrowLeft, Shield } from "lucide-react";
 
 const Forbidden = () => {
   return (
@@ -31,13 +31,6 @@ const Forbidden = () => {
 
             {/* Action buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button asChild size="lg" className="bg-fanvault-gradient">
-                <Link to="/login">
-                  <LogIn className="w-4 h-4 mr-2" />
-                  Sign In
-                </Link>
-              </Button>
-              
               <Button asChild variant="outline" size="lg">
                 <Link to="/">
                   <Home className="w-4 h-4 mr-2" />

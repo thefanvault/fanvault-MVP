@@ -1,4 +1,3 @@
-
 import { createContext, useContext, useState, useEffect } from 'react';
 
 interface UserProfile {
@@ -19,8 +18,6 @@ interface AuthContextType {
   profile: UserProfile | null;
   loading: boolean;
   userRole: 'creator' | 'fan' | null;
-  signUp: (email: string, password: string, metadata?: any) => Promise<{ error: any }>;
-  signIn: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
   updateProfile: (updates: Partial<UserProfile>) => Promise<{ error: any }>;
 }
@@ -31,8 +28,6 @@ const AuthContext = createContext<AuthContextType>({
   profile: null,
   loading: false,
   userRole: null,
-  signUp: async () => ({ error: null }),
-  signIn: async () => ({ error: null }),
   signOut: async () => {},
   updateProfile: async () => ({ error: null }),
 });
@@ -70,78 +65,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setLoading(false);
   }, []);
 
-  const signUp = async (email: string, password: string, metadata: any = {}) => {
-    try {
-      console.log('Mock sign up:', email, metadata);
-      
-      const mockUser = {
-        id: 'new-user-id',
-        email: email
-      };
-      
-      const mockProfile = {
-        id: 'new-profile-id',
-        user_id: 'new-user-id',
-        username: email.split('@')[0],
-        display_name: metadata.display_name || metadata.name || email.split('@')[0],
-        bio: null,
-        avatar_url: null,
-        is_creator: metadata.isCreator || false,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      };
-
-      setUser(mockUser);
-      setProfile(mockProfile);
-      setSession({ user: mockUser });
-
-      // Store in localStorage for persistence
-      localStorage.setItem('fanvault_auth_user', JSON.stringify(mockUser));
-      localStorage.setItem('fanvault_auth_profile', JSON.stringify(mockProfile));
-
-      return { error: null };
-    } catch (error) {
-      console.error('Mock sign up error:', error);
-      return { error };
-    }
-  };
-
-  const signIn = async (email: string, password: string) => {
-    try {
-      console.log('Mock sign in:', email);
-      
-      const mockUser = {
-        id: 'mock-user-id',
-        email: email
-      };
-
-      const mockProfile = {
-        id: 'mock-profile-id',
-        user_id: 'mock-user-id',
-        username: email.split('@')[0],
-        display_name: email.split('@')[0],
-        bio: 'This is a demo profile',
-        avatar_url: null,
-        is_creator: false, // Default to fan, can be changed in profile
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      };
-
-      setUser(mockUser);
-      setProfile(mockProfile);
-      setSession({ user: mockUser });
-
-      // Store in localStorage for persistence
-      localStorage.setItem('fanvault_auth_user', JSON.stringify(mockUser));
-      localStorage.setItem('fanvault_auth_profile', JSON.stringify(mockProfile));
-      
-      return { error: null };
-    } catch (error) {
-      console.error('Mock sign in error:', error);
-      return { error };
-    }
-  };
-
   const signOut = async () => {
     try {
       setUser(null);
@@ -152,7 +75,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.removeItem('fanvault_auth_user');
       localStorage.removeItem('fanvault_auth_profile');
     } catch (error) {
-      console.error('Mock sign out error:', error);
+      console.error('Sign out error:', error);
     }
   };
 
@@ -168,7 +91,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       
       return { error: null };
     } catch (error) {
-      console.error('Mock update profile error:', error);
+      console.error('Update profile error:', error);
       return { error };
     }
   };
@@ -179,8 +102,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     profile,
     loading,
     userRole,
-    signUp,
-    signIn,
     signOut,
     updateProfile,
   };

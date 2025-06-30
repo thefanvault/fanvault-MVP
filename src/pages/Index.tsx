@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { MobileNav } from "@/components/layout/MobileNav";
@@ -13,13 +12,6 @@ const Index = () => {
   const navigate = useNavigate();
   const { user, userRole, loading } = useAuth();
 
-  // Redirect creators to dashboard
-  useEffect(() => {
-    if (!loading && user && userRole === 'creator') {
-      console.log('Redirecting creator to dashboard');
-      navigate('/dashboard');
-    }
-  }, [user, userRole, loading, navigate]);
   // Mock data for live auctions
   const liveAuctions = [
     {
