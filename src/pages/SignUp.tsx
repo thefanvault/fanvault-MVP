@@ -43,14 +43,30 @@ const SignUp = () => {
 
     setLoading(true);
     
-    // Mock signup - replace with actual authentication logic
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      toast({
-        title: "Account created successfully!",
-        description: "Welcome to FanVault",
-      });
-      navigate("/");
+      if (isCreator) {
+        // For creator accounts, redirect to onboarding instead of creating account
+        // Store the form data temporarily for use in onboarding
+        sessionStorage.setItem('pendingCreatorSignup', JSON.stringify({
+          ...formData,
+          isCreator: true
+        }));
+        
+        toast({
+          title: "Let's set up your creator profile!",
+          description: "Complete your profile to create your creator account",
+        });
+        
+        navigate("/onboarding/creator/profile");
+      } else {
+        // For fan accounts, create account immediately
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        toast({
+          title: "Account created successfully!",
+          description: "Welcome to FanVault",
+        });
+        navigate("/");
+      }
     } catch (error) {
       toast({
         title: "Error creating account",
@@ -206,8 +222,8 @@ const SignUp = () => {
                 className="w-full h-12 bg-fanvault-gradient text-lg font-medium"
                 disabled={loading}
               >
-                {loading ? "Creating Account..." : 
-                 isCreator ? "Create Creator Account" : "Create Fan Account"}
+                {loading ? "Processing..." : 
+                 isCreator ? "Continue to Profile Setup" : "Create Fan Account"}
               </Button>
             </form>
 
