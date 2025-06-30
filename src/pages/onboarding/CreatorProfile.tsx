@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -6,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Camera, Plus, Check, X } from "lucide-react";
+import { Camera, Plus, Check, X, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const profileSchema = z.object({
@@ -86,7 +87,18 @@ const CreatorProfile = () => {
       <header className="border-b">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-4">
+              {/* Back Button */}
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => navigate("/signup")}
+                className="flex items-center"
+              >
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back
+              </Button>
+              
               <img 
                 src="/lovable-uploads/a4c880dd-a727-40e6-b3eb-1fa7df905859.png" 
                 alt="FanVault Logo" 
