@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Camera, Plus, Check, X, ArrowLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const profileSchema = z.object({
   displayName: z.string().min(1, "Display name is required"),
@@ -99,11 +98,13 @@ const CreatorProfile = () => {
                 Back
               </Button>
               
-              <img 
-                src="/lovable-uploads/a4c880dd-a727-40e6-b3eb-1fa7df905859.png" 
-                alt="FanVault Logo" 
-                className="h-8"
-              />
+              <Link to="/">
+                <img 
+                  src="/lovable-uploads/a4c880dd-a727-40e6-b3eb-1fa7df905859.png" 
+                  alt="FanVault Logo" 
+                  className="h-8 cursor-pointer"
+                />
+              </Link>
             </div>
             <Button variant="outline">Sign Out</Button>
           </div>

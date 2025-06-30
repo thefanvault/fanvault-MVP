@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Search, Bell, User, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -34,11 +35,13 @@ export function Header() {
       <div className="container flex h-16 items-center justify-between px-4">
         {/* Logo */}
         <div className="flex items-center space-x-2">
-          <img 
-            src="/lovable-uploads/a4c880dd-a727-40e6-b3eb-1fa7df905859.png" 
-            alt="FanVault Logo" 
-            className="h-8"
-          />
+          <Link to="/">
+            <img 
+              src="/lovable-uploads/a4c880dd-a727-40e6-b3eb-1fa7df905859.png" 
+              alt="FanVault Logo" 
+              className="h-8 cursor-pointer"
+            />
+          </Link>
         </div>
 
         {/* Navigation - Desktop */}
