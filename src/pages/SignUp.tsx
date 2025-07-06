@@ -1,10 +1,10 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { ArrowLeft, Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, User, Star, Check } from "lucide-react";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
@@ -188,29 +188,61 @@ const SignUp = () => {
                 </p>
               </div>
 
-              {/* Account Type Toggle */}
-              <div className="bg-muted/30 rounded-lg p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <span className="text-2xl">
-                      {isCreator ? "🏷️" : "👤"}
-                    </span>
-                    <div>
-                      <h3 className="font-medium">
-                        {isCreator ? "Creator Account" : "Fan Account"}
-                      </h3>
+              {/* Account Type Selection */}
+              <div className="space-y-4">
+                <Label className="text-base font-medium">I am a:</Label>
+                <div className="grid grid-cols-2 gap-3">
+                  {/* Fan Card */}
+                  <button
+                    type="button"
+                    onClick={() => setIsCreator(false)}
+                    className={`relative p-4 rounded-lg border-2 transition-all ${
+                      !isCreator 
+                        ? 'border-fanvault-pink bg-fanvault-pink/10' 
+                        : 'border-gray-200 bg-white hover:border-gray-300'
+                    }`}
+                  >
+                    {!isCreator && (
+                      <div className="absolute top-2 right-2">
+                        <div className="w-5 h-5 bg-fanvault-pink rounded-full flex items-center justify-center">
+                          <Check className="w-3 h-3 text-white" />
+                        </div>
+                      </div>
+                    )}
+                    <div className="text-center">
+                      <User className="w-8 h-8 mx-auto mb-2 text-fanvault-pink" />
+                      <h3 className="font-semibold text-base">Fan</h3>
                       <p className="text-sm text-muted-foreground">
-                        {isCreator 
-                          ? "You can sell items and manage auctions" 
-                          : "You can bid on items and follow creators"
-                        }
+                        I want to collect items
                       </p>
                     </div>
-                  </div>
-                  <Switch
-                    checked={isCreator}
-                    onCheckedChange={setIsCreator}
-                  />
+                  </button>
+
+                  {/* Creator Card */}
+                  <button
+                    type="button"
+                    onClick={() => setIsCreator(true)}
+                    className={`relative p-4 rounded-lg border-2 transition-all ${
+                      isCreator 
+                        ? 'border-fanvault-pink bg-fanvault-pink/10' 
+                        : 'border-gray-200 bg-white hover:border-gray-300'
+                    }`}
+                  >
+                    {isCreator && (
+                      <div className="absolute top-2 right-2">
+                        <div className="w-5 h-5 bg-fanvault-pink rounded-full flex items-center justify-center">
+                          <Check className="w-3 h-3 text-white" />
+                        </div>
+                      </div>
+                    )}
+                    <div className="text-center">
+                      <Star className="w-8 h-8 mx-auto mb-2 text-gray-500" />
+                      <h3 className="font-semibold text-base">Creator</h3>
+                      <p className="text-sm text-muted-foreground">
+                        I want to sell items
+                      </p>
+                    </div>
+                  </button>
                 </div>
               </div>
 
