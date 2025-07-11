@@ -260,8 +260,8 @@ const CreatorProfile = () => {
                 <DialogContent className="sm:max-w-md">
                   <DialogHeader className="text-center">
                     <div className="mx-auto mb-4">
-                      <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center">
-                        <span className="text-yellow-400 text-xl font-bold">VIP</span>
+                      <div className="w-16 h-16 rounded-xl bg-fanvault-gradient flex items-center justify-center">
+                        <span className="text-white text-xl font-bold">VIP</span>
                       </div>
                     </div>
                     <DialogTitle className="text-xl font-semibold">
@@ -290,7 +290,7 @@ const CreatorProfile = () => {
                     <Button
                       onClick={handleReferralSubmit}
                       disabled={!referralCode.trim()}
-                      className="w-full h-12 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-medium"
+                      className="w-full h-12 bg-fanvault-gradient hover:opacity-90 text-white font-medium"
                     >
                       Submit
                     </Button>
