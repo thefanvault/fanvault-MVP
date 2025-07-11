@@ -210,7 +210,7 @@ const CreatorVerification = () => {
                   <div className="text-center space-y-4">
                     <h3 className="font-semibold">Ready to start?</h3>
                     <p className="text-sm text-muted-foreground">
-                      The verification process typically takes 2-3 minutes to complete.
+                      The verification process typically takes 1-2 minutes to complete.
                     </p>
                     <Button 
                       onClick={handleStartVerification}
