@@ -5,7 +5,6 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Camera, Plus, Check, X, ArrowLeft } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -14,7 +13,9 @@ const profileSchema = z.object({
   username: z.string()
     .min(3, "Username must be at least 3 characters")
     .regex(/^[a-zA-Z0-9_]+$/, "Username can only contain letters, numbers, and underscores"),
-  bio: z.string().max(200, "Bio must be 200 characters or less").optional()
+  phoneNumber: z.string()
+    .min(10, "Phone number must be at least 10 digits")
+    .regex(/^[\+]?[1-9][\d]{0,15}$/, "Please enter a valid phone number")
 });
 
 type ProfileFormData = z.infer<typeof profileSchema>;
@@ -36,7 +37,6 @@ const CreatorProfile = () => {
   });
 
   const username = watch("username");
-  const bio = watch("bio") || "";
 
   // Simulate username availability check
   const checkUsernameAvailability = async (username: string) => {
@@ -216,23 +216,22 @@ const CreatorProfile = () => {
               </p>
             </div>
 
-            {/* Bio */}
+            {/* Phone Number */}
             <div className="space-y-2">
-              <Label htmlFor="bio">Bio (optional)</Label>
-              <Textarea
-                id="bio"
-                placeholder="Tell fans about yourself or your Vault's theme..."
-                {...register("bio")}
-                className="resize-none rounded-lg"
-                rows={3}
+              <Label htmlFor="phoneNumber">Phone Number *</Label>
+              <Input
+                id="phoneNumber"
+                type="tel"
+                placeholder="+1 (555) 123-4567"
+                {...register("phoneNumber")}
+                className={`h-12 rounded-lg ${errors.phoneNumber ? 'border-destructive' : ''}`}
               />
-              <div className="flex justify-between text-xs text-muted-foreground">
-                <span>Help fans understand what kind of content to expect</span>
-                <span className={bio.length > 200 ? 'text-destructive' : ''}>{bio.length}/200</span>
-              </div>
-              {errors.bio && (
-                <p className="text-sm text-destructive">{errors.bio.message}</p>
+              {errors.phoneNumber && (
+                <p className="text-sm text-destructive">{errors.phoneNumber.message}</p>
               )}
+              <p className="text-xs text-muted-foreground">
+                We'll use this to contact you about important account updates
+              </p>
             </div>
 
             {/* Action Buttons */}
