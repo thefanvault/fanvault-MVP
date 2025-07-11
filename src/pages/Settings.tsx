@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Header } from "@/components/layout/Header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -11,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { MobileNav } from "@/components/layout/MobileNav";
+import { Layout } from "@/components/layout/Layout";
 
 const Settings = () => {
   const { toast } = useToast();
@@ -32,15 +32,13 @@ const Settings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      
+    <Layout>
       <SidebarProvider>
-        <div className="flex w-full pt-16">
+        <div className="flex w-full">
           <AppSidebar />
           
           <div className="flex-1 flex flex-col">
-            <header className="h-12 border-b flex items-center px-4">
+            <header className="h-16 border-b flex items-center px-4">
               <SidebarTrigger />
               <div className="ml-4">
                 <h1 className="text-lg font-semibold">Settings</h1>
@@ -48,7 +46,7 @@ const Settings = () => {
             </header>
             
             <main className="flex-1 flex justify-center">
-              <div className="w-full max-w-4xl px-4 pt-4 pb-20 md:pb-6">
+              <div className="w-full max-w-4xl px-4 pt-6 pb-20 md:pb-6">
                 <div className="space-y-6">
                   <div>
                     <h3 className="text-lg font-medium">Profile Settings</h3>
@@ -164,12 +162,10 @@ const Settings = () => {
                 </div>
               </div>
             </main>
-
-            <MobileNav currentPath="/settings" />
           </div>
         </div>
       </SidebarProvider>
-    </div>
+    </Layout>
   );
 };
 

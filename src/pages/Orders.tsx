@@ -1,10 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Header } from "@/components/layout/Header";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
-import { MobileNav } from "@/components/layout/MobileNav";
+import { Layout } from "@/components/layout/Layout";
 import { Package, Truck, CheckCircle } from "lucide-react";
 
 const Orders = () => {
@@ -62,15 +61,13 @@ const Orders = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      
+    <Layout>
       <SidebarProvider>
-        <div className="flex w-full pt-16">
+        <div className="flex w-full">
           <AppSidebar />
           
           <div className="flex-1 flex flex-col">
-            <header className="h-12 border-b flex items-center px-4">
+            <header className="h-16 border-b flex items-center px-4">
               <SidebarTrigger />
               <div className="ml-4">
                 <h1 className="text-lg font-semibold">Orders</h1>
@@ -78,7 +75,7 @@ const Orders = () => {
             </header>
             
             <main className="flex-1 flex justify-center">
-              <div className="w-full max-w-4xl px-4 pt-4 pb-20 md:pb-6">
+              <div className="w-full max-w-4xl px-4 pt-6 pb-20 md:pb-6">
                 <div className="space-y-6">
                   <div>
                     <h2 className="text-2xl font-bold">Your Orders</h2>
@@ -141,12 +138,10 @@ const Orders = () => {
                 </div>
               </div>
             </main>
-
-            <MobileNav currentPath="/orders" />
           </div>
         </div>
       </SidebarProvider>
-    </div>
+    </Layout>
   );
 };
 
