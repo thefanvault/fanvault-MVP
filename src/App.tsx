@@ -15,6 +15,7 @@ import Onboarding from "./pages/Onboarding";
 import CreatorOnboardingProfile from "./pages/onboarding/CreatorProfile";
 import CreatorSocial from "./pages/onboarding/CreatorSocial";
 import CreatorVerification from "./pages/onboarding/CreatorVerification";
+import ApplicationConfirmation from "./pages/onboarding/ApplicationConfirmation";
 import Settings from "./pages/Settings";
 import ListNewItem from "./pages/ListNewItem";
 import AddressAdd from "./pages/AddressAdd";
@@ -53,6 +54,7 @@ const App = () => (
           <Route path="/onboarding/creator/profile" element={<CreatorOnboardingProfile />} />
           <Route path="/onboarding/creator/social" element={<CreatorSocial />} />
           <Route path="/onboarding/creator/verification" element={<CreatorVerification />} />
+          <Route path="/onboarding/application-confirmation" element={<ApplicationConfirmation />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/list-new-item" element={<ListNewItem />} />

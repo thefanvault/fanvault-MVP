@@ -59,7 +59,7 @@ const CreatorVerification = () => {
   };
 
   const handleNext = () => {
-    navigate("/dashboard");
+    navigate("/onboarding/application-confirmation");
   };
 
   const handleBack = () => {
