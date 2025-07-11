@@ -46,10 +46,7 @@ const ApplicationConfirmation = () => {
       <main className="container mx-auto px-4 py-16">
         <div className="max-w-lg mx-auto text-center">
           {/* Success Icons */}
-          <div className="flex items-center justify-center space-x-4 mb-8">
-            <div className="p-2 bg-green-100 rounded-full">
-              <CheckCircle className="h-8 w-8 text-green-600" />
-            </div>
+          <div className="flex items-center justify-center mb-8">
             <div className="p-2 bg-green-100 rounded-full">
               <CheckCircle className="h-8 w-8 text-green-600" />
             </div>
