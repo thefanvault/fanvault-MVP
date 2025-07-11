@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { X, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -30,6 +31,7 @@ const CreatorSocial = () => {
     }))
   );
   const [customLinks, setCustomLinks] = useState<SocialLink[]>([]);
+  const [isNSFW, setIsNSFW] = useState(false);
   const navigate = useNavigate();
 
   const updateSocialLink = (id: string, value: string, isCustom = false) => {
@@ -187,6 +189,23 @@ const CreatorSocial = () => {
               <p>
                 These links will appear on your creator profile. You can always add or update them later.
               </p>
+            </div>
+
+            {/* NSFW Content Toggle */}
+            <div className="flex items-center justify-between p-4 border rounded-lg">
+              <div className="space-y-1">
+                <Label htmlFor="nsfw-toggle" className="text-base font-medium">
+                  Do you make NSFW content?
+                </Label>
+                <p className="text-sm text-muted-foreground">
+                  This helps us categorize your content appropriately
+                </p>
+              </div>
+              <Switch
+                id="nsfw-toggle"
+                checked={isNSFW}
+                onCheckedChange={setIsNSFW}
+              />
             </div>
 
             {/* Action Buttons */}
