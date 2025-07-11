@@ -14,7 +14,7 @@ import {
 
 const navigationItems = [
   {
-    title: "Home",
+    title: "Dashboard",
     url: "/dashboard",
     icon: Home,
   },
