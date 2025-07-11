@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Checkbox } from "@/components/ui/checkbox";
 import { X, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -32,6 +33,7 @@ const CreatorSocial = () => {
   );
   const [customLinks, setCustomLinks] = useState<SocialLink[]>([]);
   const [isNSFW, setIsNSFW] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
   const navigate = useNavigate();
 
   const updateSocialLink = (id: string, value: string, isCustom = false) => {
@@ -206,6 +208,37 @@ const CreatorSocial = () => {
                 checked={isNSFW}
                 onCheckedChange={setIsNSFW}
               />
+            </div>
+
+            {/* Terms and Conditions Checkbox */}
+            <div className="flex items-start space-x-3 p-4 border rounded-lg">
+              <Checkbox
+                id="terms-checkbox"
+                checked={agreedToTerms}
+                onCheckedChange={(checked) => setAgreedToTerms(checked === true)}
+                className="mt-1"
+              />
+              <Label htmlFor="terms-checkbox" className="text-sm leading-relaxed">
+                Check this box to consent to FanVault's{" "}
+                <a 
+                  href="/legal/terms" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-primary hover:underline"
+                >
+                  Terms and Conditions
+                </a>{" "}
+                and{" "}
+                <a 
+                  href="/legal/privacy" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-primary hover:underline"
+                >
+                  Privacy Policy
+                </a>
+                .
+              </Label>
             </div>
 
             {/* Action Buttons */}
