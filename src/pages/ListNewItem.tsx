@@ -9,12 +9,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, ArrowRight, Upload, X, Star, Package, Truck, Plane, Link as LinkIcon, Image, FileText, Settings, Zap, Eye } from "lucide-react";
+import { ArrowLeft, ArrowRight, Upload, X, Star, Package, Truck, Plane, Link as LinkIcon, Image, FileText, Settings, Zap, Eye, Video } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
 interface ListingData {
   contentUrl: string;
+  contentVideo: File | null;
   photos: File[];
   title: string;
   description: string;
@@ -34,6 +35,7 @@ const ListNewItem = () => {
   
   const [listingData, setListingData] = useState<ListingData>({
     contentUrl: "",
+    contentVideo: null,
     photos: [],
     title: "",
     description: "",
@@ -98,6 +100,36 @@ const ListNewItem = () => {
     updateListingData({ 
       photos: listingData.photos.filter((_, i) => i !== index) 
     });
+  };
+
+  const handleVideoUpload = async (file: File) => {
+    if (!file.type.startsWith('video/')) {
+      toast({
+        title: "Invalid file type",
+        description: "Please upload a video file",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (file.size > 100 * 1024 * 1024) { // 100MB limit
+      toast({
+        title: "File too large",
+        description: "Video must be under 100MB",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    updateListingData({ contentVideo: file });
+    toast({
+      title: "Video uploaded",
+      description: "Video will be shared with the buyer after sale completion",
+    });
+  };
+
+  const removeVideo = () => {
+    updateListingData({ contentVideo: null });
   };
 
   const canProceed = () => {
@@ -179,6 +211,53 @@ const ListNewItem = () => {
               <p className="text-sm text-muted-foreground">
                 Paste a link to help fans see where this item appeared
               </p>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <div className="flex-1 h-px bg-border"></div>
+              <span className="text-sm text-muted-foreground">OR</span>
+              <div className="flex-1 h-px bg-border"></div>
+            </div>
+
+            <div className="space-y-4">
+              <Label>Upload Content Video</Label>
+              {listingData.contentVideo ? (
+                <div className="relative">
+                  <div className="flex items-center space-x-3 p-4 bg-muted rounded-lg">
+                    <Video className="h-8 w-8 text-primary" />
+                    <div className="flex-1">
+                      <p className="font-medium">{listingData.contentVideo.name}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {(listingData.contentVideo.size / (1024 * 1024)).toFixed(1)}MB
+                      </p>
+                    </div>
+                    <Button
+                      variant="destructive"
+                      size="icon"
+                      onClick={removeVideo}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    This video will be shared with the buyer after sale completion
+                  </p>
+                </div>
+              ) : (
+                <label className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer hover:border-primary/50 transition-colors">
+                  <Video className="h-12 w-12 text-muted-foreground mb-2" />
+                  <span className="font-medium mb-1">Upload Video</span>
+                  <span className="text-sm text-muted-foreground text-center">
+                    Video will be shared with buyer after sale (Max 100MB)
+                  </span>
+                  <input
+                    type="file"
+                    accept="video/*"
+                    className="hidden"
+                    onChange={(e) => e.target.files?.[0] && handleVideoUpload(e.target.files[0])}
+                  />
+                </label>
+              )}
             </div>
           </div>
         );
