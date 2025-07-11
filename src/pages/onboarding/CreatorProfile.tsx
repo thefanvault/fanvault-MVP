@@ -212,7 +212,7 @@ const CreatorProfile = () => {
                 <p className="text-sm text-green-600">Username is available</p>
               )}
               <p className="text-xs text-muted-foreground">
-                This will be your unique URL: fanvault.com/@{username || 'username'}
+                This will be your unique URL: fanvaultshop.com/@{username || 'username'}
               </p>
             </div>
 
