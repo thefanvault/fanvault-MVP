@@ -14,12 +14,11 @@ interface SocialLink {
 }
 
 const defaultSocials: Omit<SocialLink, 'id' | 'value'>[] = [
-  { platform: "Twitter", prefix: "twitter.com/", icon: "🐦" },
   { platform: "Instagram", prefix: "instagram.com/", icon: "📸" },
-  { platform: "OnlyFans", prefix: "onlyfans.com/", icon: "🔗" },
-  { platform: "Fansly", prefix: "fansly.com/", icon: "💎" },
   { platform: "TikTok", prefix: "tiktok.com/@", icon: "🎵" },
-  { platform: "YouTube", prefix: "youtube.com/@", icon: "▶️" }
+  { platform: "YouTube", prefix: "youtube.com/@", icon: "▶️" },
+  { platform: "OnlyFans", prefix: "onlyfans.com/", icon: "🔗" },
+  { platform: "X", prefix: "x.com/", icon: "🐦" }
 ];
 
 const CreatorSocial = () => {
