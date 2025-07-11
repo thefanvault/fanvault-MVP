@@ -68,7 +68,7 @@ const CreatorSocial = () => {
   };
 
   const handleNext = () => {
-    navigate("/onboarding/creator/payout");
+    navigate("/onboarding/creator/verification");
   };
 
   const handleBack = () => {
