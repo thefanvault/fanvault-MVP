@@ -19,11 +19,6 @@ const navigationItems = [
     icon: Home,
   },
   {
-    title: "Settings", 
-    url: "/settings",
-    icon: Settings,
-  },
-  {
     title: "Orders",
     url: "/orders", // You can update this to the correct orders page path
     icon: Package,
@@ -37,6 +32,11 @@ const navigationItems = [
     title: "Payment",
     url: "/payment/add", // Using the payment method page  
     icon: CreditCard,
+  },
+  {
+    title: "Settings", 
+    url: "/settings",
+    icon: Settings,
   },
 ];
 
