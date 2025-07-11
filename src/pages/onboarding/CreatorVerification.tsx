@@ -271,7 +271,7 @@ const CreatorVerification = () => {
                 className="flex-1 bg-fanvault-gradient hover:opacity-90"
                 onClick={handleNext}
               >
-                {allStepsCompleted ? 'Complete Setup' : 'Complete Verification First'}
+                {allStepsCompleted ? 'Complete Application' : 'Complete Verification First'}
               </Button>
             </div>
           </div>
