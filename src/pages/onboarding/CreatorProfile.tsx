@@ -5,7 +5,8 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Camera, Plus, Check, X, ArrowLeft } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Camera, Plus, Check, X, ArrowLeft, Gift } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 
 const profileSchema = z.object({
@@ -24,6 +25,8 @@ const CreatorProfile = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [usernameAvailable, setUsernameAvailable] = useState<boolean | null>(null);
   const [checkingUsername, setCheckingUsername] = useState(false);
+  const [referralCode, setReferralCode] = useState<string>("");
+  const [referralModalOpen, setReferralModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -78,6 +81,13 @@ const CreatorProfile = () => {
 
   const onSubmit = (data: ProfileFormData) => {
     navigate("/onboarding/creator/social");
+  };
+
+  const handleReferralSubmit = () => {
+    // Handle referral code submission here
+    console.log("Referral code submitted:", referralCode);
+    setReferralModalOpen(false);
+    // You can add toast notification here
   };
 
   return (
@@ -232,6 +242,61 @@ const CreatorProfile = () => {
               <p className="text-xs text-muted-foreground">
                 We'll use this to contact you about important account updates
               </p>
+            </div>
+
+            {/* Referral Code */}
+            <div className="text-center py-4">
+              <Dialog open={referralModalOpen} onOpenChange={setReferralModalOpen}>
+                <DialogTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="border-primary text-primary hover:bg-primary/5"
+                  >
+                    <Gift className="h-4 w-4 mr-2" />
+                    Have a referral code?
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader className="text-center">
+                    <div className="mx-auto mb-4">
+                      <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center">
+                        <span className="text-yellow-400 text-xl font-bold">VIP</span>
+                      </div>
+                    </div>
+                    <DialogTitle className="text-xl font-semibold">
+                      Referral Code (optional)
+                    </DialogTitle>
+                  </DialogHeader>
+                  
+                  <div className="space-y-6">
+                    <p className="text-center text-muted-foreground">
+                      Got a referral code from another creator? Enter your code below.
+                    </p>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="referralCode" className="text-foreground">
+                        Referral Code <span className="text-destructive">*</span>
+                      </Label>
+                      <Input
+                        id="referralCode"
+                        placeholder="Enter a referral code"
+                        value={referralCode}
+                        onChange={(e) => setReferralCode(e.target.value)}
+                        className="h-12 rounded-lg border-primary/20 focus:border-primary"
+                      />
+                    </div>
+                    
+                    <Button
+                      onClick={handleReferralSubmit}
+                      disabled={!referralCode.trim()}
+                      className="w-full h-12 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-medium"
+                    >
+                      Submit
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
 
             {/* Action Buttons */}
