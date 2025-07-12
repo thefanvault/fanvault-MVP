@@ -32,6 +32,8 @@ import Forbidden from "./pages/error/Forbidden";
 import AdminModeration from "./pages/admin/AdminModeration";
 import AdminImpersonation from "./pages/admin/AdminImpersonation";
 import Orders from "./pages/Orders";
+import Messages from "./pages/Messages";
+import Notifications from "./pages/Notifications";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +58,8 @@ const App = () => (
           <Route path="/onboarding/creator/verification" element={<CreatorVerification />} />
           <Route path="/onboarding/application-confirmation" element={<ApplicationConfirmation />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/messages" element={<Messages />} />
+          <Route path="/notifications" element={<Notifications />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/list-new-item" element={<ListNewItem />} />
           <Route path="/address/add" element={<AddressAdd />} />
