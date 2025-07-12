@@ -1,5 +1,5 @@
 
-import { Home, Settings, Package, Truck, CreditCard, Heart, Crown } from "lucide-react";
+import { Home, Settings, Package, Truck, CreditCard, Heart, Crown, MessageCircle, Bell } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -85,9 +85,43 @@ export function AppSidebar() {
 
   const navigationItems = getNavigationItems();
 
+  // Key navigation buttons for all users
+  const keyButtons = [
+    { title: "Home", url: "/discover", icon: Home },
+    { title: "Messages", url: "/messages", icon: MessageCircle },
+    { title: "Notifications", url: "/notifications", icon: Bell },
+    { title: "Settings", url: "/settings", icon: Settings },
+  ];
+
   return (
-    <Sidebar className="border-r border-border w-[11rem]">
+    <Sidebar className="border-r border-border w-[16rem]">
       <SidebarContent className="bg-background pt-16">
+        {/* Key Buttons Section */}
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <div className="grid grid-cols-4 gap-2 p-2 mb-4">
+              {keyButtons.map((button) => {
+                const isActive = currentPath === button.url;
+                return (
+                  <NavLink
+                    key={button.title}
+                    to={button.url}
+                    className={`flex flex-col items-center justify-center p-3 rounded-lg transition-colors ${
+                      isActive
+                        ? "bg-primary text-primary-foreground"
+                        : "text-muted-foreground hover:text-foreground hover:bg-sidebar-accent"
+                    }`}
+                  >
+                    <button.icon className="h-6 w-6 mb-1" />
+                    <span className="text-xs font-medium">{button.title}</span>
+                  </NavLink>
+                );
+              })}
+            </div>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Role-based Navigation */}
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
