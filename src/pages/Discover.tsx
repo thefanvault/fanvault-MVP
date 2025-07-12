@@ -5,6 +5,9 @@ import { CreatorCard } from "@/components/creators/CreatorCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/layout/AppSidebar";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Discover = () => {
   // Mock data for auctions
@@ -68,6 +71,81 @@ const Discover = () => {
     }
   ];
 
+  const { user } = useAuth();
+
+  // If user is logged in, show with sidebar
+  if (user) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        
+        <SidebarProvider>
+          <div className="flex w-full min-h-screen pt-16">
+            <AppSidebar />
+            
+            <div className="flex-1 flex flex-col min-w-0">
+              <header className="h-16 border-b flex items-center px-4 bg-background sticky top-0 z-10">
+                <SidebarTrigger />
+                <div className="ml-4">
+                  <h1 className="text-lg font-semibold">Discover</h1>
+                </div>
+              </header>
+              
+              <div className="flex-1 overflow-auto p-4 md:p-6">
+                <div className="container mx-auto max-w-6xl">
+                  {/* Hero Section */}
+                  <div className="text-center mb-8">
+                    <h1 className="text-4xl font-bold mb-4">Discover Creators</h1>
+                    <p className="text-xl text-muted-foreground mb-6">
+                      Find creators to follow and get notified of their drops
+                    </p>
+                    
+                    {/* Search */}
+                    <div className="relative max-w-md mx-auto">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input 
+                        placeholder="Search creators..." 
+                        className="pl-10 h-12 rounded-full"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Featured Creators */}
+                  <section className="mb-12">
+                    <h2 className="text-2xl font-bold mb-6">Featured Creators</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {creators.map((creator) => (
+                        <CreatorCard key={creator.username} {...creator} />
+                      ))}
+                    </div>
+                  </section>
+
+                  {/* Live Auctions */}
+                  <section>
+                    <div className="flex items-center justify-between mb-6">
+                      <h2 className="text-2xl font-bold">Live Auctions</h2>
+                      <Button variant="outline" size="sm">
+                        View All
+                      </Button>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {featuredAuctions.map((auction) => (
+                        <AuctionCard key={auction.id} {...auction} />
+                      ))}
+                    </div>
+                  </section>
+                </div>
+              </div>
+            </div>
+          </div>
+        </SidebarProvider>
+        
+        <MobileNav currentPath="/discover" />
+      </div>
+    );
+  }
+
+  // If user is not logged in, show original layout without sidebar
   return (
     <div className="min-h-screen bg-background">
       <Header />
