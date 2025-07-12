@@ -113,7 +113,7 @@ const CreatorProfile = () => {
           <>
             {/* Banner Section */}
             <div className="relative">
-              <div className="h-48 md:h-64 bg-gradient-to-r from-primary/20 to-secondary/20 overflow-hidden">
+              <div className="h-32 sm:h-48 md:h-64 bg-gradient-to-r from-primary/20 to-secondary/20 overflow-hidden">
                 <img 
                   src={bannerUrl || creator.banner} 
                   alt="Profile banner"
@@ -126,9 +126,9 @@ const CreatorProfile = () => {
                     <Button 
                       variant="outline" 
                       size="sm"
-                      className="absolute top-4 right-4 bg-background/80 backdrop-blur-sm"
+                      className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-background/80 backdrop-blur-sm text-xs sm:text-sm"
                     >
-                      <Edit className="h-4 w-4 mr-2" />
+                      <Edit className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                       Edit Banner
                     </Button>
                   </DialogTrigger>
@@ -154,13 +154,13 @@ const CreatorProfile = () => {
             </div>
 
             {/* Profile Header */}
-            <div className="container mx-auto px-4 pt-8">
-              <div className="flex flex-col items-center text-center mb-8 -mt-16 relative z-10">
-                <div className="relative mb-4">
+            <div className="container mx-auto px-4 pt-4 sm:pt-8">
+              <div className="flex flex-col items-center text-center mb-6 sm:mb-8 -mt-12 sm:-mt-16 relative z-10">
+                <div className="relative mb-3 sm:mb-4">
                   <img 
                     src={avatarUrl || creator.avatar} 
                     alt={creator.displayName}
-                    className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-background bg-background"
+                    className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full border-4 border-background bg-background"
                   />
                   {creator.isVerified && (
                     <div className="absolute -bottom-1 -right-1 bg-primary rounded-full p-2">
@@ -173,9 +173,9 @@ const CreatorProfile = () => {
                         <Button 
                           variant="outline" 
                           size="icon"
-                          className="absolute -bottom-2 -right-2 h-8 w-8 rounded-full bg-background border-2 border-background"
+                          className="absolute -bottom-1 -right-1 sm:-bottom-2 sm:-right-2 h-6 w-6 sm:h-8 sm:w-8 rounded-full bg-background border-2 border-background"
                         >
-                          <Camera className="h-3 w-3" />
+                          <Camera className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                         </Button>
                       </DialogTrigger>
                       <DialogContent>
@@ -200,14 +200,14 @@ const CreatorProfile = () => {
                 </div>
                 
                 <div className="flex items-center space-x-2 mb-2">
-                  <h1 className="text-2xl md:text-3xl font-bold">{creator.displayName}</h1>
-                  {creator.isVerified && <Badge variant="secondary">Verified</Badge>}
+                  <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">{creator.displayName}</h1>
+                  {creator.isVerified && <Badge variant="secondary" className="text-xs">Verified</Badge>}
                 </div>
                 
-                <p className="text-muted-foreground mb-3">@{creator.username}</p>
-                <p className="text-sm md:text-base mb-4 max-w-md">{creator.bio}</p>
+                <p className="text-muted-foreground mb-2 text-sm sm:text-base">@{creator.username}</p>
+                <p className="text-xs sm:text-sm md:text-base mb-3 sm:mb-4 max-w-md px-2">{creator.bio}</p>
                 
-                <div className="flex space-x-6 text-sm mb-4">
+                <div className="flex space-x-4 sm:space-x-6 text-xs sm:text-sm mb-3 sm:mb-4">
                   <div>
                     <span className="font-semibold">{creator.followerCount.toLocaleString()}</span>
                     <span className="text-muted-foreground ml-1">followers</span>
@@ -223,15 +223,15 @@ const CreatorProfile = () => {
                 </div>
                 
                 {/* Social Links */}
-                <div className="flex space-x-3 mb-4">
+                <div className="flex space-x-2 sm:space-x-3 mb-3 sm:mb-4">
                   {creator.socialLinks.instagram && (
                     <a 
                       href={creator.socialLinks.instagram} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors"
+                      className="p-1.5 sm:p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors"
                     >
-                      <Instagram className="h-5 w-5" />
+                      <Instagram className="h-4 w-4 sm:h-5 sm:w-5" />
                     </a>
                   )}
                   {creator.socialLinks.twitter && (
@@ -239,9 +239,9 @@ const CreatorProfile = () => {
                       href={creator.socialLinks.twitter} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors"
+                      className="p-1.5 sm:p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors"
                     >
-                      <Twitter className="h-5 w-5" />
+                      <Twitter className="h-4 w-4 sm:h-5 sm:w-5" />
                     </a>
                   )}
                   {creator.socialLinks.youtube && (
@@ -249,9 +249,9 @@ const CreatorProfile = () => {
                       href={creator.socialLinks.youtube} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors"
+                      className="p-1.5 sm:p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors"
                     >
-                      <Youtube className="h-5 w-5" />
+                      <Youtube className="h-4 w-4 sm:h-5 sm:w-5" />
                     </a>
                   )}
                   {creator.socialLinks.website && (
@@ -259,15 +259,15 @@ const CreatorProfile = () => {
                       href={creator.socialLinks.website} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors"
+                      className="p-1.5 sm:p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors"
                     >
-                      <Globe className="h-5 w-5" />
+                      <Globe className="h-4 w-4 sm:h-5 sm:w-5" />
                     </a>
                   )}
                 </div>
                 
                 <div className="flex space-x-2">
-                  <Button className="bg-fanvault-gradient">
+                  <Button className="bg-fanvault-gradient text-sm sm:text-base px-6 sm:px-8">
                     Follow
                   </Button>
                 </div>
@@ -279,14 +279,14 @@ const CreatorProfile = () => {
             {/* Items Section with Tabs */}
             <div className="container mx-auto px-4">
               <Tabs defaultValue="shop" className="w-full">
-                <TabsList className="grid w-full grid-cols-3 mb-6">
-                  <TabsTrigger value="shop">Shop</TabsTrigger>
-                  <TabsTrigger value="sold">Sold</TabsTrigger>
-                  <TabsTrigger value="wishlist" disabled>Wishlist (coming soon)</TabsTrigger>
+                <TabsList className="grid w-full grid-cols-3 mb-4 sm:mb-6 h-auto p-1">
+                  <TabsTrigger value="shop" className="text-xs sm:text-sm py-2">Shop</TabsTrigger>
+                  <TabsTrigger value="sold" className="text-xs sm:text-sm py-2">Sold</TabsTrigger>
+                  <TabsTrigger value="wishlist" disabled className="text-xs sm:text-sm py-2">Wishlist (coming soon)</TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="shop">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     {liveAuctions.map((auction) => (
                       <AuctionCard key={auction.id} {...auction} />
                     ))}
@@ -294,14 +294,14 @@ const CreatorProfile = () => {
                 </TabsContent>
                 
                 <TabsContent value="sold">
-                  <div className="text-center py-12">
-                    <p className="text-muted-foreground">No sold items yet</p>
+                  <div className="text-center py-8 sm:py-12">
+                    <p className="text-muted-foreground text-sm sm:text-base">No sold items yet</p>
                   </div>
                 </TabsContent>
                 
                 <TabsContent value="wishlist">
-                  <div className="text-center py-12">
-                    <p className="text-muted-foreground">Wishlist feature coming soon!</p>
+                  <div className="text-center py-8 sm:py-12">
+                    <p className="text-muted-foreground text-sm sm:text-base">Wishlist feature coming soon!</p>
                   </div>
                 </TabsContent>
               </Tabs>
