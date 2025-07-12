@@ -44,7 +44,7 @@ export function Header() {
               className="h-8 cursor-pointer"
             />
           </Link>
-          {user && <RoleToggle />}
+          <RoleToggle />
         </div>
 
         {/* Navigation - Desktop */}
