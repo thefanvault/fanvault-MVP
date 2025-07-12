@@ -33,14 +33,42 @@ const Login = () => {
     
     setLoading(true);
     
-    // Mock login - replace with actual authentication logic
+    // Mock login - accepts any credentials
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Create mock user and profile data
+      const mockUser = {
+        id: 'mock-user-id',
+        email: formData.email || 'demo@fanvault.app',
+        user_metadata: {
+          full_name: 'Demo User'
+        }
+      };
+
+      const mockProfile = {
+        id: 'mock-profile-id',
+        user_id: 'mock-user-id',
+        username: 'demo_user',
+        display_name: 'Demo User',
+        bio: 'This is a demo profile',
+        avatar_url: null,
+        is_creator: false, // Default to fan, can be toggled
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+
+      // Store in localStorage to persist login
+      localStorage.setItem('fanvault_auth_user', JSON.stringify(mockUser));
+      localStorage.setItem('fanvault_auth_profile', JSON.stringify(mockProfile));
+      
       toast({
         title: "Welcome back!",
         description: "You have successfully logged in",
       });
-      navigate("/");
+      
+      // Refresh the page to update auth state
+      window.location.href = "/";
     } catch (error) {
       toast({
         title: "Login failed",

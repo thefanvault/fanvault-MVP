@@ -69,13 +69,41 @@ const SignUp = () => {
         
         navigate("/onboarding/creator/profile");
       } else {
-        // For fan accounts, create account immediately
+        // For fan accounts, create account immediately and log them in
         await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Create mock user and profile data
+        const mockUser = {
+          id: 'mock-user-id',
+          email: formData.email,
+          user_metadata: {
+            full_name: formData.name || 'Demo User'
+          }
+        };
+
+        const mockProfile = {
+          id: 'mock-profile-id',
+          user_id: 'mock-user-id',
+          username: (formData.name || 'demo_user').toLowerCase().replace(/\s+/g, '_'),
+          display_name: formData.name || 'Demo User',
+          bio: null,
+          avatar_url: null,
+          is_creator: false,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+
+        // Store in localStorage to persist login
+        localStorage.setItem('fanvault_auth_user', JSON.stringify(mockUser));
+        localStorage.setItem('fanvault_auth_profile', JSON.stringify(mockProfile));
+        
         toast({
           title: "Account created successfully!",
           description: "Welcome to FanVault",
         });
-        navigate("/");
+        
+        // Refresh the page to update auth state
+        window.location.href = "/";
       }
     } catch (error) {
       toast({
