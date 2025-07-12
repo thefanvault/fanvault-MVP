@@ -276,14 +276,35 @@ const CreatorProfile = () => {
               </div>
             </div>
 
-            {/* Available Items Section */}
+            {/* Items Section with Tabs */}
             <div className="container mx-auto px-4">
-              <h2 className="text-xl font-bold mb-6">Available Items</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {liveAuctions.map((auction) => (
-                  <AuctionCard key={auction.id} {...auction} />
-                ))}
-              </div>
+              <Tabs defaultValue="shop" className="w-full">
+                <TabsList className="grid w-full grid-cols-3 mb-6">
+                  <TabsTrigger value="shop">Shop</TabsTrigger>
+                  <TabsTrigger value="sold">Sold</TabsTrigger>
+                  <TabsTrigger value="wishlist" disabled>Wishlist (coming soon)</TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="shop">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {liveAuctions.map((auction) => (
+                      <AuctionCard key={auction.id} {...auction} />
+                    ))}
+                  </div>
+                </TabsContent>
+                
+                <TabsContent value="sold">
+                  <div className="text-center py-12">
+                    <p className="text-muted-foreground">No sold items yet</p>
+                  </div>
+                </TabsContent>
+                
+                <TabsContent value="wishlist">
+                  <div className="text-center py-12">
+                    <p className="text-muted-foreground">Wishlist feature coming soon!</p>
+                  </div>
+                </TabsContent>
+              </Tabs>
             </div>
           </>
         )}
