@@ -1,5 +1,5 @@
 
-import { Home, Settings, Package, Truck, CreditCard, Heart } from "lucide-react";
+import { Home, Settings, Package, Truck, CreditCard, Heart, Crown } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -115,6 +115,24 @@ export function AppSidebar() {
                   </SidebarMenuItem>
                 );
               })}
+              
+              {/* Creator CTA for Fans Only */}
+              {userRole === 'fan' && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <NavLink
+                      to="/onboarding"
+                      className="flex items-center gap-3 px-3 py-2 rounded-lg transition-all bg-fanvault-gradient text-white hover:opacity-90 shadow-lg animate-pulse"
+                    >
+                      <Crown className="h-5 w-5 flex-shrink-0 text-white" />
+                      <div className="block text-white">
+                        <div className="text-sm font-semibold">Start Selling!</div>
+                        <div className="text-xs opacity-90">Apply to be a creator</div>
+                      </div>
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
