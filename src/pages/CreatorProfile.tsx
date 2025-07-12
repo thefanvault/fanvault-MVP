@@ -1,17 +1,36 @@
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { AuctionCard } from "@/components/auctions/AuctionCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Check, Instagram, Twitter, Facebook, Youtube, Globe } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { Check, Instagram, Twitter, Facebook, Youtube, Globe, Camera, Edit } from "lucide-react";
 
 const CreatorProfile = () => {
+  const { username } = useParams();
+  const { user, profile } = useAuth();
+  const { toast } = useToast();
+  const [editingBanner, setEditingBanner] = useState(false);
+  const [editingAvatar, setEditingAvatar] = useState(false);
+  const [bannerUrl, setBannerUrl] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState("");
+
+  // Check if this is the current user's profile
+  const isOwnProfile = user && profile && profile.username === username;
+
   const creator = {
-    username: "sarahsmith",
+    username: username || "sarahsmith",
     displayName: "Sarah Smith",
     bio: "Fashion & Lifestyle Creator ✨ Sharing my favorite pieces with you!",
     avatar: "https://images.unsplash.com/photo-1494790108755-2616b612e04f?w=150&h=150&fit=crop&crop=face",
+    banner: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=1200&h=300&fit=crop",
     followerCount: 1243,
     itemCount: 15,
     salesCount: 89,
@@ -24,6 +43,34 @@ const CreatorProfile = () => {
       website: "https://sarahsmith.com"
     },
     joinedDate: "January 2022"
+  };
+
+  const handleBannerUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // In a real app, you'd upload to your storage service
+      const url = URL.createObjectURL(file);
+      setBannerUrl(url);
+      toast({
+        title: "Banner updated",
+        description: "Your banner has been updated successfully.",
+      });
+      setEditingBanner(false);
+    }
+  };
+
+  const handleAvatarUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // In a real app, you'd upload to your storage service
+      const url = URL.createObjectURL(file);
+      setAvatarUrl(url);
+      toast({
+        title: "Profile picture updated",
+        description: "Your profile picture has been updated successfully.",
+      });
+      setEditingAvatar(false);
+    }
   };
 
   const liveAuctions = [
@@ -63,19 +110,91 @@ const CreatorProfile = () => {
           </div>
         ) : (
           <>
+            {/* Banner Section */}
+            <div className="relative">
+              <div className="h-48 md:h-64 bg-gradient-to-r from-primary/20 to-secondary/20 overflow-hidden">
+                <img 
+                  src={bannerUrl || creator.banner} 
+                  alt="Profile banner"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              {isOwnProfile && (
+                <Dialog open={editingBanner} onOpenChange={setEditingBanner}>
+                  <DialogTrigger asChild>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="absolute top-4 right-4 bg-background/80 backdrop-blur-sm"
+                    >
+                      <Edit className="h-4 w-4 mr-2" />
+                      Edit Banner
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Update Banner</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <div>
+                        <Label htmlFor="banner-upload">Upload Banner Image</Label>
+                        <Input 
+                          id="banner-upload"
+                          type="file" 
+                          accept="image/*"
+                          onChange={handleBannerUpload}
+                          className="mt-2"
+                        />
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              )}
+            </div>
+
             {/* Profile Header */}
             <div className="container mx-auto px-4 pt-8">
-              <div className="flex flex-col items-center text-center mb-8">
+              <div className="flex flex-col items-center text-center mb-8 -mt-16 relative z-10">
                 <div className="relative mb-4">
                   <img 
-                    src={creator.avatar} 
+                    src={avatarUrl || creator.avatar} 
                     alt={creator.displayName}
-                    className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-background"
+                    className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-background bg-background"
                   />
                   {creator.isVerified && (
                     <div className="absolute -bottom-1 -right-1 bg-primary rounded-full p-2">
                       <Check className="h-4 w-4 text-primary-foreground" />
                     </div>
+                  )}
+                  {isOwnProfile && (
+                    <Dialog open={editingAvatar} onOpenChange={setEditingAvatar}>
+                      <DialogTrigger asChild>
+                        <Button 
+                          variant="outline" 
+                          size="icon"
+                          className="absolute -bottom-2 -right-2 h-8 w-8 rounded-full bg-background border-2 border-background"
+                        >
+                          <Camera className="h-3 w-3" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Update Profile Picture</DialogTitle>
+                        </DialogHeader>
+                        <div className="space-y-4">
+                          <div>
+                            <Label htmlFor="avatar-upload">Upload Profile Picture</Label>
+                            <Input 
+                              id="avatar-upload"
+                              type="file" 
+                              accept="image/*"
+                              onChange={handleAvatarUpload}
+                              className="mt-2"
+                            />
+                          </div>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
                   )}
                 </div>
                 
