@@ -99,7 +99,7 @@ export function AppSidebar() {
         {/* Key Buttons Section */}
         <SidebarGroup>
           <SidebarGroupContent>
-            <div className="grid grid-cols-4 gap-1 p-3 mb-6">
+            <div className="grid grid-cols-4 gap-1 p-3 mb-2">
               {keyButtons.map((button) => {
                 const isActive = currentPath === button.url;
                 return (
