@@ -266,14 +266,14 @@ const CreatorProfile = () => {
                   )}
                 </div>
                 
-                <div className="flex flex-col sm:flex-row gap-2 sm:space-x-2">
-                  <Button className="bg-fanvault-gradient text-sm sm:text-base px-6 sm:px-8">
+                <div className="flex flex-col sm:flex-row gap-2 sm:space-x-2 w-full">
+                  <Button className="bg-fanvault-gradient text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto">
                     Follow
                   </Button>
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-2 w-full sm:w-auto">
                     <Button 
                       variant="outline" 
-                      className="text-sm sm:text-base px-4 sm:px-6"
+                      className="text-sm sm:text-base px-4 sm:px-6 flex-1 sm:flex-none"
                       disabled={!user || !profile}
                       onClick={() => {
                         if (!user || !profile) {
@@ -289,7 +289,7 @@ const CreatorProfile = () => {
                     </Button>
                     <Button 
                       variant="outline" 
-                      className="text-sm sm:text-base px-4 sm:px-6"
+                      className="text-sm sm:text-base px-4 sm:px-6 flex-1 sm:flex-none"
                       onClick={() => {
                         toast({
                           title: "Coming soon",
