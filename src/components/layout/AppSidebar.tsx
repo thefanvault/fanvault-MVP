@@ -122,9 +122,12 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild>
                     <NavLink
                       to="/onboarding"
-                      className="flex items-center gap-3 px-3 py-2 rounded-lg transition-all bg-fanvault-gradient text-white hover:opacity-90 shadow-lg animate-pulse"
+                      className="flex items-center gap-3 px-3 py-2 rounded-lg transition-all bg-fanvault-gradient text-white hover:opacity-90 shadow-md border border-white/20 hover:shadow-lg hover:shadow-fanvault-pink/20"
+                      style={{
+                        boxShadow: '0 0 0 1px rgba(255, 255, 255, 0.2), 0 0 8px rgba(236, 72, 153, 0.3)'
+                      }}
                     >
-                      <Crown className="h-5 w-5 flex-shrink-0 text-white" />
+                      <Crown className="h-6 w-6 flex-shrink-0 text-white" />
                       <div className="block text-white">
                         <div className="text-sm font-semibold">Start Selling!</div>
                         <div className="text-xs opacity-90">Apply to be a creator</div>
