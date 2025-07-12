@@ -37,19 +37,19 @@ const Settings = () => {
   return (
     <Layout>
       <SidebarProvider>
-        <div className="flex w-full">
+        <div className="flex w-full min-h-screen">
           <AppSidebar />
           
-          <div className="flex-1 flex flex-col">
-            <header className="h-16 border-b flex items-center px-4">
+          <div className="flex-1 flex flex-col min-w-0">
+            <header className="h-16 border-b flex items-center px-4 bg-background sticky top-0 z-10">
               <SidebarTrigger />
               <div className="ml-4">
                 <h1 className="text-lg font-semibold">Settings</h1>
               </div>
             </header>
             
-            <main className="flex-1 flex justify-center">
-              <div className="w-full max-w-4xl px-4 pt-6 pb-20 md:pb-6">
+            <div className="flex-1 overflow-auto p-4 md:p-6">
+              <div className="w-full max-w-4xl mx-auto">
                 <div className="space-y-6">
                   <div>
                     <h3 className="text-lg font-medium">Profile Settings</h3>
@@ -181,7 +181,7 @@ const Settings = () => {
                   </div>
                 </div>
               </div>
-            </main>
+            </div>
           </div>
         </div>
       </SidebarProvider>
