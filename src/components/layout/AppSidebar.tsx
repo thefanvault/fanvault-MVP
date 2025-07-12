@@ -1,5 +1,5 @@
 
-import { Home, Settings, Package, Truck, CreditCard, Search, Heart } from "lucide-react";
+import { Home, Settings, Package, Truck, CreditCard, Heart } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -52,18 +52,8 @@ export function AppSidebar() {
         },
       ];
     } else {
-      // Fan navigation
+      // Fan navigation - focused on account management
       return [
-        {
-          title: "Home",
-          url: "/",
-          icon: Home,
-        },
-        {
-          title: "Discover",
-          url: "/discover",
-          icon: Search,
-        },
         {
           title: "My Bids",
           url: "/bids/active",
@@ -73,6 +63,16 @@ export function AppSidebar() {
           title: "Orders",
           url: "/orders",
           icon: Package,
+        },
+        {
+          title: "Payment",
+          url: "/payment/add",
+          icon: CreditCard,
+        },
+        {
+          title: "Shipping",
+          url: "/address/add",
+          icon: Truck,
         },
         {
           title: "Settings",
