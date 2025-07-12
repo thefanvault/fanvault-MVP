@@ -36,6 +36,11 @@ export function AppSidebar() {
           icon: Package,
         },
         {
+          title: "My Bids",
+          url: "/bids/active",
+          icon: Heart,
+        },
+        {
           title: "Shipping",
           url: "/address/add",
           icon: Truck,
@@ -52,7 +57,7 @@ export function AppSidebar() {
         },
       ];
     } else {
-      // Fan navigation - focused on account management
+      // Fan navigation - no Dashboard or Orders
       return [
         {
           title: "My Bids",
@@ -60,19 +65,14 @@ export function AppSidebar() {
           icon: Heart,
         },
         {
-          title: "Orders",
-          url: "/orders",
-          icon: Package,
+          title: "Shipping",
+          url: "/address/add",
+          icon: Truck,
         },
         {
           title: "Payment",
           url: "/payment/add",
           icon: CreditCard,
-        },
-        {
-          title: "Shipping",
-          url: "/address/add",
-          icon: Truck,
         },
         {
           title: "Settings",
