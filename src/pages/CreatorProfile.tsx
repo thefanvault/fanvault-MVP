@@ -266,7 +266,7 @@ const CreatorProfile = () => {
                   )}
                 </div>
                 
-                <div className="flex flex-col sm:flex-row gap-2 sm:space-x-2 w-full">
+                <div className="flex flex-col sm:flex-row gap-2 sm:space-x-2 w-full sm:w-auto sm:justify-center">
                   <Button className="bg-fanvault-gradient text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto">
                     Follow
                   </Button>
