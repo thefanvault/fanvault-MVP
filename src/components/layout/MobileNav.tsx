@@ -1,17 +1,31 @@
 import { Home, Search, User, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface MobileNavProps {
   currentPath?: string;
 }
 
 export function MobileNav({ currentPath = "/" }: MobileNavProps) {
-  const navItems = [
+  const { userRole, profile } = useAuth();
+  
+  // Base nav items for all users
+  const baseNavItems = [
     { icon: Home, label: "Home", href: "/" },
     { icon: Search, label: "Discover", href: "/discover" },
-    { icon: User, label: "Profile", href: "/profile" },
-    { icon: Settings, label: "Settings", href: "/settings" },
   ];
+  
+  // Add profile item only for creators
+  const navItems = userRole === 'creator' 
+    ? [
+        ...baseNavItems,
+        { icon: User, label: "Profile", href: `/creator/${profile?.username || ''}` },
+        { icon: Settings, label: "Settings", href: "/settings" },
+      ]
+    : [
+        ...baseNavItems,
+        { icon: Settings, label: "Settings", href: "/settings" },
+      ];
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-background border-t md:hidden z-50">
