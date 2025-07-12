@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -29,6 +30,7 @@ interface ListingData {
 
 const ListNewItem = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [isUploading, setIsUploading] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
@@ -158,6 +160,9 @@ const ListNewItem = () => {
   const prevStep = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
+    } else {
+      // If on first step, go back to creator dashboard
+      navigate('/dashboard');
     }
   };
 
@@ -601,7 +606,7 @@ const ListNewItem = () => {
           {/* Progress Header */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-4">
-              <Button variant="ghost" onClick={prevStep} disabled={currentStep === 1}>
+              <Button variant="ghost" onClick={prevStep}>
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back
               </Button>
