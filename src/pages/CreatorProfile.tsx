@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { Check, Instagram, Twitter, Facebook, Youtube, Globe, Camera, Edit } from "lucide-react";
+import creatorPhoto from "@/assets/creator-profile-photo.jpg";
 
 const CreatorProfile = () => {
   const { username } = useParams();
@@ -29,7 +30,7 @@ const CreatorProfile = () => {
     username: username || "sarahsmith",
     displayName: "Sarah Smith",
     bio: "Fashion & Lifestyle Creator ✨ Sharing my favorite pieces with you!",
-    avatar: "https://images.unsplash.com/photo-1494790108755-2616b612e04f?w=150&h=150&fit=crop&crop=face",
+    avatar: creatorPhoto,
     banner: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=1200&h=300&fit=crop",
     followerCount: 1243,
     itemCount: 15,
