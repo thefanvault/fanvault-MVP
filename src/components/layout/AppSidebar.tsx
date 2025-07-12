@@ -1,5 +1,5 @@
 
-import { Home, MessageCircle, Bell, Settings, Crown } from "lucide-react";
+import { Home, Settings, Package, Truck, CreditCard, Heart, Crown } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -21,32 +21,72 @@ export function AppSidebar() {
 
   const isCollapsed = state === "collapsed";
 
-  // Main navigation items for all users
-  const navigationItems = [
-    {
-      title: "Home",
-      url: "/",
-      icon: Home,
-    },
-    {
-      title: "Messages",
-      url: "/messages",
-      icon: MessageCircle,
-    },
-    {
-      title: "Notifications",
-      url: "/notifications",
-      icon: Bell,
-    },
-    {
-      title: "Settings",
-      url: "/settings",
-      icon: Settings,
-    },
-  ];
+  // Define navigation based on user role
+  const getNavigationItems = () => {
+    if (userRole === 'creator') {
+      return [
+        {
+          title: "Dashboard",
+          url: "/dashboard",
+          icon: Home,
+        },
+        {
+          title: "Orders",
+          url: "/orders",
+          icon: Package,
+        },
+        {
+          title: "My Bids",
+          url: "/bids/active",
+          icon: Heart,
+        },
+        {
+          title: "Shipping",
+          url: "/address/add",
+          icon: Truck,
+        },
+        {
+          title: "Payment",
+          url: "/payment/add",
+          icon: CreditCard,
+        },
+        {
+          title: "Settings",
+          url: "/settings",
+          icon: Settings,
+        },
+      ];
+    } else {
+      // Fan navigation - no Dashboard or Orders
+      return [
+        {
+          title: "My Bids",
+          url: "/bids/active",
+          icon: Heart,
+        },
+        {
+          title: "Shipping",
+          url: "/address/add",
+          icon: Truck,
+        },
+        {
+          title: "Payment",
+          url: "/payment/add",
+          icon: CreditCard,
+        },
+        {
+          title: "Settings",
+          url: "/settings",
+          icon: Settings,
+        },
+      ];
+    }
+  };
+
+  const navigationItems = getNavigationItems();
 
   return (
-    <Sidebar className="border-r border-border w-[14rem]">
+    <Sidebar className="border-r border-border w-[11rem]">
       <SidebarContent className="bg-background pt-16">
         <SidebarGroup>
           <SidebarGroupContent>
