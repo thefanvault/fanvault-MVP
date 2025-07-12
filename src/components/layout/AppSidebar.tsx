@@ -89,31 +89,31 @@ export function AppSidebar() {
   const keyButtons = [
     { title: "Home", url: "/discover", icon: Home },
     { title: "Messages", url: "/messages", icon: MessageCircle },
-    { title: "Notifications", url: "/notifications", icon: Bell },
+    { title: "Alerts", url: "/notifications", icon: Bell },
     { title: "Settings", url: "/settings", icon: Settings },
   ];
 
   return (
-    <Sidebar className="border-r border-border w-[16rem]">
+    <Sidebar className="border-r border-border w-[18rem]">
       <SidebarContent className="bg-background pt-16">
         {/* Key Buttons Section */}
         <SidebarGroup>
           <SidebarGroupContent>
-            <div className="grid grid-cols-4 gap-2 p-2 mb-4">
+            <div className="grid grid-cols-4 gap-1 p-3 mb-6">
               {keyButtons.map((button) => {
                 const isActive = currentPath === button.url;
                 return (
                   <NavLink
                     key={button.title}
                     to={button.url}
-                    className={`flex flex-col items-center justify-center p-3 rounded-lg transition-colors ${
+                    className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors min-h-[3.5rem] ${
                       isActive
                         ? "bg-primary text-primary-foreground"
                         : "text-muted-foreground hover:text-foreground hover:bg-sidebar-accent"
                     }`}
                   >
-                    <button.icon className="h-6 w-6 mb-1" />
-                    <span className="text-xs font-medium">{button.title}</span>
+                    <button.icon className="h-5 w-5 mb-1 flex-shrink-0" />
+                    <span className="text-[10px] font-medium leading-tight text-center break-words">{button.title}</span>
                   </NavLink>
                 );
               })}
