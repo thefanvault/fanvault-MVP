@@ -266,10 +266,40 @@ const CreatorProfile = () => {
                   )}
                 </div>
                 
-                <div className="flex space-x-2">
+                <div className="flex flex-col sm:flex-row gap-2 sm:space-x-2">
                   <Button className="bg-fanvault-gradient text-sm sm:text-base px-6 sm:px-8">
                     Follow
                   </Button>
+                  <div className="flex space-x-2">
+                    <Button 
+                      variant="outline" 
+                      className="text-sm sm:text-base px-4 sm:px-6"
+                      disabled={!user || !profile}
+                      onClick={() => {
+                        if (!user || !profile) {
+                          toast({
+                            title: "Purchase required",
+                            description: "You need to purchase an item from this creator to send messages.",
+                            variant: "destructive"
+                          });
+                        }
+                      }}
+                    >
+                      Message
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      className="text-sm sm:text-base px-4 sm:px-6"
+                      onClick={() => {
+                        toast({
+                          title: "Coming soon",
+                          description: "Tip functionality will be available soon!",
+                        });
+                      }}
+                    >
+                      Tip Me
+                    </Button>
+                  </div>
                 </div>
                 
                 <p className="text-xs text-muted-foreground mt-2">Joined {creator.joinedDate}</p>
