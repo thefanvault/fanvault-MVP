@@ -20,6 +20,7 @@ interface AuthContextType {
   userRole: 'creator' | 'fan' | null;
   signOut: () => Promise<void>;
   updateProfile: (updates: Partial<UserProfile>) => Promise<{ error: any }>;
+  setUserRole: (role: 'creator' | 'fan') => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -30,6 +31,7 @@ const AuthContext = createContext<AuthContextType>({
   userRole: null,
   signOut: async () => {},
   updateProfile: async () => ({ error: null }),
+  setUserRole: () => {},
 });
 
 export const useAuth = () => {
@@ -45,13 +47,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<any>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [guestRole, setGuestRole] = useState<'creator' | 'fan'>('fan');
 
-  const userRole: 'creator' | 'fan' | null = profile?.is_creator ? 'creator' : profile ? 'fan' : null;
+  // Determine user role: from profile if logged in, or guest role if not
+  const userRole: 'creator' | 'fan' | null = profile?.is_creator ? 'creator' : profile ? 'fan' : guestRole;
 
   useEffect(() => {
-    // Check if there's a stored session
+    // Check if there's a stored session and guest role
     const storedUser = localStorage.getItem('fanvault_auth_user');
     const storedProfile = localStorage.getItem('fanvault_auth_profile');
+    const storedGuestRole = localStorage.getItem('fanvault_guest_role');
     
     if (storedUser && storedProfile) {
       const userData = JSON.parse(storedUser);
@@ -60,6 +65,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(userData);
       setProfile(profileData);
       setSession({ user: userData });
+    }
+
+    if (storedGuestRole) {
+      setGuestRole(storedGuestRole as 'creator' | 'fan');
     }
     
     setLoading(false);
@@ -96,6 +105,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const setUserRole = (role: 'creator' | 'fan') => {
+    if (profile) {
+      // If logged in, update profile
+      updateProfile({ ...profile, is_creator: role === 'creator' });
+    } else {
+      // If not logged in, update guest role
+      setGuestRole(role);
+      localStorage.setItem('fanvault_guest_role', role);
+    }
+  };
+
   const value = {
     user,
     session,
@@ -104,6 +124,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     userRole,
     signOut,
     updateProfile,
+    setUserRole,
   };
 
   return (

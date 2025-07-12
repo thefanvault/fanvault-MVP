@@ -4,17 +4,12 @@ import { User, Crown } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 export function RoleToggle() {
-  const { userRole, profile, updateProfile } = useAuth();
+  const { userRole, setUserRole } = useAuth();
   
   const isCreator = userRole === 'creator';
   
-  const handleToggle = async (checked: boolean) => {
-    if (!profile) return;
-    
-    await updateProfile({
-      ...profile,
-      is_creator: checked
-    });
+  const handleToggle = (checked: boolean) => {
+    setUserRole(checked ? 'creator' : 'fan');
   };
 
   return (
