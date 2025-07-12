@@ -7,6 +7,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Clock, TrendingUp, TrendingDown, Trophy, X, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/layout/AppSidebar";
+import { Layout } from "@/components/layout/Layout";
 
 interface BidItem {
   id: string;
@@ -273,85 +276,98 @@ const BidDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      
-      <main className="container mx-auto px-4 pt-6 pb-20 md:pb-6">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground">My Bids</h1>
-          <p className="text-muted-foreground mt-2">
-            Track all your auction activity in one place
-          </p>
+    <Layout>
+      <SidebarProvider>
+        <div className="flex w-full">
+          <AppSidebar />
+          
+          <div className="flex-1 flex flex-col">
+            <header className="h-16 border-b flex items-center px-4">
+              <SidebarTrigger />
+              <div className="ml-4">
+                <h1 className="text-lg font-semibold">My Bids</h1>
+              </div>
+            </header>
+            
+            <main className="flex-1 flex justify-center">
+              <div className="w-full max-w-4xl px-4 pt-6 pb-20 md:pb-6">
+                <div className="mb-8">
+                  <h1 className="text-3xl font-bold text-foreground">My Bids</h1>
+                  <p className="text-muted-foreground mt-2">
+                    Track all your auction activity in one place
+                  </p>
+                </div>
+
+                <Tabs defaultValue="active" className="w-full">
+                  <TabsList className="grid w-full grid-cols-3">
+                    <TabsTrigger value="active" className="relative">
+                      Active
+                      {activeBids.length > 0 && (
+                        <Badge variant="secondary" className="ml-2 text-xs">
+                          {activeBids.length}
+                        </Badge>
+                      )}
+                    </TabsTrigger>
+                    <TabsTrigger value="won">
+                      Won
+                      {wonBids.length > 0 && (
+                        <Badge variant="secondary" className="ml-2 text-xs">
+                          {wonBids.length}
+                        </Badge>
+                      )}
+                    </TabsTrigger>
+                    <TabsTrigger value="lost">
+                      Lost
+                      {lostBids.length > 0 && (
+                        <Badge variant="secondary" className="ml-2 text-xs">
+                          {lostBids.length}
+                        </Badge>
+                      )}
+                    </TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="active" className="mt-6">
+                    <div className="space-y-4">
+                      {activeBids.length > 0 ? (
+                        activeBids.map((bid) => (
+                          <BidCard key={bid.id} bid={bid} />
+                        ))
+                      ) : (
+                        <EmptyState type="active" />
+                      )}
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="won" className="mt-6">
+                    <div className="space-y-4">
+                      {wonBids.length > 0 ? (
+                        wonBids.map((bid) => (
+                          <BidCard key={bid.id} bid={bid} />
+                        ))
+                      ) : (
+                        <EmptyState type="won" />
+                      )}
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="lost" className="mt-6">
+                    <div className="space-y-4">
+                      {lostBids.length > 0 ? (
+                        lostBids.map((bid) => (
+                          <BidCard key={bid.id} bid={bid} />
+                        ))
+                      ) : (
+                        <EmptyState type="lost" />
+                      )}
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              </div>
+            </main>
+          </div>
         </div>
-
-        <Tabs defaultValue="active" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="active" className="relative">
-              Active
-              {activeBids.length > 0 && (
-                <Badge variant="secondary" className="ml-2 text-xs">
-                  {activeBids.length}
-                </Badge>
-              )}
-            </TabsTrigger>
-            <TabsTrigger value="won">
-              Won
-              {wonBids.length > 0 && (
-                <Badge variant="secondary" className="ml-2 text-xs">
-                  {wonBids.length}
-                </Badge>
-              )}
-            </TabsTrigger>
-            <TabsTrigger value="lost">
-              Lost
-              {lostBids.length > 0 && (
-                <Badge variant="secondary" className="ml-2 text-xs">
-                  {lostBids.length}
-                </Badge>
-              )}
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="active" className="mt-6">
-            <div className="space-y-4">
-              {activeBids.length > 0 ? (
-                activeBids.map((bid) => (
-                  <BidCard key={bid.id} bid={bid} />
-                ))
-              ) : (
-                <EmptyState type="active" />
-              )}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="won" className="mt-6">
-            <div className="space-y-4">
-              {wonBids.length > 0 ? (
-                wonBids.map((bid) => (
-                  <BidCard key={bid.id} bid={bid} />
-                ))
-              ) : (
-                <EmptyState type="won" />
-              )}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="lost" className="mt-6">
-            <div className="space-y-4">
-              {lostBids.length > 0 ? (
-                lostBids.map((bid) => (
-                  <BidCard key={bid.id} bid={bid} />
-                ))
-              ) : (
-                <EmptyState type="lost" />
-              )}
-            </div>
-          </TabsContent>
-        </Tabs>
-      </main>
-
-      <MobileNav />
-    </div>
+      </SidebarProvider>
+    </Layout>
   );
 };
 
