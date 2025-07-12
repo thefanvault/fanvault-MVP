@@ -11,9 +11,12 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { Layout } from "@/components/layout/Layout";
+import { RoleToggle } from "@/components/ui/role-toggle";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Settings = () => {
   const { toast } = useToast();
+  const { user } = useAuth();
   const [profile, setProfile] = useState({
     username: "kayvonmoshiri",
     email: "kayvon@example.com",
@@ -55,6 +58,23 @@ const Settings = () => {
                     </p>
                   </div>
                   <Separator />
+                  
+                  {user && (
+                    <>
+                      <Card>
+                        <CardHeader>
+                          <CardTitle>Account Type</CardTitle>
+                          <CardDescription>
+                            Switch between Fan and Creator modes to access different features
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <RoleToggle />
+                        </CardContent>
+                      </Card>
+                    </>
+                  )}
+                  
                   
                   <Card>
                     <CardHeader>

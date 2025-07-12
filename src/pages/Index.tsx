@@ -71,30 +71,74 @@ const Index = () => {
         {/* Hero Section */}
         <section className="bg-fanvault-gradient text-white py-16 md:py-24">
           <div className="container mx-auto px-4 text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Bid on Exclusive Items from Your Favorite Creators
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
-              Discover unique collectibles, limited edition merch, and personal items directly from creators you love.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg" 
-                variant="secondary" 
-                className="text-lg px-8"
-                onClick={() => navigate("/signup?type=fan")}
-              >
-                Start Bidding
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="text-lg px-8 border-2 border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-fanvault-pink transition-all duration-300 font-semibold"
-                onClick={() => navigate("/signup?type=creator")}
-              >
-                Become a Creator
-              </Button>
-            </div>
+            {userRole === 'creator' ? (
+              // Creator Hero
+              <>
+                <h1 className="text-4xl md:text-6xl font-bold mb-6">
+                  Monetize Your Fan Base with Exclusive Auctions
+                </h1>
+                <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
+                  Turn your personal items, limited merch, and exclusive content into profitable auctions for your biggest fans.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  {user ? (
+                    <Button 
+                      size="lg" 
+                      variant="secondary" 
+                      className="text-lg px-8"
+                      onClick={() => navigate("/list-new-item")}
+                    >
+                      List Your First Item
+                    </Button>
+                  ) : (
+                    <Button 
+                      size="lg" 
+                      variant="secondary" 
+                      className="text-lg px-8"
+                      onClick={() => navigate("/signup?type=creator")}
+                    >
+                      Start Selling
+                    </Button>
+                  )}
+                  <Button 
+                    size="lg" 
+                    variant="outline" 
+                    className="text-lg px-8 border-2 border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-fanvault-pink transition-all duration-300 font-semibold"
+                    onClick={() => navigate("/dashboard")}
+                  >
+                    View Dashboard
+                  </Button>
+                </div>
+              </>
+            ) : (
+              // Fan Hero (default)
+              <>
+                <h1 className="text-4xl md:text-6xl font-bold mb-6">
+                  Bid on Exclusive Items from Your Favorite Creators
+                </h1>
+                <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
+                  Discover unique collectibles, limited edition merch, and personal items directly from creators you love.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button 
+                    size="lg" 
+                    variant="secondary" 
+                    className="text-lg px-8"
+                    onClick={() => navigate(user ? "/discover" : "/signup?type=fan")}
+                  >
+                    {user ? "Discover Items" : "Start Bidding"}
+                  </Button>
+                  <Button 
+                    size="lg" 
+                    variant="outline" 
+                    className="text-lg px-8 border-2 border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-fanvault-pink transition-all duration-300 font-semibold"
+                    onClick={() => navigate("/signup?type=creator")}
+                  >
+                    Become a Creator
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
         </section>
 

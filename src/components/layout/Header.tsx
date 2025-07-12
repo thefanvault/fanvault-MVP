@@ -5,6 +5,7 @@ import { Search, Bell, User, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { RoleToggle } from "@/components/ui/role-toggle";
 
 export function Header() {
   const { user, userRole, signOut } = useAuth();
@@ -57,6 +58,12 @@ export function Header() {
 
         {/* Actions */}
         <div className="flex items-center space-x-2">
+          {user && (
+            <div className="hidden lg:block mr-4">
+              <RoleToggle />
+            </div>
+          )}
+          
           <Button variant="ghost" size="icon" className="md:hidden">
             <Search className="h-5 w-5" />
           </Button>

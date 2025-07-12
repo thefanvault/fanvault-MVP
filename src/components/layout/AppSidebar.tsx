@@ -1,6 +1,7 @@
 
-import { Home, Settings, Package, Truck, CreditCard } from "lucide-react";
+import { Home, Settings, Package, Truck, CreditCard, Search, Heart } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   Sidebar,
   SidebarContent,
@@ -12,40 +13,77 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
-const navigationItems = [
-  {
-    title: "Dashboard",
-    url: "/dashboard",
-    icon: Home,
-  },
-  {
-    title: "Orders",
-    url: "/orders", // You can update this to the correct orders page path
-    icon: Package,
-  },
-  {
-    title: "Shipping",
-    url: "/address/add", // Using the shipping address page
-    icon: Truck,
-  },
-  {
-    title: "Payment",
-    url: "/payment/add", // Using the payment method page  
-    icon: CreditCard,
-  },
-  {
-    title: "Settings", 
-    url: "/settings",
-    icon: Settings,
-  },
-];
-
 export function AppSidebar() {
   const { state } = useSidebar();
   const location = useLocation();
   const currentPath = location.pathname;
+  const { userRole } = useAuth();
 
   const isCollapsed = state === "collapsed";
+
+  // Define navigation based on user role
+  const getNavigationItems = () => {
+    if (userRole === 'creator') {
+      return [
+        {
+          title: "Dashboard",
+          url: "/dashboard",
+          icon: Home,
+        },
+        {
+          title: "Orders",
+          url: "/orders",
+          icon: Package,
+        },
+        {
+          title: "Shipping",
+          url: "/address/add",
+          icon: Truck,
+        },
+        {
+          title: "Payment",
+          url: "/payment/add",
+          icon: CreditCard,
+        },
+        {
+          title: "Settings",
+          url: "/settings",
+          icon: Settings,
+        },
+      ];
+    } else {
+      // Fan navigation
+      return [
+        {
+          title: "Home",
+          url: "/",
+          icon: Home,
+        },
+        {
+          title: "Discover",
+          url: "/discover",
+          icon: Search,
+        },
+        {
+          title: "My Bids",
+          url: "/bids/active",
+          icon: Heart,
+        },
+        {
+          title: "Orders",
+          url: "/orders",
+          icon: Package,
+        },
+        {
+          title: "Settings",
+          url: "/settings",
+          icon: Settings,
+        },
+      ];
+    }
+  };
+
+  const navigationItems = getNavigationItems();
 
   return (
     <Sidebar className="border-r border-border w-[11rem]">
