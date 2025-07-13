@@ -46,11 +46,6 @@ export function AppSidebar() {
           url: "/payment/add",
           icon: CreditCard,
         },
-        {
-          title: "Settings",
-          url: "/settings",
-          icon: Settings,
-        },
       ];
     } else {
       // Fan navigation - no Dashboard or Orders
@@ -69,11 +64,6 @@ export function AppSidebar() {
           title: "Payment",
           url: "/payment/add",
           icon: CreditCard,
-        },
-        {
-          title: "Settings",
-          url: "/settings",
-          icon: Settings,
         },
       ];
     }
