@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
-import { X, Plus, Instagram, Music, Youtube, Link as LinkIcon, Twitter } from "lucide-react";
+import { X, Plus, Instagram, Music, Youtube, Link as LinkIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface SocialLink {
@@ -12,7 +12,7 @@ interface SocialLink {
   platform: string;
   prefix: string;
   value: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<any> | string;
 }
 
 const defaultSocials: Omit<SocialLink, 'id' | 'value'>[] = [
@@ -20,7 +20,7 @@ const defaultSocials: Omit<SocialLink, 'id' | 'value'>[] = [
   { platform: "TikTok", prefix: "tiktok.com/@", icon: Music },
   { platform: "YouTube", prefix: "youtube.com/@", icon: Youtube },
   { platform: "Twitch", prefix: "twitch.tv/", icon: Music },
-  { platform: "X", prefix: "x.com/", icon: Twitter },
+  { platform: "X", prefix: "x.com/", icon: "/lovable-uploads/ba58c063-365a-44cc-861c-15973a23ce27.png" },
   { platform: "OnlyFans", prefix: "onlyfans.com/", icon: LinkIcon }
 ];
 
@@ -121,7 +121,11 @@ const CreatorSocial = () => {
               {socialLinks.map((social) => (
                 <div key={social.id} className="space-y-2">
                   <Label htmlFor={social.id} className="flex items-center space-x-2">
-                    <social.icon className="h-5 w-5" />
+                    {typeof social.icon === 'string' ? (
+                      <img src={social.icon} alt={social.platform} className="h-5 w-5" />
+                    ) : (
+                      <social.icon className="h-5 w-5" />
+                    )}
                     <span>{social.platform}</span>
                   </Label>
                   <div className="flex">
@@ -147,7 +151,11 @@ const CreatorSocial = () => {
                 {customLinks.map((link) => (
                   <div key={link.id} className="space-y-2">
                     <Label htmlFor={link.id} className="flex items-center space-x-2">
-                      <link.icon className="h-5 w-5" />
+                      {typeof link.icon === 'string' ? (
+                        <img src={link.icon} alt="Custom platform" className="h-5 w-5" />
+                      ) : (
+                        <link.icon className="h-5 w-5" />
+                      )}
                       <span>Other Platform</span>
                     </Label>
                     <div className="flex">
