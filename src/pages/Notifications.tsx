@@ -1,5 +1,5 @@
 import { Layout } from "@/components/layout/Layout";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 
 export default function Notifications() {
@@ -11,8 +11,7 @@ export default function Notifications() {
           
           <div className="flex-1 flex flex-col min-w-0">
             <header className="h-16 border-b flex items-center px-4 bg-background sticky top-0 z-10">
-              <SidebarTrigger />
-              <div className="ml-4">
+              <div>
                 <h1 className="text-lg font-semibold">Notifications</h1>
               </div>
             </header>

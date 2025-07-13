@@ -10,16 +10,12 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from "@/components/ui/sidebar";
 
 export function AppSidebar() {
-  const { state } = useSidebar();
   const location = useLocation();
   const currentPath = location.pathname;
   const { userRole } = useAuth();
-
-  const isCollapsed = state === "collapsed";
 
   // Define navigation based on user role
   const getNavigationItems = () => {
@@ -94,7 +90,7 @@ export function AppSidebar() {
   ];
 
   return (
-    <Sidebar className="border-r border-border w-[18rem]">
+    <Sidebar className="border-r border-border w-[18rem]" collapsible="none">
       <SidebarContent className="bg-background pt-16">
         {/* Key Buttons Section */}
         <SidebarGroup>

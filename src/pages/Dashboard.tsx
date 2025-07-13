@@ -6,7 +6,7 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Plus, Clock, Copy, Globe, Lock, ExternalLink } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { Layout } from "@/components/layout/Layout";
 import { useAuth } from "@/contexts/AuthContext";
@@ -67,8 +67,7 @@ const Dashboard = () => {
           
           <div className="flex-1 flex flex-col min-w-0">
             <header className="h-16 border-b flex items-center px-4 bg-background sticky top-0 z-10">
-              <SidebarTrigger />
-              <div className="ml-4">
+              <div>
                 <h1 className="text-lg font-semibold">Creator Dashboard</h1>
               </div>
             </header>

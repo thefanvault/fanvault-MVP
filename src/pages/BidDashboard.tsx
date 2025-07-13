@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Clock, TrendingUp, TrendingDown, Trophy, X, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { Layout } from "@/components/layout/Layout";
 
@@ -283,8 +283,7 @@ const BidDashboard = () => {
           
           <div className="flex-1 flex flex-col min-w-0">
             <header className="h-16 border-b flex items-center px-4 bg-background sticky top-0 z-10">
-              <SidebarTrigger />
-              <div className="ml-4">
+              <div>
                 <h1 className="text-lg font-semibold">My Bids</h1>
               </div>
             </header>

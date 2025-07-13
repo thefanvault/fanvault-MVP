@@ -5,7 +5,7 @@ import { CreatorCard } from "@/components/creators/CreatorCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -85,8 +85,7 @@ const Discover = () => {
             
             <div className="flex-1 flex flex-col min-w-0">
               <header className="h-16 border-b flex items-center px-4 bg-background sticky top-0 z-10">
-                <SidebarTrigger />
-                <div className="ml-4">
+                <div>
                   <h1 className="text-lg font-semibold">Discover</h1>
                 </div>
               </header>
