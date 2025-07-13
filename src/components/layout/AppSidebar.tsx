@@ -81,11 +81,11 @@ export function AppSidebar() {
 
   return (
     <Sidebar className="border-r border-border w-[18rem]" collapsible="none">
-      <SidebarContent className="bg-background pt-16">
+      <SidebarContent className="bg-background pt-4">
         {/* Key Buttons Section */}
         <SidebarGroup>
           <SidebarGroupContent>
-            <div className="grid grid-cols-4 gap-1 p-3 mb-2">
+            <div className="grid grid-cols-4 gap-1 p-2">
               {keyButtons.map((button) => {
                 const isActive = currentPath === button.url;
                 return (
