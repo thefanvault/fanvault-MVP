@@ -34,6 +34,7 @@ import AdminImpersonation from "./pages/admin/AdminImpersonation";
 import Orders from "./pages/Orders";
 import Messages from "./pages/Messages";
 import Notifications from "./pages/Notifications";
+import FaqBidding from "./pages/FaqBidding";
 
 const queryClient = new QueryClient();
 
@@ -70,6 +71,7 @@ const App = () => (
           <Route path="/legal/privacy" element={<PrivacyPolicy />} />
           <Route path="/legal/dmca" element={<DMCAGuidelines />} />
           <Route path="/legal/acceptable-use" element={<AcceptableUse />} />
+          <Route path="/faq/bidding" element={<FaqBidding />} />
           <Route path="/status" element={<Status />} />
           <Route path="/403" element={<Forbidden />} />
           <Route path="/admin/moderation" element={<AdminModeration />} />

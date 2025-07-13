@@ -142,7 +142,7 @@ export function BidConfirmationModal({
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-3">
             <Label htmlFor="bid-amount">Your Bid ($)</Label>
             <Input
               id="bid-amount"
@@ -154,6 +154,41 @@ export function BidConfirmationModal({
               disabled={isSubmitting}
               className={validationError ? "border-destructive" : ""}
             />
+            
+            {/* Recommended Bids */}
+            <div className="space-y-2">
+              <Label className="text-sm text-muted-foreground">Recommended Bids</Label>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleBidChange(minimumBid.toString())}
+                  disabled={isSubmitting}
+                  className="flex-1"
+                >
+                  ${minimumBid.toFixed(0)}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleBidChange((minimumBid + 100).toString())}
+                  disabled={isSubmitting}
+                  className="flex-1"
+                >
+                  ${(minimumBid + 100).toFixed(0)}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleBidChange((minimumBid + 200).toString())}
+                  disabled={isSubmitting}
+                  className="flex-1"
+                >
+                  ${(minimumBid + 200).toFixed(0)}
+                </Button>
+              </div>
+            </div>
+            
             {validationError && (
               <p className="text-sm text-destructive">{validationError}</p>
             )}
@@ -225,8 +260,16 @@ export function BidConfirmationModal({
                   Placing Bid...
                 </>
               ) : (
-                "Confirm Bid"
+                "Place Bid"
               )}
+            </Button>
+          </div>
+          
+          <div className="text-center pt-2">
+            <Button variant="link" size="sm" asChild>
+              <Link to="/faq/bidding" className="text-sm underline">
+                HOW BIDDING WORKS
+              </Link>
             </Button>
           </div>
         </div>
