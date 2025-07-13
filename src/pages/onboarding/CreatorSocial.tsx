@@ -20,7 +20,7 @@ const defaultSocials: Omit<SocialLink, 'id' | 'value'>[] = [
   { platform: "TikTok", prefix: "tiktok.com/@", icon: Music },
   { platform: "YouTube", prefix: "youtube.com/@", icon: Youtube },
   { platform: "Twitch", prefix: "twitch.tv/", icon: Music },
-  { platform: "Twitter", prefix: "x.com/", icon: Twitter },
+  { platform: "X", prefix: "x.com/", icon: Twitter },
   { platform: "OnlyFans", prefix: "onlyfans.com/", icon: LinkIcon }
 ];
 
