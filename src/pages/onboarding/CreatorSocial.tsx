@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
-import { X, Plus } from "lucide-react";
+import { X, Plus, Instagram, Music, Youtube, Link as LinkIcon, Twitter } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface SocialLink {
@@ -12,15 +12,16 @@ interface SocialLink {
   platform: string;
   prefix: string;
   value: string;
-  icon: string;
+  icon: React.ComponentType<any>;
 }
 
 const defaultSocials: Omit<SocialLink, 'id' | 'value'>[] = [
-  { platform: "Instagram", prefix: "instagram.com/", icon: "📸" },
-  { platform: "TikTok", prefix: "tiktok.com/@", icon: "🎵" },
-  { platform: "YouTube", prefix: "youtube.com/@", icon: "▶️" },
-  { platform: "OnlyFans", prefix: "onlyfans.com/", icon: "🔗" },
-  { platform: "X", prefix: "x.com/", icon: "🐦" }
+  { platform: "Instagram", prefix: "instagram.com/", icon: Instagram },
+  { platform: "TikTok", prefix: "tiktok.com/@", icon: Music },
+  { platform: "YouTube", prefix: "youtube.com/@", icon: Youtube },
+  { platform: "Twitch", prefix: "twitch.tv/", icon: Music },
+  { platform: "Twitter", prefix: "x.com/", icon: Twitter },
+  { platform: "OnlyFans", prefix: "onlyfans.com/", icon: LinkIcon }
 ];
 
 const CreatorSocial = () => {
@@ -54,7 +55,7 @@ const CreatorSocial = () => {
       platform: "Other",
       prefix: "https://",
       value: "",
-      icon: "🌐"
+      icon: LinkIcon
     };
     setCustomLinks(prev => [...prev, newLink]);
   };
@@ -120,7 +121,7 @@ const CreatorSocial = () => {
               {socialLinks.map((social) => (
                 <div key={social.id} className="space-y-2">
                   <Label htmlFor={social.id} className="flex items-center space-x-2">
-                    <span className="text-lg">{social.icon}</span>
+                    <social.icon className="h-5 w-5" />
                     <span>{social.platform}</span>
                   </Label>
                   <div className="flex">
@@ -146,7 +147,7 @@ const CreatorSocial = () => {
                 {customLinks.map((link) => (
                   <div key={link.id} className="space-y-2">
                     <Label htmlFor={link.id} className="flex items-center space-x-2">
-                      <span className="text-lg">{link.icon}</span>
+                      <link.icon className="h-5 w-5" />
                       <span>Other Platform</span>
                     </Label>
                     <div className="flex">
