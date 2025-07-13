@@ -290,9 +290,9 @@ const BidDashboard = () => {
             </header>
             
             <div className="flex-1 overflow-auto p-4 md:p-6">
-              <div className="w-full max-w-4xl mx-auto">
-                <div className="mb-8">
-                  <h1 className="text-3xl font-bold text-foreground">My Bids</h1>
+              <div className="w-full max-w-4xl mx-auto space-y-6">
+                <div>
+                  <h2 className="text-2xl font-bold text-foreground">My Bids</h2>
                   <p className="text-muted-foreground mt-2">
                     Track all your auction activity in one place
                   </p>

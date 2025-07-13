@@ -10,6 +10,7 @@ import { Plus, Clock, Copy, Globe, Lock, ExternalLink } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
+import { Layout } from "@/components/layout/Layout";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Dashboard = () => {
@@ -61,32 +62,30 @@ const Dashboard = () => {
   const magicLink = `https://fanvault.app/creator/${handle}?token=abc123def456`;
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      
+    <Layout>
       <SidebarProvider>
-        <div className="flex w-full pt-16">
+        <div className="flex w-full min-h-screen">
           <AppSidebar />
           
-          <div className="flex-1 flex flex-col">
-            <header className="h-12 border-b flex items-center px-4">
+          <div className="flex-1 flex flex-col min-w-0">
+            <header className="h-16 border-b flex items-center px-4 bg-background sticky top-0 z-10">
               <SidebarTrigger />
               <div className="ml-4">
                 <h1 className="text-lg font-semibold">Creator Dashboard</h1>
               </div>
             </header>
             
-            <main className="flex-1 flex justify-center">
-              <div className="w-full max-w-4xl px-4 pt-4 pb-20 md:pb-6">
+            <div className="flex-1 overflow-auto p-4 md:p-6">
+              <div className="w-full max-w-4xl mx-auto space-y-6">
                 {/* Creator Header */}
-                <div className="flex items-center space-x-4 mb-8">
+                <div className="flex items-center space-x-4 mb-6">
                   <img 
                     src="https://images.unsplash.com/photo-1494790108755-2616b612e04f?w=150&h=150&fit=crop&crop=face" 
                     alt="Profile"
                     className="w-16 h-16 rounded-full"
                   />
                   <div>
-                    <h1 className="text-2xl font-bold">Welcome, {creatorName}!</h1>
+                    <h2 className="text-2xl font-bold">Welcome, {creatorName}!</h2>
                     <p className="text-muted-foreground">@{handle}</p>
                     <div className="mt-2">
                       <p className="text-lg font-semibold text-primary">
@@ -102,7 +101,7 @@ const Dashboard = () => {
                 </div>
 
                 {/* Primary Actions */}
-                <div className="mb-8 flex flex-col sm:flex-row gap-4">
+                <div className="mb-6 flex flex-col sm:flex-row gap-4">
                   <Button size="lg" className="bg-fanvault-gradient text-white font-semibold px-8 py-3 rounded-lg" asChild>
                     <a href="/list-new-item">
                       <Plus className="h-5 w-5 mr-2" />
@@ -119,7 +118,7 @@ const Dashboard = () => {
                 </div>
 
                 {/* Active Auctions */}
-                <Card className="mb-8">
+                <Card className="mb-6">
                   <CardHeader>
                     <CardTitle>Active Auctions</CardTitle>
                   </CardHeader>
@@ -164,7 +163,7 @@ const Dashboard = () => {
                 </Card>
 
                 {/* Recent Sales */}
-                <Card className="mb-8">
+                <Card className="mb-6">
                   <CardHeader>
                     <CardTitle>Recent Sales</CardTitle>
                   </CardHeader>
@@ -236,13 +235,11 @@ const Dashboard = () => {
                   </CardContent>
                 </Card>
               </div>
-            </main>
-
-            <MobileNav currentPath="/dashboard" />
+            </div>
           </div>
         </div>
       </SidebarProvider>
-    </div>
+    </Layout>
   );
 };
 

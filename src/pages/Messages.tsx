@@ -18,7 +18,7 @@ export default function Messages() {
             </header>
             
             <div className="flex-1 overflow-auto p-4 md:p-6">
-              <div className="w-full max-w-4xl mx-auto">
+              <div className="w-full max-w-4xl mx-auto space-y-6">
                 <div className="bg-card rounded-lg border p-8 text-center">
                   <div className="text-muted-foreground">
                     <p className="text-lg mb-2">Messages feature coming soon!</p>

@@ -92,11 +92,11 @@ const Discover = () => {
               </header>
               
               <div className="flex-1 overflow-auto p-4 md:p-6">
-                <div className="container mx-auto max-w-6xl">
+                <div className="w-full max-w-4xl mx-auto space-y-6">
                   {/* Hero Section */}
-                  <div className="text-center mb-8">
-                    <h1 className="text-4xl font-bold mb-4">Discover Creators</h1>
-                    <p className="text-xl text-muted-foreground mb-6">
+                  <div className="text-center mb-6">
+                    <h2 className="text-2xl font-bold mb-4">Discover Creators</h2>
+                    <p className="text-muted-foreground mb-6">
                       Find creators to follow and get notified of their drops
                     </p>
                     
@@ -111,9 +111,9 @@ const Discover = () => {
                   </div>
 
                   {/* Featured Creators */}
-                  <section className="mb-12">
-                    <h2 className="text-2xl font-bold mb-6">Featured Creators</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <section className="mb-6">
+                    <h3 className="text-xl font-bold mb-4">Featured Creators</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                       {creators.map((creator) => (
                         <CreatorCard key={creator.username} {...creator} />
                       ))}
@@ -122,13 +122,13 @@ const Discover = () => {
 
                   {/* Live Auctions */}
                   <section>
-                    <div className="flex items-center justify-between mb-6">
-                      <h2 className="text-2xl font-bold">Live Auctions</h2>
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-xl font-bold">Live Auctions</h3>
                       <Button variant="outline" size="sm">
                         View All
                       </Button>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                       {featuredAuctions.map((auction) => (
                         <AuctionCard key={auction.id} {...auction} />
                       ))}
