@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/layout/AppSidebar";
 import { AuctionCard } from "@/components/auctions/AuctionCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -100,7 +102,12 @@ const CreatorProfile = () => {
 
   return (
     <Layout>
-        {creator.isPrivate ? (
+      <SidebarProvider>
+        <div className="flex w-full min-h-screen">
+          <AppSidebar />
+          
+          <div className="flex-1">
+            {creator.isPrivate ? (
           <div className="container mx-auto px-4 py-16 text-center">
             <h1 className="text-3xl font-bold mb-4">This profile is private</h1>
             <p className="text-muted-foreground">You need a magic link to view this creator's content.</p>
@@ -334,6 +341,9 @@ const CreatorProfile = () => {
             </div>
           </>
         )}
+          </div>
+        </div>
+      </SidebarProvider>
     </Layout>
   );
 };
