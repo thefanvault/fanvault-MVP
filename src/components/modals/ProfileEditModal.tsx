@@ -6,7 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { Upload, Trash2, Plus, X } from "lucide-react";
+import { Upload, Trash2, Plus, X, Camera } from "lucide-react";
+import { useRef } from "react";
 
 interface SocialPlatform {
   name: string;
@@ -36,6 +37,9 @@ interface ProfileEditModalProps {
 
 export const ProfileEditModal = ({ open, onOpenChange, profile, onSave }: ProfileEditModalProps) => {
   const { toast } = useToast();
+  const bannerInputRef = useRef<HTMLInputElement>(null);
+  const profileInputRef = useRef<HTMLInputElement>(null);
+  
   const [displayName, setDisplayName] = useState(profile.displayName);
   const [bio, setBio] = useState(profile.bio);
   const [profileImage, setProfileImage] = useState<File | null>(null);
@@ -132,7 +136,10 @@ export const ProfileEditModal = ({ open, onOpenChange, profile, onSave }: Profil
           <div className="space-y-2">
             <Label>Banner Image</Label>
             <div className="relative">
-              <div className="h-32 bg-muted rounded-lg border-2 border-dashed border-muted-foreground/25 flex items-center justify-center overflow-hidden">
+              <div 
+                className="h-32 bg-muted rounded-lg border-2 border-dashed border-muted-foreground/25 flex items-center justify-center overflow-hidden cursor-pointer hover:bg-muted/80 transition-colors"
+                onClick={() => bannerInputRef.current?.click()}
+              >
                 {bannerImage ? (
                   <img 
                     src={URL.createObjectURL(bannerImage)} 
@@ -142,7 +149,7 @@ export const ProfileEditModal = ({ open, onOpenChange, profile, onSave }: Profil
                 ) : (
                   <div className="text-center">
                     <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-                    <p className="text-sm text-muted-foreground">Upload banner image</p>
+                    <p className="text-sm text-muted-foreground">Click to upload banner image</p>
                   </div>
                 )}
               </div>
@@ -157,11 +164,12 @@ export const ProfileEditModal = ({ open, onOpenChange, profile, onSave }: Profil
                 </Button>
               )}
             </div>
-            <Input
+            <input
+              ref={bannerInputRef}
               type="file"
               accept="image/*"
               onChange={handleBannerImageUpload}
-              className="file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
+              className="hidden"
             />
           </div>
 
@@ -169,7 +177,10 @@ export const ProfileEditModal = ({ open, onOpenChange, profile, onSave }: Profil
           <div className="space-y-2">
             <Label>Profile Image</Label>
             <div className="flex items-center space-x-4">
-              <div className="w-20 h-20 rounded-full bg-muted border-2 border-dashed border-muted-foreground/25 flex items-center justify-center overflow-hidden">
+              <div 
+                className="w-20 h-20 rounded-full bg-muted border-2 border-dashed border-muted-foreground/25 flex items-center justify-center overflow-hidden cursor-pointer hover:bg-muted/80 transition-colors relative"
+                onClick={() => profileInputRef.current?.click()}
+              >
                 {profileImage ? (
                   <img 
                     src={URL.createObjectURL(profileImage)} 
@@ -177,18 +188,22 @@ export const ProfileEditModal = ({ open, onOpenChange, profile, onSave }: Profil
                     className="w-full h-full object-cover rounded-full"
                   />
                 ) : (
-                  <Upload className="h-6 w-6 text-muted-foreground" />
+                  <div className="text-center">
+                    <Camera className="h-6 w-6 text-muted-foreground" />
+                  </div>
                 )}
               </div>
               <div className="flex-1">
-                <Input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleProfileImageUpload}
-                  className="file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
-                />
+                <p className="text-sm text-muted-foreground">Click the circle to upload your profile picture</p>
               </div>
             </div>
+            <input
+              ref={profileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleProfileImageUpload}
+              className="hidden"
+            />
           </div>
 
           {/* Display Name */}
