@@ -7,27 +7,18 @@ import { AuctionCard } from "@/components/auctions/AuctionCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { ProfileEditModal } from "@/components/modals/ProfileEditModal";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
-import { Check, Instagram, Twitter, Facebook, Youtube, Globe, Camera, Edit } from "lucide-react";
+import { Check, Instagram, Twitter, Youtube, Globe, Edit } from "lucide-react";
 import creatorPhoto from "@/assets/creator-profile-photo.jpg";
 
 const CreatorProfile = () => {
   const { username } = useParams();
   const { user, profile } = useAuth();
   const { toast } = useToast();
-  const [editingBanner, setEditingBanner] = useState(false);
-  const [editingAvatar, setEditingAvatar] = useState(false);
-  const [bannerUrl, setBannerUrl] = useState("");
-  const [avatarUrl, setAvatarUrl] = useState("");
-
-  // Check if this is the current user's profile
-  const isOwnProfile = user && profile && profile.username === username;
-
-  const creator = {
+  const [profileEditOpen, setProfileEditOpen] = useState(false);
+  const [creatorData, setCreatorData] = useState({
     username: username || "sarahsmith",
     displayName: "Sarah Smith",
     bio: "Fashion & Lifestyle Creator ✨ Sharing my favorite pieces with you!",
@@ -45,34 +36,21 @@ const CreatorProfile = () => {
       website: "https://sarahsmith.com"
     },
     joinedDate: "January 2022"
-  };
+  });
 
-  const handleBannerUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      // In a real app, you'd upload to your storage service
-      const url = URL.createObjectURL(file);
-      setBannerUrl(url);
-      toast({
-        title: "Banner updated",
-        description: "Your banner has been updated successfully.",
-      });
-      setEditingBanner(false);
-    }
-  };
+  // Check if this is the current user's profile
+  const isOwnProfile = user && profile && profile.username === username;
 
-  const handleAvatarUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      // In a real app, you'd upload to your storage service
-      const url = URL.createObjectURL(file);
-      setAvatarUrl(url);
-      toast({
-        title: "Profile picture updated",
-        description: "Your profile picture has been updated successfully.",
-      });
-      setEditingAvatar(false);
-    }
+  const handleProfileSave = (profileData: any) => {
+    // In a real app, you'd save this to your backend
+    setCreatorData(prev => ({
+      ...prev,
+      displayName: profileData.displayName,
+      bio: profileData.bio,
+      // Handle file uploads here
+      ...(profileData.profileImage && { avatar: URL.createObjectURL(profileData.profileImage) }),
+      ...(profileData.bannerImage && { banner: URL.createObjectURL(profileData.bannerImage) })
+    }));
   };
 
   const liveAuctions = [
@@ -84,7 +62,7 @@ const CreatorProfile = () => {
       timeRemaining: "2h 15m",
       imageUrl: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop",
       creatorName: "Sarah Smith",
-      creatorAvatar: creator.avatar,
+      creatorAvatar: creatorData.avatar,
       isLive: true
     },
     {
@@ -95,7 +73,7 @@ const CreatorProfile = () => {
       timeRemaining: "45m",
       imageUrl: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=400&h=300&fit=crop",
       creatorName: "Sarah Smith",
-      creatorAvatar: creator.avatar,
+      creatorAvatar: creatorData.avatar,
       isEndingSoon: true
     }
   ];
@@ -107,240 +85,205 @@ const CreatorProfile = () => {
           <AppSidebar />
           
           <div className="flex-1">
-            {creator.isPrivate ? (
-          <div className="container mx-auto px-4 py-16 text-center">
-            <h1 className="text-3xl font-bold mb-4">This profile is private</h1>
-            <p className="text-muted-foreground">You need a magic link to view this creator's content.</p>
-          </div>
-        ) : (
-          <>
-            {/* Banner Section */}
-            <div className="relative">
-              <div className="h-32 sm:h-48 md:h-64 bg-gradient-to-r from-primary/20 to-secondary/20 overflow-hidden">
-                <img 
-                  src={bannerUrl || creator.banner} 
-                  alt="Profile banner"
-                  className="w-full h-full object-cover"
-                />
+            {creatorData.isPrivate ? (
+              <div className="container mx-auto px-4 py-16 text-center">
+                <h1 className="text-3xl font-bold mb-4">This profile is private</h1>
+                <p className="text-muted-foreground">You need a magic link to view this creator's content.</p>
               </div>
-              {isOwnProfile && (
-                <Dialog open={editingBanner} onOpenChange={setEditingBanner}>
-                  <DialogTrigger asChild>
+            ) : (
+              <>
+                {/* Banner Section */}
+                <div className="relative">
+                  <div className="h-32 sm:h-48 md:h-64 bg-gradient-to-r from-primary/20 to-secondary/20 overflow-hidden">
+                    <img 
+                      src={creatorData.banner} 
+                      alt="Profile banner"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  {isOwnProfile && (
                     <Button 
                       variant="outline" 
                       size="sm"
                       className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-background/80 backdrop-blur-sm text-xs sm:text-sm"
+                      onClick={() => setProfileEditOpen(true)}
                     >
                       <Edit className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                      Edit Banner
+                      Edit Profile
                     </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Update Banner</DialogTitle>
-                    </DialogHeader>
-                    <div className="space-y-4">
+                  )}
+                </div>
+
+                {/* Profile Header */}
+                <div className="container mx-auto px-4 pt-4 sm:pt-8">
+                  <div className="flex flex-col items-center text-center mb-6 sm:mb-8 -mt-12 sm:-mt-16 relative z-10">
+                    <div className="relative mb-3 sm:mb-4">
+                      <img 
+                        src={creatorData.avatar} 
+                        alt={creatorData.displayName}
+                        className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full border-4 border-background bg-background"
+                      />
+                      {creatorData.isVerified && (
+                        <div className="absolute -bottom-1 -right-1 bg-primary rounded-full p-2">
+                          <Check className="h-4 w-4 text-primary-foreground" />
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="flex items-center space-x-2 mb-2">
+                      <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">{creatorData.displayName}</h1>
+                      {creatorData.isVerified && <Badge variant="secondary" className="text-xs">Verified</Badge>}
+                    </div>
+                    
+                    <p className="text-muted-foreground mb-2 text-sm sm:text-base">@{creatorData.username}</p>
+                    <p className="text-xs sm:text-sm md:text-base mb-3 sm:mb-4 max-w-md px-2">{creatorData.bio}</p>
+                    
+                    <div className="flex space-x-4 sm:space-x-6 text-xs sm:text-sm mb-3 sm:mb-4">
                       <div>
-                        <Label htmlFor="banner-upload">Upload Banner Image</Label>
-                        <Input 
-                          id="banner-upload"
-                          type="file" 
-                          accept="image/*"
-                          onChange={handleBannerUpload}
-                          className="mt-2"
-                        />
+                        <span className="font-semibold">{creatorData.followerCount.toLocaleString()}</span>
+                        <span className="text-muted-foreground ml-1">followers</span>
+                      </div>
+                      <div>
+                        <span className="font-semibold">{creatorData.itemCount}</span>
+                        <span className="text-muted-foreground ml-1">items</span>
+                      </div>
+                      <div>
+                        <span className="font-semibold">{creatorData.salesCount}</span>
+                        <span className="text-muted-foreground ml-1">sales</span>
                       </div>
                     </div>
-                  </DialogContent>
-                </Dialog>
-              )}
-            </div>
-
-            {/* Profile Header */}
-            <div className="container mx-auto px-4 pt-4 sm:pt-8">
-              <div className="flex flex-col items-center text-center mb-6 sm:mb-8 -mt-12 sm:-mt-16 relative z-10">
-                <div className="relative mb-3 sm:mb-4">
-                  <img 
-                    src={avatarUrl || creator.avatar} 
-                    alt={creator.displayName}
-                    className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full border-4 border-background bg-background"
-                  />
-                  {creator.isVerified && (
-                    <div className="absolute -bottom-1 -right-1 bg-primary rounded-full p-2">
-                      <Check className="h-4 w-4 text-primary-foreground" />
-                    </div>
-                  )}
-                  {isOwnProfile && (
-                    <Dialog open={editingAvatar} onOpenChange={setEditingAvatar}>
-                      <DialogTrigger asChild>
-                        <Button 
-                          variant="outline" 
-                          size="icon"
-                          className="absolute -bottom-1 -right-1 sm:-bottom-2 sm:-right-2 h-6 w-6 sm:h-8 sm:w-8 rounded-full bg-background border-2 border-background"
+                    
+                    {/* Social Links */}
+                    <div className="flex space-x-2 sm:space-x-3 mb-3 sm:mb-4">
+                      {creatorData.socialLinks.instagram && (
+                        <a 
+                          href={creatorData.socialLinks.instagram} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="p-1.5 sm:p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors"
                         >
-                          <Camera className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
+                          <Instagram className="h-4 w-4 sm:h-5 sm:w-5" />
+                        </a>
+                      )}
+                      {creatorData.socialLinks.twitter && (
+                        <a 
+                          href={creatorData.socialLinks.twitter} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="p-1.5 sm:p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors"
+                        >
+                          <Twitter className="h-4 w-4 sm:h-5 sm:w-5" />
+                        </a>
+                      )}
+                      {creatorData.socialLinks.youtube && (
+                        <a 
+                          href={creatorData.socialLinks.youtube} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="p-1.5 sm:p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors"
+                        >
+                          <Youtube className="h-4 w-4 sm:h-5 sm:w-5" />
+                        </a>
+                      )}
+                      {creatorData.socialLinks.website && (
+                        <a 
+                          href={creatorData.socialLinks.website} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="p-1.5 sm:p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors"
+                        >
+                          <Globe className="h-4 w-4 sm:h-5 sm:w-5" />
+                        </a>
+                      )}
+                    </div>
+                    
+                    {!isOwnProfile && (
+                      <div className="flex flex-col sm:flex-row gap-2 sm:space-x-2 w-full sm:w-auto sm:justify-center">
+                        <Button className="bg-fanvault-gradient text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto">
+                          Follow
                         </Button>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Update Profile Picture</DialogTitle>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          <div>
-                            <Label htmlFor="avatar-upload">Upload Profile Picture</Label>
-                            <Input 
-                              id="avatar-upload"
-                              type="file" 
-                              accept="image/*"
-                              onChange={handleAvatarUpload}
-                              className="mt-2"
-                            />
-                          </div>
+                        <div className="flex space-x-2 w-full sm:w-auto">
+                          <Button 
+                            variant="outline" 
+                            className="text-sm sm:text-base px-4 sm:px-6 flex-1 sm:flex-none"
+                            disabled={!user || !profile}
+                            onClick={() => {
+                              if (!user || !profile) {
+                                toast({
+                                  title: "Purchase required",
+                                  description: "You need to purchase an item from this creator to send messages.",
+                                  variant: "destructive"
+                                });
+                              }
+                            }}
+                          >
+                            Message
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            className="text-sm sm:text-base px-4 sm:px-6 flex-1 sm:flex-none"
+                            onClick={() => {
+                              toast({
+                                title: "Coming soon",
+                                description: "Tip functionality will be available soon!",
+                              });
+                            }}
+                          >
+                            Tip Me
+                          </Button>
                         </div>
-                      </DialogContent>
-                    </Dialog>
-                  )}
-                </div>
-                
-                <div className="flex items-center space-x-2 mb-2">
-                  <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">{creator.displayName}</h1>
-                  {creator.isVerified && <Badge variant="secondary" className="text-xs">Verified</Badge>}
-                </div>
-                
-                <p className="text-muted-foreground mb-2 text-sm sm:text-base">@{creator.username}</p>
-                <p className="text-xs sm:text-sm md:text-base mb-3 sm:mb-4 max-w-md px-2">{creator.bio}</p>
-                
-                <div className="flex space-x-4 sm:space-x-6 text-xs sm:text-sm mb-3 sm:mb-4">
-                  <div>
-                    <span className="font-semibold">{creator.followerCount.toLocaleString()}</span>
-                    <span className="text-muted-foreground ml-1">followers</span>
-                  </div>
-                  <div>
-                    <span className="font-semibold">{creator.itemCount}</span>
-                    <span className="text-muted-foreground ml-1">items</span>
-                  </div>
-                  <div>
-                    <span className="font-semibold">{creator.salesCount}</span>
-                    <span className="text-muted-foreground ml-1">sales</span>
+                      </div>
+                    )}
+                    
+                    <p className="text-xs text-muted-foreground mt-2">Joined {creatorData.joinedDate}</p>
                   </div>
                 </div>
-                
-                {/* Social Links */}
-                <div className="flex space-x-2 sm:space-x-3 mb-3 sm:mb-4">
-                  {creator.socialLinks.instagram && (
-                    <a 
-                      href={creator.socialLinks.instagram} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="p-1.5 sm:p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors"
-                    >
-                      <Instagram className="h-4 w-4 sm:h-5 sm:w-5" />
-                    </a>
-                  )}
-                  {creator.socialLinks.twitter && (
-                    <a 
-                      href={creator.socialLinks.twitter} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="p-1.5 sm:p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors"
-                    >
-                      <Twitter className="h-4 w-4 sm:h-5 sm:w-5" />
-                    </a>
-                  )}
-                  {creator.socialLinks.youtube && (
-                    <a 
-                      href={creator.socialLinks.youtube} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="p-1.5 sm:p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors"
-                    >
-                      <Youtube className="h-4 w-4 sm:h-5 sm:w-5" />
-                    </a>
-                  )}
-                  {creator.socialLinks.website && (
-                    <a 
-                      href={creator.socialLinks.website} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="p-1.5 sm:p-2 rounded-full bg-muted hover:bg-muted/80 transition-colors"
-                    >
-                      <Globe className="h-4 w-4 sm:h-5 sm:w-5" />
-                    </a>
-                  )}
-                </div>
-                
-                <div className="flex flex-col sm:flex-row gap-2 sm:space-x-2 w-full sm:w-auto sm:justify-center">
-                  <Button className="bg-fanvault-gradient text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto">
-                    Follow
-                  </Button>
-                  <div className="flex space-x-2 w-full sm:w-auto">
-                    <Button 
-                      variant="outline" 
-                      className="text-sm sm:text-base px-4 sm:px-6 flex-1 sm:flex-none"
-                      disabled={!user || !profile}
-                      onClick={() => {
-                        if (!user || !profile) {
-                          toast({
-                            title: "Purchase required",
-                            description: "You need to purchase an item from this creator to send messages.",
-                            variant: "destructive"
-                          });
-                        }
-                      }}
-                    >
-                      Message
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      className="text-sm sm:text-base px-4 sm:px-6 flex-1 sm:flex-none"
-                      onClick={() => {
-                        toast({
-                          title: "Coming soon",
-                          description: "Tip functionality will be available soon!",
-                        });
-                      }}
-                    >
-                      Tip Me
-                    </Button>
-                  </div>
-                </div>
-                
-                <p className="text-xs text-muted-foreground mt-2">Joined {creator.joinedDate}</p>
-              </div>
-            </div>
 
-            {/* Items Section with Tabs */}
-            <div className="container mx-auto px-4">
-              <Tabs defaultValue="shop" className="w-full">
-                <TabsList className="grid w-full grid-cols-3 mb-4 sm:mb-6 h-auto p-1">
-                  <TabsTrigger value="shop" className="text-xs sm:text-sm py-2">Shop</TabsTrigger>
-                  <TabsTrigger value="sold" className="text-xs sm:text-sm py-2">Sold</TabsTrigger>
-                  <TabsTrigger value="wishlist" disabled className="text-xs sm:text-sm py-2">Wishlist (coming soon)</TabsTrigger>
-                </TabsList>
-                
-                <TabsContent value="shop">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                    {liveAuctions.map((auction) => (
-                      <AuctionCard key={auction.id} {...auction} />
-                    ))}
-                  </div>
-                </TabsContent>
-                
-                <TabsContent value="sold">
-                  <div className="text-center py-8 sm:py-12">
-                    <p className="text-muted-foreground text-sm sm:text-base">No sold items yet</p>
-                  </div>
-                </TabsContent>
-                
-                <TabsContent value="wishlist">
-                  <div className="text-center py-8 sm:py-12">
-                    <p className="text-muted-foreground text-sm sm:text-base">Wishlist feature coming soon!</p>
-                  </div>
-                </TabsContent>
-              </Tabs>
-            </div>
-          </>
-        )}
+                {/* Items Section with Tabs */}
+                <div className="container mx-auto px-4">
+                  <Tabs defaultValue="shop" className="w-full">
+                    <TabsList className="grid w-full grid-cols-3 mb-4 sm:mb-6 h-auto p-1">
+                      <TabsTrigger value="shop" className="text-xs sm:text-sm py-2">Shop</TabsTrigger>
+                      <TabsTrigger value="sold" className="text-xs sm:text-sm py-2">Sold</TabsTrigger>
+                      <TabsTrigger value="wishlist" disabled className="text-xs sm:text-sm py-2">Wishlist (coming soon)</TabsTrigger>
+                    </TabsList>
+                    
+                    <TabsContent value="shop">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                        {liveAuctions.map((auction) => (
+                          <AuctionCard key={auction.id} {...auction} />
+                        ))}
+                      </div>
+                    </TabsContent>
+                    
+                    <TabsContent value="sold">
+                      <div className="text-center py-8 sm:py-12">
+                        <p className="text-muted-foreground text-sm sm:text-base">No sold items yet</p>
+                      </div>
+                    </TabsContent>
+                    
+                    <TabsContent value="wishlist">
+                      <div className="text-center py-8 sm:py-12">
+                        <p className="text-muted-foreground text-sm sm:text-base">Wishlist feature coming soon!</p>
+                      </div>
+                    </TabsContent>
+                  </Tabs>
+                </div>
+              </>
+            )}
+
+            {/* Profile Edit Modal */}
+            <ProfileEditModal 
+              open={profileEditOpen}
+              onOpenChange={setProfileEditOpen}
+              profile={{
+                displayName: creatorData.displayName,
+                bio: creatorData.bio,
+                avatar: creatorData.avatar,
+                banner: creatorData.banner
+              }}
+              onSave={handleProfileSave}
+            />
           </div>
         </div>
       </SidebarProvider>
