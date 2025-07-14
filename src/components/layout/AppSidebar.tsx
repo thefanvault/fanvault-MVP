@@ -1,5 +1,5 @@
 
-import { Home, Settings, Package, Truck, CreditCard, Heart, Crown, MessageCircle, Bell } from "lucide-react";
+import { Home, Settings, Package, Truck, CreditCard, Heart, Crown, MessageCircle, Bell, User } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -46,6 +46,11 @@ export function AppSidebar() {
           url: "/payment/add",
           icon: CreditCard,
         },
+        {
+          title: "Profile",
+          url: "/profile",
+          icon: User,
+        },
       ];
     } else {
       // Fan navigation - no Dashboard or Orders
@@ -64,6 +69,11 @@ export function AppSidebar() {
           title: "Payment",
           url: "/payment/add",
           icon: CreditCard,
+        },
+        {
+          title: "Profile",
+          url: "/profile",
+          icon: User,
         },
       ];
     }

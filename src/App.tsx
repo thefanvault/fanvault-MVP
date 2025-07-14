@@ -35,6 +35,7 @@ import Orders from "./pages/Orders";
 import Messages from "./pages/Messages";
 import Notifications from "./pages/Notifications";
 import FaqBidding from "./pages/FaqBidding";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
@@ -62,6 +63,7 @@ const App = () => (
           <Route path="/orders" element={<Orders />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/notifications" element={<Notifications />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/list-new-item" element={<ListNewItem />} />
           <Route path="/address/add" element={<AddressAdd />} />
           <Route path="/payment/add" element={<PaymentAdd />} />
