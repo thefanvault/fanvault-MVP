@@ -237,17 +237,6 @@ export const ProfileEditModal = ({ open, onOpenChange, profile, onSave }: Profil
             </div>
           </div>
 
-          {/* Content Type Selection */}
-          <div className="space-y-2">
-            <Label>What type of content are you planning on making?</Label>
-            <div className="flex flex-wrap gap-2">
-              {["Educational", "Coaching", "Gaming", "Fitness", "Lifestyle", "Music", "Sports", "Other"].map((type) => (
-                <Badge key={type} variant="outline" className="cursor-pointer hover:bg-primary hover:text-primary-foreground">
-                  {type}
-                </Badge>
-              ))}
-            </div>
-          </div>
 
           {/* Social Media Accounts */}
           <div className="space-y-4">
