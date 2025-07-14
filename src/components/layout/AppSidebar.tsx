@@ -15,7 +15,7 @@ import {
 export function AppSidebar() {
   const location = useLocation();
   const currentPath = location.pathname;
-  const { userRole } = useAuth();
+  const { userRole, profile } = useAuth();
 
   // Define navigation based on user role
   const getNavigationItems = () => {
@@ -48,7 +48,7 @@ export function AppSidebar() {
         },
         {
           title: "Profile",
-          url: "/profile",
+          url: `/creator/${profile?.username || 'username'}`,
           icon: User,
         },
       ];
@@ -72,7 +72,7 @@ export function AppSidebar() {
         },
         {
           title: "Profile",
-          url: "/profile",
+          url: `/creator/${profile?.username || 'username'}`,
           icon: User,
         },
       ];

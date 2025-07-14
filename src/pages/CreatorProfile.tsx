@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Header } from "@/components/layout/Header";
-import { MobileNav } from "@/components/layout/MobileNav";
+import { Layout } from "@/components/layout/Layout";
 import { AuctionCard } from "@/components/auctions/AuctionCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -100,10 +99,7 @@ const CreatorProfile = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      
-      <main className="pb-20 md:pb-6">
+    <Layout>
         {creator.isPrivate ? (
           <div className="container mx-auto px-4 py-16 text-center">
             <h1 className="text-3xl font-bold mb-4">This profile is private</h1>
@@ -338,10 +334,7 @@ const CreatorProfile = () => {
             </div>
           </>
         )}
-      </main>
-
-      <MobileNav currentPath="/creator" />
-    </div>
+    </Layout>
   );
 };
 
