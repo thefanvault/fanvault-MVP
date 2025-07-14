@@ -223,7 +223,7 @@ export const ProfileEditModal = ({ open, onOpenChange, profile, onSave }: Profil
 
           {/* Bio/Description */}
           <div className="space-y-2">
-            <Label htmlFor="bio">Description</Label>
+            <Label htmlFor="bio">Bio</Label>
             <Textarea
               id="bio"
               value={bio}
