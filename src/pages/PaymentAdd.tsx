@@ -171,7 +171,7 @@ const PaymentAdd = () => {
             </header>
             
             <div className="flex-1 overflow-auto p-4 md:p-6">
-              <div className="w-full max-w-4xl px-4 pt-6 pb-20 md:pb-6 space-y-6">
+              <div className="w-full max-w-4xl mx-auto px-4 pt-6 pb-20 md:pb-6 space-y-6">
                 
                 {/* Creator-only Payout Methods Section - Top Priority */}
                 {userRole === 'creator' && (
