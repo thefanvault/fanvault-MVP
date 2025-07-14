@@ -70,11 +70,6 @@ export function AppSidebar() {
           url: "/payment/add",
           icon: CreditCard,
         },
-        {
-          title: "Profile",
-          url: `/creator/${profile?.username || 'username'}`,
-          icon: User,
-        },
       ];
     }
   };
