@@ -8,10 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Clock, Zap } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Index = () => {
   const navigate = useNavigate();
   const { user, userRole, loading } = useAuth();
+  const isMobile = useIsMobile();
 
   // Mock data for live auctions
   const liveAuctions = [
@@ -69,41 +71,41 @@ const Index = () => {
       
       <main className="pb-20 md:pb-6">
         {/* Hero Section */}
-        <section className="bg-fanvault-gradient text-white py-16 md:py-24">
+        <section className="bg-fanvault-gradient text-white py-12 md:py-16 lg:py-24">
           <div className="container mx-auto px-4 text-center">
             {userRole === 'creator' ? (
               // Creator Hero
               <>
-                <h1 className="text-4xl md:text-6xl font-bold mb-6">
+                <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6 px-2">
                   Monetize Your Fan Base with Exclusive Auctions
                 </h1>
-                <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
+                <p className="text-base md:text-xl lg:text-2xl mb-6 md:mb-8 opacity-90 max-w-3xl mx-auto px-2">
                   Turn your personal items, limited merch, and exclusive content into profitable auctions for your biggest fans.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <div className={`flex flex-col gap-3 md:gap-4 justify-center px-4 ${!isMobile ? "sm:flex-row" : ""}`}>
                   {user ? (
-                    <Button 
-                      size="lg" 
-                      variant="secondary" 
-                      className="text-lg px-8"
-                      onClick={() => navigate("/list-new-item")}
-                    >
-                      List Your First Item
-                    </Button>
+                  <Button 
+                    size={isMobile ? "default" : "lg"} 
+                    variant="secondary" 
+                    className={`${isMobile ? "text-base px-6 w-full" : "text-lg px-8"}`}
+                    onClick={() => navigate("/list-new-item")}
+                  >
+                    List Your First Item
+                  </Button>
                   ) : (
-                    <Button 
-                      size="lg" 
-                      variant="secondary" 
-                      className="text-lg px-8"
-                      onClick={() => navigate("/signup?type=creator")}
-                    >
-                      Start Selling
-                    </Button>
+                  <Button 
+                    size={isMobile ? "default" : "lg"} 
+                    variant="secondary" 
+                    className={`${isMobile ? "text-base px-6 w-full" : "text-lg px-8"}`}
+                    onClick={() => navigate("/signup?type=creator")}
+                  >
+                    Start Selling
+                  </Button>
                   )}
                   <Button 
-                    size="lg" 
+                    size={isMobile ? "default" : "lg"} 
                     variant="outline" 
-                    className="text-lg px-8 border-2 border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-fanvault-pink transition-all duration-300 font-semibold"
+                    className={`${isMobile ? "text-base px-6 w-full" : "text-lg px-8"} border-2 border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-fanvault-pink transition-all duration-300 font-semibold`}
                     onClick={() => navigate("/dashboard")}
                   >
                     View Dashboard
@@ -113,25 +115,25 @@ const Index = () => {
             ) : (
               // Fan Hero (default)
               <>
-                <h1 className="text-4xl md:text-6xl font-bold mb-6">
+                <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6 px-2">
                   Bid on Exclusive Items from Your Favorite Creators
                 </h1>
-                <p className="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
+                <p className="text-base md:text-xl lg:text-2xl mb-6 md:mb-8 opacity-90 max-w-3xl mx-auto px-2">
                   Discover unique collectibles, limited edition merch, and personal items directly from creators you love.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <div className={`flex flex-col gap-3 md:gap-4 justify-center px-4 ${!isMobile ? "sm:flex-row" : ""}`}>
                   <Button 
-                    size="lg" 
+                    size={isMobile ? "default" : "lg"} 
                     variant="secondary" 
-                    className="text-lg px-8"
+                    className={`${isMobile ? "text-base px-6 w-full" : "text-lg px-8"}`}
                     onClick={() => navigate(user ? "/discover" : "/signup?type=fan")}
                   >
                     {user ? "Discover Items" : "Start Bidding"}
                   </Button>
                   <Button 
-                    size="lg" 
+                    size={isMobile ? "default" : "lg"} 
                     variant="outline" 
-                    className="text-lg px-8 border-2 border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-fanvault-pink transition-all duration-300 font-semibold"
+                    className={`${isMobile ? "text-base px-6 w-full" : "text-lg px-8"} border-2 border-white/30 bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-fanvault-pink transition-all duration-300 font-semibold`}
                     onClick={() => navigate("/signup?type=creator")}
                   >
                     Become a Creator
@@ -144,92 +146,119 @@ const Index = () => {
 
         <div className="container mx-auto px-4">
           {/* Stats Section */}
-          <section className="py-12 border-b">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <section className="py-8 md:py-12 border-b">
+            <div className="grid grid-cols-3 md:gap-8 gap-4">
               <div className="text-center">
-                <div className="bg-fanvault-gradient w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <TrendingUp className="h-8 w-8 text-white" />
+                <div className={`bg-fanvault-gradient rounded-full flex items-center justify-center mx-auto mb-2 md:mb-4 ${isMobile ? "w-12 h-12" : "w-16 h-16"}`}>
+                  <TrendingUp className={`text-white ${isMobile ? "h-6 w-6" : "h-8 w-8"}`} />
                 </div>
-                <h3 className="text-2xl font-bold mb-2">$2.4M+</h3>
-                <p className="text-muted-foreground">Total Sales</p>
+                <h3 className={`font-bold mb-1 md:mb-2 ${isMobile ? "text-lg" : "text-2xl"}`}>$2.4M+</h3>
+                <p className={`text-muted-foreground ${isMobile ? "text-xs" : "text-base"}`}>Total Sales</p>
               </div>
               <div className="text-center">
-                <div className="bg-fanvault-gradient w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Zap className="h-8 w-8 text-white" />
+                <div className={`bg-fanvault-gradient rounded-full flex items-center justify-center mx-auto mb-2 md:mb-4 ${isMobile ? "w-12 h-12" : "w-16 h-16"}`}>
+                  <Zap className={`text-white ${isMobile ? "h-6 w-6" : "h-8 w-8"}`} />
                 </div>
-                <h3 className="text-2xl font-bold mb-2">50K+</h3>
-                <p className="text-muted-foreground">Active Bidders</p>
+                <h3 className={`font-bold mb-1 md:mb-2 ${isMobile ? "text-lg" : "text-2xl"}`}>50K+</h3>
+                <p className={`text-muted-foreground ${isMobile ? "text-xs" : "text-base"}`}>Active Bidders</p>
               </div>
               <div className="text-center">
-                <div className="bg-fanvault-gradient w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Clock className="h-8 w-8 text-white" />
+                <div className={`bg-fanvault-gradient rounded-full flex items-center justify-center mx-auto mb-2 md:mb-4 ${isMobile ? "w-12 h-12" : "w-16 h-16"}`}>
+                  <Clock className={`text-white ${isMobile ? "h-6 w-6" : "h-8 w-8"}`} />
                 </div>
-                <h3 className="text-2xl font-bold mb-2">24/7</h3>
-                <p className="text-muted-foreground">Live Auctions</p>
+                <h3 className={`font-bold mb-1 md:mb-2 ${isMobile ? "text-lg" : "text-2xl"}`}>24/7</h3>
+                <p className={`text-muted-foreground ${isMobile ? "text-xs" : "text-base"}`}>Live Auctions</p>
               </div>
             </div>
           </section>
 
           {/* Ending Soon Section */}
           {endingSoonAuctions.length > 0 && (
-            <section className="py-12">
-              <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center space-x-3">
-                  <Badge variant="destructive" className="animate-pulse">
+            <section className="py-8 md:py-12">
+              <div className="flex items-center justify-between mb-4 md:mb-8">
+                <div className="flex items-center space-x-2 md:space-x-3">
+                  <Badge variant="destructive" className={`animate-pulse ${isMobile ? "text-xs px-2 py-1" : ""}`}>
                     🔥 Ending Soon
                   </Badge>
-                  <h2 className="text-3xl font-bold">Don't Miss Out</h2>
+                  <h2 className={`font-bold ${isMobile ? "text-xl" : "text-3xl"}`}>Don't Miss Out</h2>
                 </div>
-                <Button variant="outline">
-                  View All
-                </Button>
+                {!isMobile && (
+                  <Button variant="outline">
+                    View All
+                  </Button>
+                )}
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className={`grid gap-4 md:gap-6 ${isMobile ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"}`}>
                 {endingSoonAuctions.map((auction) => (
                   <AuctionCard key={auction.id} {...auction} />
                 ))}
               </div>
+              {isMobile && (
+                <div className="text-center mt-4">
+                  <Button variant="outline" size="sm" className="w-full">
+                    View All Ending Soon
+                  </Button>
+                </div>
+              )}
             </section>
           )}
 
           {/* Live Auctions */}
-          <section className="py-12">
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center space-x-3">
-                <Badge className="bg-fanvault-red animate-pulse">
+          <section className="py-8 md:py-12">
+            <div className="flex items-center justify-between mb-4 md:mb-8">
+              <div className="flex items-center space-x-2 md:space-x-3">
+                <Badge className={`bg-fanvault-red animate-pulse ${isMobile ? "text-xs px-2 py-1" : ""}`}>
                   🔴 LIVE
                 </Badge>
-                <h2 className="text-3xl font-bold">Live Auctions</h2>
+                <h2 className={`font-bold ${isMobile ? "text-xl" : "text-3xl"}`}>Live Auctions</h2>
               </div>
-              <Button variant="outline">
-                View All
-              </Button>
+              {!isMobile && (
+                <Button variant="outline">
+                  View All
+                </Button>
+              )}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {liveAuctions.map((auction) => (
+            <div className={`grid gap-4 md:gap-6 ${isMobile ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"}`}>
+              {liveAuctions.slice(0, isMobile ? 3 : liveAuctions.length).map((auction) => (
                 <AuctionCard key={auction.id} {...auction} />
               ))}
             </div>
+            {isMobile && (
+              <div className="text-center mt-4">
+                <Button variant="outline" size="sm" className="w-full">
+                  View All Live Auctions
+                </Button>
+              </div>
+            )}
           </section>
 
           {/* New Items */}
-          <section className="py-12">
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center space-x-3">
-                <Badge variant="secondary">
+          <section className="py-8 md:py-12">
+            <div className="flex items-center justify-between mb-4 md:mb-8">
+              <div className="flex items-center space-x-2 md:space-x-3">
+                <Badge variant="secondary" className={`${isMobile ? "text-xs px-2 py-1" : ""}`}>
                   ✨ New
                 </Badge>
-                <h2 className="text-3xl font-bold">Fresh Drops</h2>
+                <h2 className={`font-bold ${isMobile ? "text-xl" : "text-3xl"}`}>Fresh Drops</h2>
               </div>
-              <Button variant="outline">
-                View All
-              </Button>
+              {!isMobile && (
+                <Button variant="outline">
+                  View All
+                </Button>
+              )}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {newAuctions.map((auction) => (
+            <div className={`grid gap-4 md:gap-6 ${isMobile ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"}`}>
+              {newAuctions.slice(0, isMobile ? 2 : newAuctions.length).map((auction) => (
                 <AuctionCard key={auction.id} {...auction} />
               ))}
             </div>
+            {isMobile && (
+              <div className="text-center mt-4">
+                <Button variant="outline" size="sm" className="w-full">
+                  View All New Items
+                </Button>
+              </div>
+            )}
           </section>
         </div>
       </main>
