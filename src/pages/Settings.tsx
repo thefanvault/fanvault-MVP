@@ -13,10 +13,13 @@ import { MobileNav } from "@/components/layout/MobileNav";
 import { Layout } from "@/components/layout/Layout";
 import { RoleToggle } from "@/components/ui/role-toggle";
 import { useAuth } from "@/contexts/AuthContext";
-
 const Settings = () => {
-  const { toast } = useToast();
-  const { user } = useAuth();
+  const {
+    toast
+  } = useToast();
+  const {
+    user
+  } = useAuth();
   const [profile, setProfile] = useState({
     username: "kayvonmoshiri",
     email: "kayvon@example.com",
@@ -24,18 +27,15 @@ const Settings = () => {
     bio: "Creator and collector of unique items",
     notifications: true,
     textNotifications: false,
-    publicProfile: true,
+    publicProfile: true
   });
-
   const handleSave = () => {
     toast({
       title: "Settings saved",
-      description: "Your profile settings have been updated successfully.",
+      description: "Your profile settings have been updated successfully."
     });
   };
-
-  return (
-    <Layout>
+  return <Layout>
       <SidebarProvider>
         <div className="flex w-full min-h-screen">
           <AppSidebar />
@@ -50,15 +50,14 @@ const Settings = () => {
             <div className="flex-1 overflow-auto p-4 md:p-6">
               <div className="w-full max-w-4xl mx-auto space-y-6">
                 <div>
-                  <h2 className="text-2xl font-bold">Profile Settings</h2>
+                  <h2 className="text-2xl font-bold">Account Settings</h2>
                   <p className="text-muted-foreground">
                     Manage your public profile and account preferences
                   </p>
                 </div>
                 <Separator />
                 
-                {user && (
-                  <Card>
+                {user && <Card>
                     <CardHeader>
                       <CardTitle>Account Type</CardTitle>
                       <CardDescription>
@@ -68,8 +67,7 @@ const Settings = () => {
                     <CardContent>
                       <RoleToggle />
                     </CardContent>
-                  </Card>
-                )}
+                  </Card>}
                 
                 <Card>
                   <CardHeader>
@@ -82,42 +80,34 @@ const Settings = () => {
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="username">Username</Label>
-                        <Input
-                          id="username"
-                          value={profile.username}
-                          onChange={(e) => setProfile({ ...profile, username: e.target.value })}
-                        />
+                        <Input id="username" value={profile.username} onChange={e => setProfile({
+                        ...profile,
+                        username: e.target.value
+                      })} />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="email">Email</Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          value={profile.email}
-                          onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-                        />
+                        <Input id="email" type="email" value={profile.email} onChange={e => setProfile({
+                        ...profile,
+                        email: e.target.value
+                      })} />
                       </div>
                     </div>
                     
                     <div className="space-y-2">
                       <Label htmlFor="phone">Phone Number</Label>
-                      <Input
-                        id="phone"
-                        type="tel"
-                        placeholder="(555) 123-4567"
-                        value={profile.phone}
-                        onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
-                      />
+                      <Input id="phone" type="tel" placeholder="(555) 123-4567" value={profile.phone} onChange={e => setProfile({
+                      ...profile,
+                      phone: e.target.value
+                    })} />
                     </div>
                     
                     <div className="space-y-2">
                       <Label htmlFor="bio">Bio</Label>
-                      <Textarea
-                        id="bio"
-                        placeholder="Tell people about yourself..."
-                        value={profile.bio}
-                        onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
-                      />
+                      <Textarea id="bio" placeholder="Tell people about yourself..." value={profile.bio} onChange={e => setProfile({
+                      ...profile,
+                      bio: e.target.value
+                    })} />
                     </div>
                   </CardContent>
                 </Card>
@@ -137,10 +127,10 @@ const Settings = () => {
                           Receive email updates about your auctions and bids
                         </p>
                       </div>
-                      <Switch
-                        checked={profile.notifications}
-                        onCheckedChange={(checked) => setProfile({ ...profile, notifications: checked })}
-                      />
+                      <Switch checked={profile.notifications} onCheckedChange={checked => setProfile({
+                      ...profile,
+                      notifications: checked
+                    })} />
                     </div>
                     
                     <div className="flex items-center justify-between">
@@ -150,10 +140,10 @@ const Settings = () => {
                           Receive SMS updates about your auctions and bids
                         </p>
                       </div>
-                      <Switch
-                        checked={profile.textNotifications}
-                        onCheckedChange={(checked) => setProfile({ ...profile, textNotifications: checked })}
-                      />
+                      <Switch checked={profile.textNotifications} onCheckedChange={checked => setProfile({
+                      ...profile,
+                      textNotifications: checked
+                    })} />
                     </div>
                     
                     <div className="flex items-center justify-between">
@@ -163,10 +153,10 @@ const Settings = () => {
                           Make your profile visible to other users
                         </p>
                       </div>
-                      <Switch
-                        checked={profile.publicProfile}
-                        onCheckedChange={(checked) => setProfile({ ...profile, publicProfile: checked })}
-                      />
+                      <Switch checked={profile.publicProfile} onCheckedChange={checked => setProfile({
+                      ...profile,
+                      publicProfile: checked
+                    })} />
                     </div>
                   </CardContent>
                 </Card>
@@ -179,8 +169,6 @@ const Settings = () => {
           </div>
         </div>
       </SidebarProvider>
-    </Layout>
-  );
+    </Layout>;
 };
-
 export default Settings;
