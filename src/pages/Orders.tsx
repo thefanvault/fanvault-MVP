@@ -4,9 +4,12 @@ import { Button } from "@/components/ui/button";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { Layout } from "@/components/layout/Layout";
-import { Package, Truck, CheckCircle } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { Package, Truck, CheckCircle, Printer } from "lucide-react";
 
 const Orders = () => {
+  const { userRole } = useAuth();
+  
   const orders = [
     {
       id: "ORD-001",
@@ -58,6 +61,11 @@ const Orders = () => {
       default:
         return "bg-gray-100 text-gray-800";
     }
+  };
+
+  const handlePrintShippingLabel = (orderId: string) => {
+    // TODO: Implement printing shipping label functionality
+    console.log(`Printing shipping label for order ${orderId}`);
   };
 
   return (
@@ -121,6 +129,16 @@ const Orders = () => {
                               <Button variant="outline" size="sm">
                                 View Details
                               </Button>
+                              {userRole === 'creator' && order.status === 'processing' && (
+                                <Button 
+                                  variant="outline" 
+                                  size="sm"
+                                  onClick={() => handlePrintShippingLabel(order.id)}
+                                >
+                                  <Printer className="h-4 w-4 mr-1" />
+                                  Print Label
+                                </Button>
+                              )}
                               {order.status === "delivered" && (
                                 <Button variant="outline" size="sm">
                                   Leave Review
