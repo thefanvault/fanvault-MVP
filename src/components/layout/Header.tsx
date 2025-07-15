@@ -49,12 +49,12 @@ export function Header() {
 
         {/* Navigation - Desktop */}
         <nav className="hidden md:flex items-center space-x-6">
-          <a href="/" className="text-foreground hover:text-primary transition-colors">
+          <Link to="/" className="text-foreground hover:text-primary transition-colors">
             Home
-          </a>
-          <a href="/discover" className="text-foreground hover:text-primary transition-colors">
+          </Link>
+          <Link to="/discover" className="text-foreground hover:text-primary transition-colors">
             Discover
-          </a>
+          </Link>
         </nav>
 
         {/* Actions */}
