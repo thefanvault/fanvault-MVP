@@ -50,7 +50,7 @@ export default function Profile() {
   };
 
   const handleBecomeCreator = () => {
-    navigate("/onboarding");
+    navigate("/onboarding/creator/profile");
   };
 
   return (
