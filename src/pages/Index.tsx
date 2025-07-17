@@ -5,7 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { AuctionCard } from "@/components/auctions/AuctionCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, Clock, Zap } from "lucide-react";
+import { TrendingUp, Clock, Gavel } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 const Index = () => {
@@ -120,7 +120,7 @@ const Index = () => {
               </div>
               <div className="text-center">
                 <div className={`bg-fanvault-gradient rounded-full flex items-center justify-center mx-auto mb-2 md:mb-4 ${isMobile ? "w-12 h-12" : "w-16 h-16"}`}>
-                  <Zap className={`text-white ${isMobile ? "h-6 w-6" : "h-8 w-8"}`} />
+                  <Gavel className={`text-white ${isMobile ? "h-6 w-6" : "h-8 w-8"}`} />
                 </div>
                 <h3 className={`font-bold mb-1 md:mb-2 ${isMobile ? "text-lg" : "text-2xl"}`}>20K+</h3>
                 <p className={`text-muted-foreground ${isMobile ? "text-xs" : "text-base"}`}>Active Bidders</p>
