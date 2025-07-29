@@ -60,7 +60,7 @@ const CreatorProfile = () => {
       currentBid: 1050,
       bidCount: 12,
       timeRemaining: "2h 15m",
-      imageUrl: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop",
+      imageUrl: "/lovable-uploads/701d7249-034f-4a4e-ae2c-0db49f77794c.png",
       creatorName: "Brittney Rae",
       creatorAvatar: creatorData.avatar,
       isLive: true
