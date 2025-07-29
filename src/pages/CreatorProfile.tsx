@@ -121,7 +121,7 @@ const CreatorProfile = () => {
                       <img 
                         src={creatorData.avatar} 
                         alt={creatorData.displayName}
-                        className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full border-4 border-background bg-background"
+                        className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full border-4 border-background bg-background object-cover object-center"
                       />
                       {creatorData.isVerified && (
                         <div className="absolute -bottom-1 -right-1 bg-primary rounded-full p-2">
