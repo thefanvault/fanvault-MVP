@@ -20,7 +20,7 @@ const CreatorProfile = () => {
   const [profileEditOpen, setProfileEditOpen] = useState(false);
   const [creatorData, setCreatorData] = useState({
     username: username || "sarahsmith",
-    displayName: "Sarah Smith",
+    displayName: "Brittney Rae",
     bio: "Fashion & Lifestyle Creator ✨ Sharing my favorite pieces with you!",
     avatar: "/lovable-uploads/b60845bb-488a-47cf-aa4c-116e90b03271.png",
     banner: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=1200&h=300&fit=crop",
