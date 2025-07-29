@@ -67,11 +67,11 @@ const CreatorProfile = () => {
     },
     {
       id: "2", 
-      title: "Signed Poster",
+      title: "Socks 02",
       currentBid: 2200,
       bidCount: 8,
       timeRemaining: "45m",
-      imageUrl: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=400&h=300&fit=crop",
+      imageUrl: "/lovable-uploads/f3a25c3c-33cb-4f9c-acf9-6b3385c0c1bb.png",
       creatorName: "Brittney Rae",
       creatorAvatar: creatorData.avatar,
       isEndingSoon: true
