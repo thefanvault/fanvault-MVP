@@ -22,7 +22,7 @@ const CreatorProfile = () => {
     username: username || "sarahsmith",
     displayName: "Sarah Smith",
     bio: "Fashion & Lifestyle Creator ✨ Sharing my favorite pieces with you!",
-    avatar: creatorPhoto,
+    avatar: "/lovable-uploads/b60845bb-488a-47cf-aa4c-116e90b03271.png",
     banner: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=1200&h=300&fit=crop",
     followerCount: 1243,
     itemCount: 15,
