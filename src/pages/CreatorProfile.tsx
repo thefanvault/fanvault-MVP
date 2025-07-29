@@ -56,7 +56,7 @@ const CreatorProfile = () => {
   const liveAuctions = [
     {
       id: "1",
-      title: "Coachella Socks",
+      title: "Socks 01",
       currentBid: 45,
       bidCount: 12,
       timeRemaining: "2h 15m",
