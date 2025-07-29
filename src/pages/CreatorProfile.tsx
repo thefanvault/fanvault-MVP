@@ -61,7 +61,7 @@ const CreatorProfile = () => {
       bidCount: 12,
       timeRemaining: "2h 15m",
       imageUrl: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop",
-      creatorName: "Sarah Smith",
+      creatorName: "Brittney Rae",
       creatorAvatar: creatorData.avatar,
       isLive: true
     },
@@ -72,7 +72,7 @@ const CreatorProfile = () => {
       bidCount: 8,
       timeRemaining: "45m",
       imageUrl: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=400&h=300&fit=crop",
-      creatorName: "Sarah Smith",
+      creatorName: "Brittney Rae",
       creatorAvatar: creatorData.avatar,
       isEndingSoon: true
     }
