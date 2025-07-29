@@ -28,8 +28,7 @@ const ItemDetail = () => {
     timeRemaining: "2h 15m",
     minimumIncrement: 5,
     images: [
-      "/lovable-uploads/701d7249-034f-4a4e-ae2c-0db49f77794c.png",
-      "https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=600&h=600&fit=crop"
+      "/lovable-uploads/701d7249-034f-4a4e-ae2c-0db49f77794c.png"
     ],
     sourceContentUrl: "https://www.youtube.com/watch?v=example",
     creator: {
