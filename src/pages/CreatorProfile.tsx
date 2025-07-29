@@ -56,7 +56,7 @@ const CreatorProfile = () => {
   const liveAuctions = [
     {
       id: "1",
-      title: "Vintage Band T-Shirt",
+      title: "Coachella Socks",
       currentBid: 45,
       bidCount: 12,
       timeRemaining: "2h 15m",
