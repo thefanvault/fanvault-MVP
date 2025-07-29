@@ -39,7 +39,7 @@ export function Header() {
         <div className="flex items-center space-x-4">
           <Link to="/">
             <img 
-              src="/lovable-uploads/a4c880dd-a727-40e6-b3eb-1fa7df905859.png" 
+              src="/lovable-uploads/cedf3fed-66b4-4eeb-b6ed-d39036f2d2d8.png" 
               alt="FanVault Logo" 
               className="h-8 cursor-pointer"
             />
