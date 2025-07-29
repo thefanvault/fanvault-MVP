@@ -33,7 +33,7 @@ const ItemDetail = () => {
     sourceContentUrl: "https://www.youtube.com/watch?v=example",
     creator: {
       name: "Brittney Rae",
-      username: "sarahsmith",
+      username: "brittneyraeallday",
       avatar: "https://images.unsplash.com/photo-1494790108755-2616b612e04f?w=150&h=150&fit=crop&crop=face",
       isVerified: true
     },
