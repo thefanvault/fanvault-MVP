@@ -38,7 +38,7 @@ const ItemDetail = () => {
       avatar: "https://images.unsplash.com/photo-1494790108755-2616b612e04f?w=150&h=150&fit=crop&crop=face",
       isVerified: true
     },
-    description: "This vintage band t-shirt was featured in my latest content! It's been gently worn and has that perfect vintage feel. Ships from California.",
+    description: "These socks, worn and weathered, are on a journey of self-discovery. Once merely vessels for feet, they now seek meaning beyond the mundane, stretching out in search of purpose and clarity. Their fabric, threadbare in places, seems to echo the struggles of the soul—worn down by the weight of the world, yet still holding together, still carrying on. With every step, they shed their old identity, no longer defined by their utilitarian role, but by the deeper truth they are slowly uncovering. The soft cotton feels different now, not just against the skin but within the spirit, as if the very fibers are aligning with the rhythm of the universe. Each scuff, each stain, each imperfection is embraced as part of their journey, a necessary step in their spiritual evolution. They are finding their way—learning that even the simplest of things can transcend their earthly form, that purpose can be found in the most unexpected places, and that perhaps, true comfort comes not from being perfect, but from being fully, authentically worn.",
     shipping: "Standard shipping included"
   };
 
