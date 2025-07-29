@@ -23,7 +23,7 @@ const CreatorProfile = () => {
     displayName: "Brittney Rae",
     bio: "Buy my socks",
     avatar: "/lovable-uploads/b60845bb-488a-47cf-aa4c-116e90b03271.png",
-    banner: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=1200&h=300&fit=crop",
+    banner: "/lovable-uploads/ddb3db45-74f7-4722-a60e-a1af59620964.png",
     followerCount: 1243,
     itemCount: 15,
     salesCount: 89,
