@@ -67,7 +67,7 @@ const CreatorProfile = () => {
     },
     {
       id: "2", 
-      title: "Socks 02",
+      title: "Coachella Socks",
       currentBid: 2200,
       bidCount: 8,
       timeRemaining: "45m",
