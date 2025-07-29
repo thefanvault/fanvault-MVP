@@ -57,7 +57,7 @@ const CreatorProfile = () => {
     {
       id: "1",
       title: "Socks 01",
-      currentBid: 45,
+      currentBid: 1050,
       bidCount: 12,
       timeRemaining: "2h 15m",
       imageUrl: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop",
@@ -68,7 +68,7 @@ const CreatorProfile = () => {
     {
       id: "2", 
       title: "Signed Poster",
-      currentBid: 75,
+      currentBid: 2200,
       bidCount: 8,
       timeRemaining: "45m",
       imageUrl: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=400&h=300&fit=crop",

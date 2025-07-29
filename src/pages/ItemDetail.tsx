@@ -20,10 +20,10 @@ const ItemDetail = () => {
   
   const item = {
     id: "1",
-    title: "Vintage Band T-Shirt",
+    title: "Socks 01",
     condition: "Gently Used",
     signed: true,
-    currentBid: 45,
+    currentBid: 1050,
     bidCount: 12,
     timeRemaining: "2h 15m",
     minimumIncrement: 5,
@@ -33,7 +33,7 @@ const ItemDetail = () => {
     ],
     sourceContentUrl: "https://www.youtube.com/watch?v=example",
     creator: {
-      name: "Sarah Smith",
+      name: "Brittney Rae",
       username: "sarahsmith",
       avatar: "https://images.unsplash.com/photo-1494790108755-2616b612e04f?w=150&h=150&fit=crop&crop=face",
       isVerified: true
@@ -59,9 +59,9 @@ const ItemDetail = () => {
   ];
 
   const bids = [
-    { amount: 45, bidder: "fan123", time: "2 minutes ago" },
-    { amount: 40, bidder: "collector_x", time: "15 minutes ago" },
-    { amount: 35, bidder: "vintage_lover", time: "1 hour ago" }
+    { amount: 1050, bidder: "fan123", time: "2 minutes ago" },
+    { amount: 1045, bidder: "collector_x", time: "15 minutes ago" },
+    { amount: 1040, bidder: "vintage_lover", time: "1 hour ago" }
   ];
 
   const handleConfirmBid = async (bidAmount: number, paymentMethodId: string): Promise<boolean> => {
