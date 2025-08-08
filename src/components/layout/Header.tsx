@@ -36,15 +36,17 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between px-4">
         {/* Logo and Role Toggle */}
-        <div className="flex items-center space-x-4">
-          <Link to="/">
+        <div className="flex items-center space-x-2 md:space-x-4">
+          <Link to="/" className="flex-shrink-0">
             <img 
               src="/lovable-uploads/cedf3fed-66b4-4eeb-b6ed-d39036f2d2d8.png" 
               alt="FanVault Logo" 
-              className="h-8 cursor-pointer"
+              className="h-6 md:h-8 w-auto cursor-pointer"
             />
           </Link>
-          <RoleToggle />
+          <div className="scale-75 md:scale-100 origin-left">
+            <RoleToggle />
+          </div>
         </div>
 
         {/* Navigation - Desktop */}

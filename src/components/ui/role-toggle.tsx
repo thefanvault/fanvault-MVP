@@ -13,10 +13,10 @@ export function RoleToggle() {
   };
 
   return (
-    <div className="flex items-center space-x-3 p-3 border rounded-lg bg-background">
-      <div className="flex items-center space-x-2">
-        <User className="h-4 w-4 text-muted-foreground" />
-        <Label htmlFor="role-toggle" className="text-sm font-medium">
+    <div className="flex items-center space-x-2 md:space-x-3 p-2 md:p-3 border rounded-lg bg-background">
+      <div className="flex items-center space-x-1 md:space-x-2">
+        <User className="h-3 w-3 md:h-4 md:w-4 text-muted-foreground" />
+        <Label htmlFor="role-toggle" className="text-xs md:text-sm font-medium">
           Fan
         </Label>
       </div>
@@ -25,12 +25,12 @@ export function RoleToggle() {
         id="role-toggle"
         checked={isCreator}
         onCheckedChange={handleToggle}
-        className="data-[state=checked]:bg-primary"
+        className="data-[state=checked]:bg-primary scale-75 md:scale-100"
       />
       
-      <div className="flex items-center space-x-2">
-        <Crown className="h-4 w-4 text-primary" />
-        <Label htmlFor="role-toggle" className="text-sm font-medium">
+      <div className="flex items-center space-x-1 md:space-x-2">
+        <Crown className="h-3 w-3 md:h-4 md:w-4 text-primary" />
+        <Label htmlFor="role-toggle" className="text-xs md:text-sm font-medium">
           Creator
         </Label>
       </div>
