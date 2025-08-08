@@ -68,7 +68,8 @@ export default {
 				}
 			},
 			backgroundImage: {
-				'fanvault-gradient': 'var(--fanvault-gradient)'
+				'fanvault-gradient': 'var(--fanvault-gradient)',
+				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

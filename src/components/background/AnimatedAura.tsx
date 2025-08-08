@@ -4,43 +4,27 @@ export function AnimatedAura() {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
       {/* Subtle gradient base */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background to-muted/40" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background to-muted/20" />
 
       {/* Organic blob shape - main feature */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-        <div className="relative h-[80vh] w-[80vh] animate-organic-drift">
-          <div 
-            className="absolute inset-0 opacity-60 blur-3xl"
-            style={{
-              background: `radial-gradient(ellipse 60% 40% at 50% 50%, 
-                hsl(var(--primary) / 0.15) 0%, 
-                hsl(var(--accent) / 0.1) 30%, 
-                hsl(var(--primary) / 0.05) 60%, 
-                transparent 100%)`,
-              borderRadius: '60% 40% 70% 30% / 60% 30% 70% 40%',
-              transform: 'rotate(45deg)'
-            }}
-          />
-          <div 
-            className="absolute inset-4 opacity-40 blur-2xl animate-organic-pulse"
-            style={{
-              background: `radial-gradient(ellipse 50% 60% at 50% 50%, 
-                hsl(var(--accent) / 0.2) 0%, 
-                hsl(var(--primary) / 0.1) 40%, 
-                transparent 80%)`,
-              borderRadius: '40% 60% 50% 70% / 70% 50% 60% 40%',
-              transform: 'rotate(-30deg)'
-            }}
-          />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vh] h-[100vh]">
+        <div className="relative w-full h-full animate-organic-drift">
+          {/* Main blob */}
+          <div className="absolute inset-0 opacity-40 blur-3xl bg-gradient-to-br from-primary/30 via-accent/20 to-primary/10 rounded-[60%_40%_70%_30%_/_60%_30%_70%_40%]" />
+          {/* Secondary blob for layering */}
+          <div className="absolute inset-8 opacity-30 blur-2xl bg-gradient-to-tr from-accent/25 via-primary/15 to-transparent rounded-[40%_60%_50%_70%_/_70%_50%_60%_40%] animate-organic-pulse" />
+          {/* Inner glow */}
+          <div className="absolute inset-16 opacity-50 blur-xl bg-gradient-to-r from-primary/20 to-accent/20 rounded-full animate-glow" />
         </div>
       </div>
 
-      {/* Subtle aurora layers for depth */}
-      <div className="absolute -top-32 -left-32 h-[40vh] w-[40vh] rounded-full blur-3xl opacity-30 bg-gradient-to-br from-primary/20 via-accent/10 to-transparent animate-drift-slow" />
-      <div className="absolute bottom-[-20vh] right-[-10vw] h-[50vh] w-[50vh] rounded-full blur-3xl opacity-25 bg-gradient-to-tr from-accent/20 via-primary/10 to-transparent animate-drift-slower" />
+      {/* Additional floating elements for depth */}
+      <div className="absolute top-1/4 left-1/4 w-32 h-32 opacity-30 blur-2xl bg-primary/20 rounded-full animate-drift-slow" />
+      <div className="absolute bottom-1/4 right-1/4 w-24 h-24 opacity-25 blur-xl bg-accent/20 rounded-full animate-drift-slower" />
+      <div className="absolute top-3/4 left-3/4 w-20 h-20 opacity-20 blur-lg bg-primary/15 rounded-full animate-drift-slowest" />
 
-      {/* Soft vignette to keep it subdued */}
-      <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_50%,transparent,black)] opacity-[0.2] dark:opacity-[0.3] mix-blend-multiply" />
+      {/* Subtle vignette */}
+      <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-background/40" />
     </div>
   );
 }
