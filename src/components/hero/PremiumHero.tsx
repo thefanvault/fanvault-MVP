@@ -9,8 +9,8 @@ export default function PremiumHero() {
   return (
     <section className="relative min-h-[70vh] md:min-h-[80vh] flex items-center">
       <div className="container mx-auto px-4 text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-foreground/10 bg-card/40 backdrop-blur-sm text-sm text-muted-foreground">
-          <span className="size-2 rounded-full bg-primary/60" />
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-md text-sm text-muted-foreground shadow-lg hover:bg-white/15 hover:border-white/30 transition-all duration-300">
+          <span className="size-2 rounded-full bg-primary/60 animate-pulse" />
           Subtle, member-only auctions
         </div>
 
@@ -22,8 +22,8 @@ export default function PremiumHero() {
         </p>
 
         <div className="mt-8 flex items-center justify-center gap-3 md:gap-4">
-          <Button size="lg" onClick={() => navigate(user ? "/discover" : "/signup?type=fan")}>Enter</Button>
-          <Button size="lg" variant="outline" onClick={() => navigate("/signup?type=creator")}>Become a Creator</Button>
+          <Button size="lg" variant="premium" onClick={() => navigate(user ? "/discover" : "/signup?type=fan")}>Enter</Button>
+          <Button size="lg" variant="glass" onClick={() => navigate("/signup?type=creator")}>Become a Creator</Button>
         </div>
       </div>
     </section>
