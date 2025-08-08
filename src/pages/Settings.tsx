@@ -1,174 +1,24 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/layout/AppSidebar";
-import { MobileNav } from "@/components/layout/MobileNav";
-import { Layout } from "@/components/layout/Layout";
-import { RoleToggle } from "@/components/ui/role-toggle";
-import { useAuth } from "@/contexts/AuthContext";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useIsMobile } from "@/hooks/use-mobile";
+import GeneralSettings from "./settings/GeneralSettings";
+
 const Settings = () => {
-  const {
-    toast
-  } = useToast();
-  const {
-    user
-  } = useAuth();
-  const [profile, setProfile] = useState({
-    username: "kayvonmoshiri",
-    email: "kayvon@example.com",
-    phone: "",
-    bio: "Creator and collector of unique items",
-    notifications: true,
-    textNotifications: false,
-    publicProfile: true
-  });
-  const handleSave = () => {
-    toast({
-      title: "Settings saved",
-      description: "Your profile settings have been updated successfully."
-    });
-  };
-  return <Layout>
-      <SidebarProvider>
-        <div className="flex w-full min-h-screen">
-          <AppSidebar />
-          
-          <div className="flex-1 flex flex-col min-w-0">
-            <header className="h-16 border-b flex items-center px-4 bg-background sticky top-0 z-10">
-              <div>
-                <h1 className="text-lg font-semibold">Settings</h1>
-              </div>
-            </header>
-            
-            <div className="flex-1 overflow-auto p-4 md:p-6">
-              <div className="w-full max-w-4xl mx-auto space-y-6">
-                <div>
-                  <h2 className="text-2xl font-bold">Account Settings</h2>
-                  <p className="text-muted-foreground">
-                    Manage your public profile and account preferences
-                  </p>
-                </div>
-                <Separator />
-                
-                {user && <Card>
-                    <CardHeader>
-                      <CardTitle>Account Type</CardTitle>
-                      <CardDescription>
-                        Switch between Fan and Creator modes to access different features
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <RoleToggle />
-                    </CardContent>
-                  </Card>}
-                
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Account Information</CardTitle>
-                    <CardDescription>
-                      Update your account details and how others see you on the platform
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="username">Username</Label>
-                        <Input id="username" value={profile.username} onChange={e => setProfile({
-                        ...profile,
-                        username: e.target.value
-                      })} />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" value={profile.email} onChange={e => setProfile({
-                        ...profile,
-                        email: e.target.value
-                      })} />
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number</Label>
-                      <Input id="phone" type="tel" placeholder="(555) 123-4567" value={profile.phone} onChange={e => setProfile({
-                      ...profile,
-                      phone: e.target.value
-                    })} />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="bio">Bio</Label>
-                      <Textarea id="bio" placeholder="Tell people about yourself..." value={profile.bio} onChange={e => setProfile({
-                      ...profile,
-                      bio: e.target.value
-                    })} />
-                    </div>
-                  </CardContent>
-                </Card>
+  const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Preferences</CardTitle>
-                    <CardDescription>
-                      Configure your notification and privacy settings
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="space-y-0.5">
-                        <Label>Email Notifications</Label>
-                        <p className="text-sm text-muted-foreground">
-                          Receive email updates about your auctions and bids
-                        </p>
-                      </div>
-                      <Switch checked={profile.notifications} onCheckedChange={checked => setProfile({
-                      ...profile,
-                      notifications: checked
-                    })} />
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div className="space-y-0.5">
-                        <Label>Text Notifications</Label>
-                        <p className="text-sm text-muted-foreground">
-                          Receive SMS updates about your auctions and bids
-                        </p>
-                      </div>
-                      <Switch checked={profile.textNotifications} onCheckedChange={checked => setProfile({
-                      ...profile,
-                      textNotifications: checked
-                    })} />
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div className="space-y-0.5">
-                        <Label>Public Profile</Label>
-                        <p className="text-sm text-muted-foreground">
-                          Make your profile visible to other users
-                        </p>
-                      </div>
-                      <Switch checked={profile.publicProfile} onCheckedChange={checked => setProfile({
-                      ...profile,
-                      publicProfile: checked
-                    })} />
-                    </div>
-                  </CardContent>
-                </Card>
+  useEffect(() => {
+    if (isMobile) {
+      navigate("/settings/home");
+    }
+  }, [isMobile, navigate]);
 
-                <div className="flex justify-end">
-                  <Button onClick={handleSave}>Save Changes</Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </SidebarProvider>
-    </Layout>;
+  // Show general settings for desktop
+  if (!isMobile) {
+    return <GeneralSettings />;
+  }
+
+  // Fallback while redirecting
+  return null;
 };
 export default Settings;

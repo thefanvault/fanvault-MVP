@@ -36,6 +36,10 @@ import Messages from "./pages/Messages";
 import Notifications from "./pages/Notifications";
 import FaqBidding from "./pages/FaqBidding";
 import Profile from "./pages/Profile";
+import SettingsHome from "./pages/settings/SettingsHome";
+import AccountSettings from "./pages/settings/AccountSettings";
+import NotificationSettings from "./pages/settings/NotificationSettings";
+import GeneralSettings from "./pages/settings/GeneralSettings";
 
 const queryClient = new QueryClient();
 
@@ -60,6 +64,10 @@ const App = () => (
           <Route path="/onboarding/creator/verification" element={<CreatorVerification />} />
           <Route path="/onboarding/application-confirmation" element={<ApplicationConfirmation />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/settings/home" element={<SettingsHome />} />
+          <Route path="/settings/account" element={<AccountSettings />} />
+          <Route path="/settings/notifications" element={<NotificationSettings />} />
+          <Route path="/settings/general" element={<GeneralSettings />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/notifications" element={<Notifications />} />

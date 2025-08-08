@@ -16,12 +16,12 @@ export function MobileNav({ currentPath = "/" }: MobileNavProps) {
         { icon: Search, label: "Discover", href: "/discover" },
         { icon: Plus, label: "Sell", href: "/list-new-item" },
         { icon: User, label: "Profile", href: `/creator/${profile?.username || ''}` },
-        { icon: Settings, label: "Settings", href: "/settings" },
+        { icon: Settings, label: "Settings", href: "/settings/home" },
       ]
     : [
         { icon: Home, label: "Home", href: "/" },
         { icon: Search, label: "Discover", href: "/discover" },
-        { icon: Settings, label: "Settings", href: "/settings" },
+        { icon: Settings, label: "Settings", href: "/settings/home" },
       ];
 
   return (
