@@ -34,9 +34,9 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 342 100% 70%;
 
-    --fanvault-pink: 342 100% 70%;
-    --fanvault-red: 348 100% 53%;
-    --fanvault-gradient: linear-gradient(135deg, hsl(342 100% 70%) 0%, hsl(348 100% 53%) 100%);
+    --fanvault-pink: 342 60% 65%;
+    --fanvault-red: 348 70% 55%;
+    --fanvault-gradient: linear-gradient(135deg, hsl(342 60% 65%) 0%, hsl(348 70% 55%) 100%);
 
     --radius: 1rem;
 

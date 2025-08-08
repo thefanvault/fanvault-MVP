@@ -125,7 +125,7 @@ const ItemDetail = () => {
                   onClick={() => handleThumbnailClick(index)}
                   className={`relative overflow-hidden rounded-md border-2 transition-all ${
                     selectedImageIndex === index 
-                      ? 'border-fanvault-pink shadow-md' 
+                      ? 'border-primary shadow-md' 
                       : 'border-transparent hover:border-gray-300'
                   }`}
                 >
@@ -164,7 +164,7 @@ const ItemDetail = () => {
               <h1 className="text-3xl font-bold mb-2">{item.title}</h1>
               <div className="flex flex-wrap gap-2 mb-4">
                 <Badge variant="outline">{item.condition}</Badge>
-                {item.signed && <Badge className="bg-fanvault-pink">Signed ✍️</Badge>}
+                {item.signed && <Badge variant="accent">Signed ✍️</Badge>}
                 <a 
                   href={item.sourceContentUrl} 
                   target="_blank" 
@@ -184,7 +184,7 @@ const ItemDetail = () => {
                 <div className="flex items-center justify-between mb-4">
                   <div>
                     <p className="text-sm text-muted-foreground">Current highest bid</p>
-                    <p className="text-3xl font-bold text-fanvault-pink">${item.currentBid}</p>
+                    <p className="text-3xl font-bold text-primary">${item.currentBid}</p>
                   </div>
                   <div className="text-right">
                     <div className="flex items-center space-x-1 text-sm text-muted-foreground mb-1">
@@ -198,8 +198,9 @@ const ItemDetail = () => {
                   </div>
                 </div>
                 
-                <Button 
-                  className="w-full h-12 bg-fanvault-gradient text-lg mb-4"
+                 <Button 
+                  variant="premium"
+                  className="w-full h-12 text-lg mb-4"
                   onClick={() => {
                     if (!user) {
                       navigate('/login');

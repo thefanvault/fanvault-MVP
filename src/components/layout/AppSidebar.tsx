@@ -147,7 +147,7 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild>
                     <NavLink
                       to="/onboarding/creator/profile"
-                      className="flex items-center gap-3 px-3 py-4 rounded-lg transition-all bg-fanvault-gradient text-white hover:opacity-90 shadow-md border border-white/20 hover:shadow-lg hover:shadow-fanvault-pink/20 min-h-[4rem]"
+                      className="flex items-center gap-3 px-3 py-4 rounded-lg transition-all bg-gradient-to-r from-primary/80 to-accent/80 backdrop-blur-md border border-white/30 text-white hover:from-primary/90 hover:to-accent/90 hover:border-white/40 shadow-lg hover:shadow-xl hover:scale-105 min-h-[4rem]"
                       style={{
                         boxShadow: '0 0 0 1px rgba(255, 255, 255, 0.2), 0 0 8px rgba(236, 72, 153, 0.3)'
                       }}

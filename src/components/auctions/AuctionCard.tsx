@@ -42,7 +42,7 @@ export function AuctionCard({
         />
         <div className={cn("absolute flex gap-1 md:gap-2", isMobile ? "top-2 left-2" : "top-3 left-3")}>
           {isLive && (
-            <Badge className={cn("bg-fanvault-red text-white", isMobile ? "text-xs px-1.5 py-0.5" : "")}>
+            <Badge variant="accent" className={cn(isMobile ? "text-xs px-1.5 py-0.5" : "")}>
               LIVE
             </Badge>
           )}
@@ -75,7 +75,7 @@ export function AuctionCard({
         <div className="flex items-center justify-between">
           <div>
             <p className={cn("text-muted-foreground", isMobile ? "text-xs" : "text-sm")}>Current bid</p>
-            <p className={cn("font-bold text-fanvault-pink", isMobile ? "text-lg" : "text-xl")}>${currentBid}</p>
+            <p className={cn("font-bold text-primary", isMobile ? "text-lg" : "text-xl")}>${currentBid}</p>
           </div>
           <div className={cn("flex items-center space-x-1 text-muted-foreground", isMobile ? "text-xs" : "text-sm")}>
             <Users className={cn(isMobile ? "h-3 w-3" : "h-4 w-4")} />

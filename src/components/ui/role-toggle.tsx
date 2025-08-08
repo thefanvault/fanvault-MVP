@@ -25,11 +25,11 @@ export function RoleToggle() {
         id="role-toggle"
         checked={isCreator}
         onCheckedChange={handleToggle}
-        className="data-[state=checked]:bg-fanvault-pink"
+        className="data-[state=checked]:bg-primary"
       />
       
       <div className="flex items-center space-x-2">
-        <Crown className="h-4 w-4 text-fanvault-pink" />
+        <Crown className="h-4 w-4 text-primary" />
         <Label htmlFor="role-toggle" className="text-sm font-medium">
           Creator
         </Label>

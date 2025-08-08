@@ -31,7 +31,7 @@ export function CreatorCard({
   const isMobile = useIsMobile();
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-      <div className={cn("relative bg-gradient-to-r from-fanvault-pink to-fanvault-red", isMobile ? "h-24" : "h-32")}>
+      <div className={cn("relative bg-gradient-to-r from-primary/80 to-accent/80", isMobile ? "h-24" : "h-32")}>
         <img 
           src={coverImage} 
           alt={`${displayName}'s cover`}
@@ -79,7 +79,7 @@ export function CreatorCard({
           </div>
         </div>
         
-        <Button className={cn("w-full bg-fanvault-gradient hover:opacity-90", isMobile ? "text-sm py-2" : "")} size={isMobile ? "sm" : "default"}>
+        <Button variant="premium" className={cn("w-full", isMobile ? "text-sm py-2" : "")} size={isMobile ? "sm" : "default"}>
           View Profile
         </Button>
       </CardContent>
