@@ -11,7 +11,7 @@ export default function PremiumHero() {
       <div className="container mx-auto px-4 text-center">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-md text-sm text-muted-foreground shadow-lg hover:bg-white/15 hover:border-white/30 transition-all duration-300">
           <span className="size-2 rounded-full bg-primary/60 animate-pulse" />
-          Subtle, member-only auctions
+          Member-only auctions
         </div>
 
         <h1 className="mt-6 font-bold tracking-tight text-4xl md:text-6xl lg:text-7xl leading-[1.05]">
