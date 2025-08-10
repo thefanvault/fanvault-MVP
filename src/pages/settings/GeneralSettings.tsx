@@ -31,7 +31,7 @@ export default function GeneralSettings() {
 
   const BackButton = () => (
     <Link 
-      to={isMobile ? "/settings/home" : "/settings"} 
+      to="/settings/home"
       className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors"
     >
       <ArrowLeft className="h-4 w-4" />
@@ -43,7 +43,7 @@ export default function GeneralSettings() {
     <Layout>
       <div className="container mx-auto p-6 space-y-6">
         <div className="flex flex-col space-y-4">
-          <BackButton />
+          {isMobile && <BackButton />}
           
           <div>
             <h2 className="text-2xl font-bold">General Settings</h2>
