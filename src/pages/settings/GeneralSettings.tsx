@@ -31,7 +31,7 @@ export default function GeneralSettings() {
 
   const BackButton = () => (
     <Link 
-      to={isMobile ? "/settings" : "/settings"} 
+      to={isMobile ? "/settings/home" : "/settings"} 
       className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors"
     >
       <ArrowLeft className="h-4 w-4" />
@@ -41,16 +41,9 @@ export default function GeneralSettings() {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-background">
-        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="container flex h-16 items-center px-4">
-            {isMobile && <BackButton />}
-            {!isMobile && <h1 className="text-lg font-semibold">General Settings</h1>}
-          </div>
-        </header>
-
-        <div className="p-4 space-y-6">
-          {!isMobile && <BackButton />}
+      <div className="container mx-auto p-6 space-y-6">
+        <div className="flex flex-col space-y-4">
+          <BackButton />
           
           <div>
             <h2 className="text-2xl font-bold">General Settings</h2>
