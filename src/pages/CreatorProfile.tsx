@@ -242,10 +242,9 @@ const CreatorProfile = () => {
                 {/* Items Section with Tabs */}
                 <div className="container mx-auto px-4">
                   <Tabs defaultValue="shop" className="w-full">
-                    <TabsList className="grid w-full grid-cols-3 mb-4 sm:mb-6 h-auto p-1">
+                    <TabsList className="grid w-full grid-cols-2 mb-4 sm:mb-6 h-auto p-1">
                       <TabsTrigger value="shop" className="text-xs sm:text-sm py-2">Shop</TabsTrigger>
                       <TabsTrigger value="sold" className="text-xs sm:text-sm py-2">Sold</TabsTrigger>
-                      <TabsTrigger value="wishlist" disabled className="text-xs sm:text-sm py-2">Wishlist (coming soon)</TabsTrigger>
                     </TabsList>
                     
                     <TabsContent value="shop">
@@ -262,11 +261,6 @@ const CreatorProfile = () => {
                       </div>
                     </TabsContent>
                     
-                    <TabsContent value="wishlist">
-                      <div className="text-center py-8 sm:py-12">
-                        <p className="text-muted-foreground text-sm sm:text-base">Wishlist feature coming soon!</p>
-                      </div>
-                    </TabsContent>
                   </Tabs>
                 </div>
               </>
