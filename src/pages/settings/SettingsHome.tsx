@@ -15,12 +15,14 @@ export default function SettingsHome() {
 
   // Build dynamic options based on user role
   const menuOptions = [
+    ...(userRole === 'creator' ? [
+      { icon: Home, title: "Dashboard", description: "Creator dashboard", href: "/dashboard" },
+    ] : []),
     { icon: User, title: "Account", description: "Manage your profile and account settings", href: "/settings/account" },
     { icon: SettingsIcon, title: "General Settings", description: "App preferences and account type", href: "/settings/general" },
     { icon: MessageSquare, title: "Messages", description: "View and manage your conversations", href: "/messages" },
     { icon: Bell, title: "Alerts", description: "View your notifications", href: "/notifications" },
     ...(userRole === 'creator' ? [
-      { icon: Home, title: "Dashboard", description: "Creator dashboard", href: "/dashboard" },
       { icon: Package, title: "Orders", description: "Manage your orders", href: "/orders" },
     ] : []),
     { icon: Gavel, title: "My Bids", description: "Track your active and past bids", href: "/bids/active" },
