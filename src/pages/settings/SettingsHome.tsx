@@ -1,58 +1,38 @@
 import { useEffect, useState } from "react";
-import { ChevronRight, User, Bell, CreditCard, Truck, MessageSquare, Gavel, Settings as SettingsIcon } from "lucide-react";
+import { ChevronRight, User, Bell, CreditCard, Truck, MessageSquare, Gavel, Settings as SettingsIcon, Home, Package, Crown } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { useIsMobile } from "@/hooks/use-mobile";
-
-const settingsOptions = [
-  {
-    icon: User,
-    title: "Account",
-    description: "Manage your profile and account settings",
-    href: "/settings/account"
-  },
-  {
-    icon: Bell,
-    title: "Notifications",
-    description: "Configure email and text notifications",
-    href: "/settings/notifications"
-  },
-  {
-    icon: MessageSquare,
-    title: "Messages",
-    description: "View and manage your conversations",
-    href: "/messages"
-  },
-  {
-    icon: Gavel,
-    title: "My Bids",
-    description: "Track your active and past bids",
-    href: "/bids/active"
-  },
-  {
-    icon: Truck,
-    title: "Shipping",
-    description: "Manage your shipping addresses",
-    href: "/address/add"
-  },
-  {
-    icon: CreditCard,
-    title: "Payment",
-    description: "Manage your payment methods",
-    href: "/payment/add"
-  },
-  {
-    icon: SettingsIcon,
-    title: "General Settings",
-    description: "App preferences and account type",
-    href: "/settings/general"
-  }
-];
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function SettingsHome() {
   const isMobile = useIsMobile();
   const navigate = useNavigate();
+  const { userRole, profile } = useAuth();
   const [checked, setChecked] = useState(false);
+
+  // Build dynamic options based on user role
+  const menuOptions = [
+    { icon: Home, title: "Home", description: "Go to homepage", href: "/" },
+    { icon: MessageSquare, title: "Messages", description: "View and manage your conversations", href: "/messages" },
+    { icon: Bell, title: "Alerts", description: "View your notifications", href: "/notifications" },
+    ...(userRole === 'creator' ? [
+      { icon: Home, title: "Dashboard", description: "Creator dashboard", href: "/dashboard" },
+      { icon: Package, title: "Orders", description: "Manage your orders", href: "/orders" },
+    ] : []),
+    { icon: Gavel, title: "My Bids", description: "Track your active and past bids", href: "/bids/active" },
+    { icon: Truck, title: "Shipping", description: "Manage your shipping addresses", href: "/address/add" },
+    { icon: CreditCard, title: "Payment", description: "Manage your payment methods", href: "/payment/add" },
+    ...(userRole === 'creator' ? [
+      { icon: User, title: "Profile", description: "View your creator profile", href: `/creator/${profile?.username || 'username'}` },
+    ] : []),
+    ...(userRole === 'fan' ? [
+      { icon: Crown, title: "Become a Creator", description: "Start your creator journey", href: "/onboarding/creator/profile" },
+    ] : []),
+    { icon: User, title: "Account", description: "Manage your profile and account settings", href: "/settings/account" },
+    { icon: Bell, title: "Notification Settings", description: "Configure email and text notifications", href: "/settings/notifications" },
+    { icon: SettingsIcon, title: "General Settings", description: "App preferences and account type", href: "/settings/general" }
+  ];
 
   useEffect(() => {
     setChecked(true);
@@ -68,12 +48,12 @@ export default function SettingsHome() {
       <div className="min-h-screen bg-background">
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <div className="container flex h-16 items-center px-4">
-            <h1 className="text-lg font-semibold">Settings</h1>
+            <h1 className="text-lg font-semibold">Menu</h1>
           </div>
         </header>
 
         <div className="p-4 space-y-2">
-          {settingsOptions.map((option) => (
+          {menuOptions.map((option) => (
             <Link
               key={option.href}
               to={option.href}

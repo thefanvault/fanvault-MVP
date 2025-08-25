@@ -24,7 +24,7 @@ const PaymentAdd = () => {
   const [showAddPayoutForm, setShowAddPayoutForm] = useState(false);
 
   const handleBack = () => {
-    navigate('/mobile/navigation');
+    navigate('/settings/home');
   };
   
   // Mock saved payment methods - in a real app, this would come from your database

@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import Discover from "./pages/Discover";
@@ -69,7 +69,7 @@ const App = () => (
         <Route path="/settings/account" element={<AccountSettings />} />
         <Route path="/settings/notifications" element={<NotificationSettings />} />
         <Route path="/settings/general" element={<GeneralSettings />} />
-        <Route path="/mobile/navigation" element={<MobileNavigation />} />
+        <Route path="/mobile/navigation" element={<Navigate to="/settings/home" replace />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/notifications" element={<Notifications />} />
