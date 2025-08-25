@@ -13,6 +13,9 @@ export function Layout({ children, showSidebar = true }: LayoutProps) {
   const location = useLocation();
   const isMobile = useIsMobile();
   
+  // On mobile, only show footer on home page
+  const shouldShowFooter = !isMobile || location.pathname === "/";
+  
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -21,7 +24,7 @@ export function Layout({ children, showSidebar = true }: LayoutProps) {
         {children}
       </main>
 
-      <Footer />
+      {shouldShowFooter && <Footer />}
       <MobileNav currentPath={location.pathname} />
     </div>
   );
