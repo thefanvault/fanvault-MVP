@@ -194,12 +194,12 @@ const PaymentAdd = () => {
                           {savedPayoutMethods.map((payoutMethod) => (
                             <div
                               key={payoutMethod.id}
-                              className="flex items-center justify-between p-4 border rounded-lg"
+                              className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border rounded-lg gap-4"
                             >
-                              <div className="flex items-center space-x-4">
-                                <Building2 className="h-6 w-6 text-green-600" />
-                                <div>
-                                  <div className="flex items-center space-x-2">
+                              <div className="flex items-center space-x-4 min-w-0">
+                                <Building2 className="h-6 w-6 text-green-600 flex-shrink-0" />
+                                <div className="min-w-0">
+                                  <div className="flex flex-wrap items-center gap-2">
                                     <span className="font-medium">
                                       {payoutMethod.bank_name}
                                     </span>
@@ -220,7 +220,7 @@ const PaymentAdd = () => {
                                   </p>
                                 </div>
                               </div>
-                              <div className="flex items-center space-x-4">
+                              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
                                 <div className="flex items-center space-x-2">
                                   <Label htmlFor={`default-payout-${payoutMethod.id}`} className="text-sm">
                                     Default
@@ -235,9 +235,10 @@ const PaymentAdd = () => {
                                   variant="outline"
                                   size="sm"
                                   onClick={() => handleDeletePayoutMethod(payoutMethod.id)}
-                                  className="text-red-600 hover:text-red-700"
+                                  className="text-red-600 hover:text-red-700 w-full sm:w-auto"
                                 >
-                                  <Trash2 className="h-4 w-4" />
+                                  <Trash2 className="h-4 w-4 mr-2 sm:mr-0" />
+                                  <span className="sm:hidden">Remove</span>
                                 </Button>
                               </div>
                             </div>
@@ -271,7 +272,7 @@ const PaymentAdd = () => {
                     ) : (
                       <Card>
                         <CardHeader>
-                          <div className="flex items-center justify-between">
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                             <div>
                               <div className="flex items-center space-x-2">
                                 <Building2 className="h-5 w-5" />
@@ -284,6 +285,7 @@ const PaymentAdd = () => {
                             <Button
                               variant="outline"
                               onClick={() => setShowAddPayoutForm(false)}
+                              className="w-full sm:w-auto"
                             >
                               Cancel
                             </Button>
@@ -295,7 +297,7 @@ const PaymentAdd = () => {
                         </CardHeader>
                         <CardContent>
                           <form className="space-y-4">
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                               <div className="space-y-2">
                                 <Label htmlFor="bank-name">Bank Name</Label>
                                 <Input
@@ -312,7 +314,7 @@ const PaymentAdd = () => {
                               </div>
                             </div>
                             
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                               <div className="space-y-2">
                                 <Label htmlFor="routing-number">Routing Number</Label>
                                 <Input
@@ -378,12 +380,12 @@ const PaymentAdd = () => {
                       {savedPaymentMethods.map((paymentMethod) => (
                         <div
                           key={paymentMethod.id}
-                          className="flex items-center justify-between p-4 border rounded-lg"
+                          className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border rounded-lg gap-4"
                         >
-                          <div className="flex items-center space-x-4">
-                            <CreditCard className={`h-6 w-6 ${getBrandColor(paymentMethod.brand)}`} />
-                            <div>
-                              <div className="flex items-center space-x-2">
+                          <div className="flex items-center space-x-4 min-w-0">
+                            <CreditCard className={`h-6 w-6 ${getBrandColor(paymentMethod.brand)} flex-shrink-0`} />
+                            <div className="min-w-0">
+                              <div className="flex flex-wrap items-center gap-2">
                                 <span className="font-medium capitalize">
                                   {paymentMethod.brand}
                                 </span>
@@ -404,7 +406,7 @@ const PaymentAdd = () => {
                               </p>
                             </div>
                           </div>
-                          <div className="flex items-center space-x-4">
+                          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
                             <div className="flex items-center space-x-2">
                               <Label htmlFor={`default-${paymentMethod.id}`} className="text-sm">
                                 Default
@@ -419,9 +421,10 @@ const PaymentAdd = () => {
                               variant="outline"
                               size="sm"
                               onClick={() => handleDeletePaymentMethod(paymentMethod.id)}
-                              className="text-red-600 hover:text-red-700"
+                              className="text-red-600 hover:text-red-700 w-full sm:w-auto"
                             >
-                              <Trash2 className="h-4 w-4" />
+                              <Trash2 className="h-4 w-4 mr-2 sm:mr-0" />
+                              <span className="sm:hidden">Remove</span>
                             </Button>
                           </div>
                         </div>
@@ -452,7 +455,7 @@ const PaymentAdd = () => {
                 ) : (
                   <Card>
                     <CardHeader>
-                      <div className="flex items-center justify-between">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                         <div>
                           <div className="flex items-center space-x-2">
                             <CreditCard className="h-5 w-5" />
@@ -465,6 +468,7 @@ const PaymentAdd = () => {
                         <Button
                           variant="outline"
                           onClick={() => setShowAddForm(false)}
+                          className="w-full sm:w-auto"
                         >
                           Cancel
                         </Button>
