@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import { ChevronRight, User, Bell, CreditCard, Truck, MessageSquare, Gavel, Settings as SettingsIcon } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -50,12 +51,17 @@ const settingsOptions = [
 
 export default function SettingsHome() {
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
+  const [checked, setChecked] = useState(false);
 
-  if (!isMobile) {
-    // Redirect to main settings page on desktop
-    window.location.href = "/settings/general";
-    return null;
-  }
+  useEffect(() => {
+    setChecked(true);
+    if (window.innerWidth >= 768) {
+      navigate("/settings/general", { replace: true });
+    }
+  }, [navigate]);
+
+  if (!checked) return null;
 
   return (
     <Layout>
