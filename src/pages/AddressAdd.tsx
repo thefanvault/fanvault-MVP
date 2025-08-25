@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,10 +11,14 @@ import { useToast } from "@/hooks/use-toast";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { Layout } from "@/components/layout/Layout";
-import { MapPin, Trash2 } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { MapPin, Trash2, ArrowLeft } from "lucide-react";
 
 const AddressAdd = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const isMobile = useIsMobile();
+  
   const [address, setAddress] = useState({
     fullName: "",
     addressLine1: "",
@@ -23,6 +28,10 @@ const AddressAdd = () => {
     zipCode: "",
     country: "US",
   });
+
+  const handleBack = () => {
+    navigate('/settings/home');
+  };
 
   // Mock saved addresses - in a real app, this would come from your database
   const [savedAddresses, setSavedAddresses] = useState([
@@ -120,7 +129,17 @@ const AddressAdd = () => {
           
           <div className="flex-1 flex flex-col min-w-0">
             <header className="h-16 border-b flex items-center px-4 bg-background sticky top-0 z-10">
-              <div>
+              <div className="flex items-center gap-3">
+                {isMobile && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleBack}
+                    className="flex-shrink-0"
+                  >
+                    <ArrowLeft className="h-5 w-5" />
+                  </Button>
+                )}
                 <h1 className="text-lg font-semibold">Shipping Address</h1>
               </div>
             </header>
