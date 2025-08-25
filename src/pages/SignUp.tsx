@@ -16,7 +16,8 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isCreator, setIsCreator] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: ""
   });
@@ -54,11 +55,14 @@ const SignUp = () => {
     setLoading(true);
     
     try {
+      const fullName = `${formData.firstName} ${formData.lastName}`.trim();
+      
       if (isCreator) {
         // For creator accounts, redirect to onboarding instead of creating account
         // Store the form data temporarily for use in onboarding
         sessionStorage.setItem('pendingCreatorSignup', JSON.stringify({
           ...formData,
+          fullName,
           isCreator: true
         }));
         
@@ -77,15 +81,15 @@ const SignUp = () => {
           id: 'mock-user-id',
           email: formData.email,
           user_metadata: {
-            full_name: formData.name || 'Demo User'
+            full_name: fullName || 'Demo User'
           }
         };
 
         const mockProfile = {
           id: 'mock-profile-id',
           user_id: 'mock-user-id',
-          username: (formData.name || 'demo_user').toLowerCase().replace(/\s+/g, '_'),
-          display_name: formData.name || 'Demo User',
+          username: (fullName || 'demo_user').toLowerCase().replace(/\s+/g, '_'),
+          display_name: fullName || 'Demo User',
           bio: null,
           avatar_url: null,
           is_creator: false,
@@ -148,18 +152,36 @@ const SignUp = () => {
           </CardHeader>
           <CardContent className="space-y-6">
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Name Field */}
+              {/* First Name Field */}
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-base font-medium">
-                  Name (optional)
+                <Label htmlFor="firstName" className="text-base font-medium">
+                  First Name *
                 </Label>
                 <Input
-                  id="name"
-                  name="name"
+                  id="firstName"
+                  name="firstName"
                   type="text"
-                  placeholder="Your name"
-                  value={formData.name}
+                  placeholder="Your first name"
+                  value={formData.firstName}
                   onChange={handleInputChange}
+                  required
+                  className="h-12 text-base"
+                />
+              </div>
+
+              {/* Last Name Field */}
+              <div className="space-y-2">
+                <Label htmlFor="lastName" className="text-base font-medium">
+                  Last Name *
+                </Label>
+                <Input
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  placeholder="Your last name"
+                  value={formData.lastName}
+                  onChange={handleInputChange}
+                  required
                   className="h-12 text-base"
                 />
               </div>
