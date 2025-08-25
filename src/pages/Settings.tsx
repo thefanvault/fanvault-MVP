@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
-import GeneralSettings from "./settings/GeneralSettings";
+import SettingsHome from "./settings/SettingsHome";
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -13,9 +13,9 @@ const Settings = () => {
     }
   }, [isMobile, navigate]);
 
-  // Show general settings for desktop
+  // Show settings home for desktop
   if (!isMobile) {
-    return <GeneralSettings />;
+    return <SettingsHome />;
   }
 
   // Fallback while redirecting

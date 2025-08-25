@@ -35,10 +35,7 @@ export default function SettingsHome() {
 
   useEffect(() => {
     setChecked(true);
-    if (window.innerWidth >= 768) {
-      navigate("/settings/general", { replace: true });
-    }
-  }, [navigate]);
+  }, []);
 
   if (!checked) return null;
 
