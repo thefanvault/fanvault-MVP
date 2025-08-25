@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Header } from "@/components/layout/Header";
+import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -598,10 +598,8 @@ const ListNewItem = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      
-      <main className="container mx-auto px-4 pt-6 pb-6">
+    <Layout>
+      <div className="container mx-auto px-4 pt-6 pb-6">
         <div className="max-w-2xl mx-auto">
           {/* Progress Header */}
           <div className="mb-8">
@@ -662,8 +660,8 @@ const ListNewItem = () => {
             </div>
           )}
         </div>
-      </main>
-    </div>
+      </div>
+    </Layout>
   );
 };
 
