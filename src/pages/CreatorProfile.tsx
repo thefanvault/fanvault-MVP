@@ -82,7 +82,9 @@ const CreatorProfile = () => {
     <Layout>
       <SidebarProvider>
         <div className="flex w-full min-h-screen">
-          <AppSidebar />
+          <div className="hidden md:block">
+            <AppSidebar />
+          </div>
           
           <div className="flex-1">
             {creatorData.isPrivate ? (

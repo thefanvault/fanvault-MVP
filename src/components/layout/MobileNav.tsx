@@ -9,19 +9,19 @@ interface MobileNavProps {
 export function MobileNav({ currentPath = "/" }: MobileNavProps) {
   const { userRole, profile } = useAuth();
   
-  // Navigation items based on user role
+  // Simplified navigation items for mobile
   const navItems = userRole === 'creator' 
     ? [
         { icon: Home, label: "Home", href: "/" },
         { icon: Search, label: "Discover", href: "/discover" },
         { icon: Plus, label: "Sell", href: "/list-new-item" },
         { icon: User, label: "Profile", href: `/creator/${profile?.username || ''}` },
-        { icon: Settings, label: "Settings", href: "/settings/home" },
+        { icon: Settings, label: "Menu", href: "/mobile/navigation" },
       ]
     : [
         { icon: Home, label: "Home", href: "/" },
         { icon: Search, label: "Discover", href: "/discover" },
-        { icon: Settings, label: "Settings", href: "/settings/home" },
+        { icon: Settings, label: "Menu", href: "/mobile/navigation" },
       ];
 
   return (

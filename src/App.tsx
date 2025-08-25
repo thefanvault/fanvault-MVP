@@ -33,6 +33,7 @@ import AdminModeration from "./pages/admin/AdminModeration";
 import AdminImpersonation from "./pages/admin/AdminImpersonation";
 import Orders from "./pages/Orders";
 import Messages from "./pages/Messages";
+import MobileNavigation from "./pages/MobileNavigation";
 import Notifications from "./pages/Notifications";
 import FaqBidding from "./pages/FaqBidding";
 import Profile from "./pages/Profile";
@@ -65,9 +66,10 @@ const App = () => (
           <Route path="/onboarding/application-confirmation" element={<ApplicationConfirmation />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/settings/home" element={<SettingsHome />} />
-          <Route path="/settings/account" element={<AccountSettings />} />
-          <Route path="/settings/notifications" element={<NotificationSettings />} />
-          <Route path="/settings/general" element={<GeneralSettings />} />
+        <Route path="/settings/account" element={<AccountSettings />} />
+        <Route path="/settings/notifications" element={<NotificationSettings />} />
+        <Route path="/settings/general" element={<GeneralSettings />} />
+        <Route path="/mobile/navigation" element={<MobileNavigation />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/notifications" element={<Notifications />} />

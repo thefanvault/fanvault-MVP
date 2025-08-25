@@ -161,7 +161,9 @@ const PaymentAdd = () => {
     <Layout>
       <SidebarProvider>
         <div className="flex w-full min-h-screen">
-          <AppSidebar />
+          <div className="hidden md:block">
+            <AppSidebar />
+          </div>
           
           <div className="flex-1 flex flex-col min-w-0">
             <header className="h-16 border-b flex items-center px-4 bg-background sticky top-0 z-10">
