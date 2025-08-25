@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
@@ -10,14 +10,21 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProfileEditModal } from "@/components/modals/ProfileEditModal";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
-import { Check, Instagram, Twitter, Youtube, Globe, Edit } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Check, Instagram, Twitter, Youtube, Globe, Edit, ArrowLeft } from "lucide-react";
 import creatorPhoto from "@/assets/creator-profile-photo.jpg";
 
 const CreatorProfile = () => {
   const { username } = useParams();
   const { user, profile } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [profileEditOpen, setProfileEditOpen] = useState(false);
+
+  const handleBack = () => {
+    navigate('/settings/home');
+  };
   const [creatorData, setCreatorData] = useState({
     username: username || "sarahsmith",
     displayName: "Brittney Rae",
@@ -87,6 +94,23 @@ const CreatorProfile = () => {
           </div>
           
           <div className="flex-1">
+            {/* Mobile Header with Back Button */}
+            {isMobile && (
+              <header className="h-16 border-b flex items-center px-4 bg-background sticky top-0 z-20">
+                <div className="flex items-center gap-3">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleBack}
+                    className="flex-shrink-0"
+                  >
+                    <ArrowLeft className="h-5 w-5" />
+                  </Button>
+                  <h1 className="text-lg font-semibold">Profile</h1>
+                </div>
+              </header>
+            )}
+            
             {creatorData.isPrivate ? (
               <div className="container mx-auto px-4 py-16 text-center">
                 <h1 className="text-3xl font-bold mb-4">This profile is private</h1>
