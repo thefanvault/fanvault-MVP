@@ -70,20 +70,11 @@ const Dashboard = () => {
           </div>
           
           <div className="flex-1 flex flex-col min-w-0">
-            <header className="h-14 md:h-16 border-b flex items-center justify-between px-3 md:px-4 bg-background sticky top-0 z-10">
-              <div className="flex items-center gap-3">
+            <header className="h-14 md:h-16 border-b flex items-center px-3 md:px-4 bg-background sticky top-0 z-10">
+              <div className="flex items-center gap-3 w-full">
                 {isMobile && <SidebarTrigger />}
                 <h1 className="text-base md:text-lg font-semibold">Creator Dashboard</h1>
               </div>
-              
-              {!isMobile && (
-                <Button className="bg-primary hover:bg-primary/90 text-white font-semibold px-4 py-2 rounded-lg shadow-lg" asChild>
-                  <a href="/list-new-item">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Sell
-                  </a>
-                </Button>
-              )}
             </header>
             
             <div className="flex-1 overflow-auto p-3 md:p-6">

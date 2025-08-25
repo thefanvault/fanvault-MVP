@@ -1,7 +1,7 @@
 
 
 import { Button } from "@/components/ui/button";
-import { Search, Bell, User, LogOut } from "lucide-react";
+import { Search, Bell, User, LogOut, Plus } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -66,6 +66,14 @@ export function Header() {
           </Button>
           {user && (
             <>
+              {userRole === 'creator' && (
+                <Button className="bg-primary hover:bg-primary/90 text-white font-semibold px-3 py-2 rounded-lg shadow-lg hidden md:inline-flex" asChild>
+                  <Link to="/list-new-item">
+                    <Plus className="h-4 w-4 mr-1" />
+                    Sell
+                  </Link>
+                </Button>
+              )}
               <Button variant="ghost" size="icon">
                 <Bell className="h-5 w-5" />
               </Button>
