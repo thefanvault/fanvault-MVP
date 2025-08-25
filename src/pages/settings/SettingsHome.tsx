@@ -13,6 +13,8 @@ export default function SettingsHome() {
 
   // Build dynamic options based on user role
   const menuOptions = [
+    { icon: User, title: "Account", description: "Manage your profile and account settings", href: "/settings/account" },
+    { icon: SettingsIcon, title: "General Settings", description: "App preferences and account type", href: "/settings/general" },
     { icon: MessageSquare, title: "Messages", description: "View and manage your conversations", href: "/messages" },
     { icon: Bell, title: "Alerts", description: "View your notifications", href: "/notifications" },
     ...(userRole === 'creator' ? [
@@ -25,12 +27,10 @@ export default function SettingsHome() {
     ...(userRole === 'creator' ? [
       { icon: User, title: "Profile", description: "View your creator profile", href: `/creator/${profile?.username || 'username'}` },
     ] : []),
+    { icon: Bell, title: "Notification Settings", description: "Configure email and text notifications", href: "/settings/notifications" },
     ...(userRole === 'fan' ? [
       { icon: Crown, title: "Become a Creator", description: "Start your creator journey", href: "/onboarding/creator/profile" },
     ] : []),
-    { icon: User, title: "Account", description: "Manage your profile and account settings", href: "/settings/account" },
-    { icon: Bell, title: "Notification Settings", description: "Configure email and text notifications", href: "/settings/notifications" },
-    { icon: SettingsIcon, title: "General Settings", description: "App preferences and account type", href: "/settings/general" }
   ];
 
   useEffect(() => {
