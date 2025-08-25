@@ -4,19 +4,25 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
-import { Plus, Clock, Copy, Globe, Lock, ExternalLink } from "lucide-react";
+import { Plus, Clock, Copy, Globe, Lock, ExternalLink, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { Layout } from "@/components/layout/Layout";
 import { useAuth } from "@/contexts/AuthContext";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const { toast } = useToast();
   const { profile } = useAuth();
   const [isStorefrontPublic, setIsStorefrontPublic] = useState(true);
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
+  
+  const handleBack = () => {
+    navigate('/settings/home');
+  };
   
   const vaultBalance = 247.89;
   const creatorName = "Kayvon Moshiri";
@@ -72,7 +78,16 @@ const Dashboard = () => {
           <div className="flex-1 flex flex-col min-w-0">
             <header className="h-14 md:h-16 border-b flex items-center px-3 md:px-4 bg-background sticky top-0 z-10">
               <div className="flex items-center gap-3 w-full">
-                {isMobile && <SidebarTrigger />}
+                {isMobile && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleBack}
+                    className="flex-shrink-0"
+                  >
+                    <ArrowLeft className="h-5 w-5" />
+                  </Button>
+                )}
                 <h1 className="text-base md:text-lg font-semibold">Creator Dashboard</h1>
               </div>
             </header>
