@@ -39,8 +39,8 @@ export function CreatorCard({
         />
       </div>
       
-      <CardContent className={cn("relative pt-8 md:pt-12", isMobile ? "p-4" : "p-6")}>
-        <div className={cn("absolute left-4 md:left-6", isMobile ? "-top-6" : "-top-8")}>
+      <CardContent className={cn("relative pt-10 md:pt-12", isMobile ? "p-4" : "p-6")}>
+        <div className={cn("absolute left-4 md:left-6", isMobile ? "-top-5" : "-top-8")}>
           <div className="relative">
             <img 
               src={avatar} 
