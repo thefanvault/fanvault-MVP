@@ -80,7 +80,7 @@ const Discover = () => {
         <Header />
         
         <SidebarProvider>
-          <div className="flex w-full min-h-screen pt-16">
+          <div className="flex w-full min-h-screen">
             <div className="hidden md:block">
               <AppSidebar />
             </div>
