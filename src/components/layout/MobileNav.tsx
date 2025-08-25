@@ -1,6 +1,7 @@
 import { Home, Search, User, Settings, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
+import { Link } from "react-router-dom";
 
 interface MobileNavProps {
   currentPath?: string;
@@ -30,9 +31,9 @@ export function MobileNav({ currentPath = "/" }: MobileNavProps) {
         {navItems.map((item) => {
           const isActive = currentPath === item.href;
           return (
-            <a
+            <Link
               key={item.href}
-              href={item.href}
+              to={item.href}
               className={cn(
                 "flex flex-col items-center justify-center space-y-1 px-3 py-2 rounded-lg transition-colors",
                 isActive 
@@ -42,7 +43,7 @@ export function MobileNav({ currentPath = "/" }: MobileNavProps) {
             >
               <item.icon className="h-5 w-5" />
               <span className="text-xs">{item.label}</span>
-            </a>
+            </Link>
           );
         })}
       </div>
