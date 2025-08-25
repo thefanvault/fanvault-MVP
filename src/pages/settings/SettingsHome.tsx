@@ -13,7 +13,6 @@ export default function SettingsHome() {
 
   // Build dynamic options based on user role
   const menuOptions = [
-    { icon: Home, title: "Home", description: "Go to homepage", href: "/" },
     { icon: MessageSquare, title: "Messages", description: "View and manage your conversations", href: "/messages" },
     { icon: Bell, title: "Alerts", description: "View your notifications", href: "/notifications" },
     ...(userRole === 'creator' ? [
