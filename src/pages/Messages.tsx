@@ -12,7 +12,7 @@ export default function Messages() {
   const isMobile = useIsMobile();
 
   const handleBack = () => {
-    navigate(-1);
+    navigate('/mobile/navigation');
   };
 
   return (
