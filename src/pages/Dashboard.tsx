@@ -104,7 +104,7 @@ const Dashboard = () => {
 
                 {/* Primary Actions */}
                 <div className="mb-4 md:mb-6 flex flex-col gap-3 md:gap-4">
-                  <Button size={isMobile ? "default" : "lg"} className="bg-fanvault-gradient text-white font-semibold w-full md:w-auto px-6 md:px-8 py-2.5 md:py-3 rounded-lg shadow-lg border-0" style={{ color: '#ffffff' }} asChild>
+                  <Button size={isMobile ? "default" : "lg"} className="bg-primary hover:bg-primary/90 text-white font-semibold w-full md:w-auto px-6 md:px-8 py-2.5 md:py-3 rounded-lg shadow-lg" asChild>
                     <a href="/list-new-item">
                       <Plus className="h-4 w-4 md:h-5 md:w-5 mr-2" />
                       List New Item
@@ -130,7 +130,7 @@ const Dashboard = () => {
                         <p className="text-muted-foreground mb-4 text-sm md:text-base">
                           You have no items listed. Tap List New Item to create your first auction!
                         </p>
-                        <Button className="bg-fanvault-gradient w-full md:w-auto text-white font-semibold shadow-lg" style={{ color: '#ffffff' }} asChild>
+                        <Button className="bg-primary hover:bg-primary/90 text-white font-semibold w-full md:w-auto shadow-lg" asChild>
                           <a href="/list-new-item">
                             <Plus className="h-4 w-4 mr-2" />
                             List New Item
