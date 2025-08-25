@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAuth } from "@/contexts/AuthContext";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/layout/AppSidebar";
 
 export default function SettingsHome() {
   const isMobile = useIsMobile();
@@ -41,34 +43,75 @@ export default function SettingsHome() {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-background">
-        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="container flex h-16 items-center px-4">
-            <h1 className="text-lg font-semibold">Menu</h1>
-          </div>
-        </header>
-
-        <div className="p-4 space-y-2">
-          {menuOptions.map((option) => (
-            <Link
-              key={option.href}
-              to={option.href}
-              className="flex items-center justify-between p-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg hover:bg-white/20 hover:border-white/30 transition-all duration-200 shadow-lg"
-            >
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
-                  <option.icon className="h-5 w-5 text-primary" />
-                </div>
+      {!isMobile ? (
+        <SidebarProvider>
+          <div className="flex w-full min-h-screen">
+            <div className="hidden md:block">
+              <AppSidebar />
+            </div>
+            
+            <div className="flex-1 flex flex-col min-w-0">
+              <header className="h-16 border-b flex items-center px-4 bg-background sticky top-0 z-10">
                 <div>
-                  <h3 className="font-medium text-foreground">{option.title}</h3>
-                  <p className="text-sm text-muted-foreground">{option.description}</p>
+                  <h1 className="text-lg font-semibold">Menu</h1>
+                </div>
+              </header>
+              
+              <div className="flex-1 overflow-auto p-4 md:p-6">
+                <div className="w-full max-w-4xl mx-auto space-y-2">
+                  {menuOptions.map((option) => (
+                    <Link
+                      key={option.href}
+                      to={option.href}
+                      className="flex items-center justify-between p-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg hover:bg-white/20 hover:border-white/30 transition-all duration-200 shadow-lg"
+                    >
+                      <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+                          <option.icon className="h-5 w-5 text-primary" />
+                        </div>
+                        <div>
+                          <h3 className="font-medium text-foreground">{option.title}</h3>
+                          <p className="text-sm text-muted-foreground">{option.description}</p>
+                        </div>
+                      </div>
+                      <ChevronRight className="h-5 w-5 text-muted-foreground" />
+                    </Link>
+                  ))}
                 </div>
               </div>
-              <ChevronRight className="h-5 w-5 text-muted-foreground" />
-            </Link>
-          ))}
+            </div>
+          </div>
+        </SidebarProvider>
+      ) : (
+        <div className="min-h-screen bg-background">
+          <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="container flex h-16 items-center px-4">
+              <h1 className="text-lg font-semibold">Menu</h1>
+            </div>
+          </header>
+
+          <div className="p-4 space-y-2">
+            {menuOptions.map((option) => (
+              <Link
+                key={option.href}
+                to={option.href}
+                className="flex items-center justify-between p-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg hover:bg-white/20 hover:border-white/30 transition-all duration-200 shadow-lg"
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+                    <option.icon className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-foreground">{option.title}</h3>
+                    <p className="text-sm text-muted-foreground">{option.description}</p>
+                  </div>
+                </div>
+                <ChevronRight className="h-5 w-5 text-muted-foreground" />
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </Layout>
   );
 }
