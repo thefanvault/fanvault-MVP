@@ -1,15 +1,17 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Clock, TrendingUp, TrendingDown, Trophy, X, ExternalLink } from "lucide-react";
+import { Clock, TrendingUp, TrendingDown, Trophy, X, ExternalLink, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { Layout } from "@/components/layout/Layout";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface BidItem {
   id: string;
@@ -26,6 +28,12 @@ interface BidItem {
 }
 
 const BidDashboard = () => {
+  const navigate = useNavigate();
+  const isMobile = useIsMobile();
+
+  const handleBack = () => {
+    navigate('/settings/home');
+  };
   // Mock data - in real app, this would come from Supabase
   const activeBids: BidItem[] = [
     {
@@ -285,7 +293,17 @@ const BidDashboard = () => {
           
           <div className="flex-1 flex flex-col min-w-0">
             <header className="h-16 border-b flex items-center px-4 bg-background sticky top-0 z-10">
-              <div>
+              <div className="flex items-center gap-3">
+                {isMobile && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleBack}
+                    className="flex-shrink-0"
+                  >
+                    <ArrowLeft className="h-5 w-5" />
+                  </Button>
+                )}
                 <h1 className="text-lg font-semibold">My Bids</h1>
               </div>
             </header>
