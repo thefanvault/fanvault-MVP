@@ -119,21 +119,23 @@ export default function AccountSettings() {
   }
 
   return (
-    <SidebarProvider>
-      <div className="min-h-screen flex w-full">
-        <AppSidebar />
-        <div className="flex-1">
-          <Layout>
-            <div className="min-h-screen bg-background">
-              <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-                <div className="container flex h-16 items-center px-4">
-                  <h1 className="text-lg font-semibold">Account Settings</h1>
-                </div>
-              </header>
-
-              <div className="p-4 space-y-6">
+    <Layout>
+      <SidebarProvider>
+        <div className="flex w-full min-h-screen">
+          <div className="hidden md:block">
+            <AppSidebar />
+          </div>
+          
+          <div className="flex-1 flex flex-col min-w-0">
+            <header className="h-16 border-b flex items-center px-4 bg-background sticky top-0 z-10">
+              <div className="flex items-center gap-3">
                 <BackButton />
-                
+                <h1 className="text-lg font-semibold">Account Settings</h1>
+              </div>
+            </header>
+            
+            <div className="flex-1 overflow-auto p-4 md:p-6">
+              <div className="w-full max-w-4xl mx-auto space-y-6">
                 <div>
                   <h2 className="text-2xl font-bold">Account Information</h2>
                   <p className="text-muted-foreground">
@@ -197,9 +199,9 @@ export default function AccountSettings() {
                 </div>
               </div>
             </div>
-          </Layout>
+          </div>
         </div>
-      </div>
-    </SidebarProvider>
+      </SidebarProvider>
+    </Layout>
   );
 }
