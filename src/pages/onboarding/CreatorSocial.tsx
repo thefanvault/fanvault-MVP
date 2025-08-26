@@ -73,7 +73,8 @@ const CreatorSocial = () => {
   };
 
   const handleBack = () => {
-    navigate("/onboarding/creator/profile");
+    const fromSettings = new URLSearchParams(window.location.search).get('from') === 'settings';
+    navigate(fromSettings ? "/onboarding/creator/profile?from=settings" : "/onboarding/creator/profile");
   };
 
   return (

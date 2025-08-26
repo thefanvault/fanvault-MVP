@@ -101,7 +101,10 @@ const CreatorProfile = () => {
               <Button 
                 variant="ghost" 
                 size="sm" 
-                onClick={() => navigate("/signup")}
+                onClick={() => {
+                  const fromSettings = new URLSearchParams(window.location.search).get('from') === 'settings';
+                  navigate(fromSettings ? '/settings' : '/signup');
+                }}
                 className="flex items-center"
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />

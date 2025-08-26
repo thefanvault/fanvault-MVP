@@ -33,7 +33,7 @@ export default function SettingsHome() {
     ] : []),
     { icon: Bell, title: "Notification Settings", description: "Configure email and text notifications", href: "/settings/notifications" },
     ...(userRole === 'fan' ? [
-      { icon: Crown, title: "Become a Creator", description: "Start your creator journey", href: "/onboarding/creator/profile" },
+      { icon: Crown, title: "Become a Creator", description: "Start your creator journey", href: "/onboarding/creator/profile?from=settings" },
     ] : []),
   ];
 

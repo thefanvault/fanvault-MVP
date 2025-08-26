@@ -24,7 +24,7 @@ const PaymentAdd = () => {
   const [showAddPayoutForm, setShowAddPayoutForm] = useState(false);
 
   const handleBack = () => {
-    navigate('/settings/home');
+    navigate(isMobile ? '/settings' : '/settings');
   };
   
   // Mock saved payment methods - in a real app, this would come from your database
@@ -176,16 +176,14 @@ const PaymentAdd = () => {
           <div className="flex-1 flex flex-col min-w-0">
             <header className="h-16 border-b flex items-center px-4 bg-background sticky top-0 z-10">
               <div className="flex items-center gap-3">
-                {isMobile && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={handleBack}
-                    className="flex-shrink-0"
-                  >
-                    <ArrowLeft className="h-5 w-5" />
-                  </Button>
-                )}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleBack}
+                  className="flex-shrink-0"
+                >
+                  <ArrowLeft className="h-5 w-5" />
+                </Button>
                 <h1 className="text-lg font-semibold">Payment & Payout</h1>
               </div>
             </header>

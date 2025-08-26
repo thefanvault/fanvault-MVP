@@ -63,7 +63,8 @@ const CreatorVerification = () => {
   };
 
   const handleBack = () => {
-    navigate("/onboarding/creator/social");
+    const fromSettings = new URLSearchParams(window.location.search).get('from') === 'settings';
+    navigate(fromSettings ? "/onboarding/creator/social?from=settings" : "/onboarding/creator/social");
   };
 
   const getStepStatusColor = (status: string) => {
