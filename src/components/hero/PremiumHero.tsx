@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 
 export default function PremiumHero() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, userRole } = useAuth();
 
   return (
     <section className="relative min-h-[70vh] md:min-h-[80vh] flex items-center">
@@ -23,7 +23,9 @@ export default function PremiumHero() {
 
         <div className="mt-8 flex items-center justify-center gap-3 md:gap-4">
           <Button size="lg" variant="premium" onClick={() => navigate(user ? "/discover" : "/signup?type=fan")}>Enter</Button>
-          <Button size="lg" variant="glass" onClick={() => navigate("/signup?type=creator")}>Become a Creator</Button>
+          {(!user || userRole !== 'creator') && (
+            <Button size="lg" variant="glass" onClick={() => navigate("/signup?type=creator")}>Become a Creator</Button>
+          )}
         </div>
       </div>
     </section>
