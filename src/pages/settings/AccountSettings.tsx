@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -15,6 +15,7 @@ import { AppSidebar } from "@/components/layout/AppSidebar";
 export default function AccountSettings() {
   const { toast } = useToast();
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
   
   const [profile, setProfile] = useState({
     username: "kayvonmoshiri",
@@ -30,15 +31,9 @@ export default function AccountSettings() {
     });
   };
 
-  const BackButton = () => (
-    <Link 
-      to={isMobile ? "/settings" : "/settings"} 
-      className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors"
-    >
-      <ArrowLeft className="h-4 w-4" />
-      <span>Back to Settings</span>
-    </Link>
-  );
+  const handleBack = () => {
+    navigate('/settings');
+  };
 
   if (isMobile) {
     return (
@@ -46,7 +41,14 @@ export default function AccountSettings() {
         <div className="min-h-screen bg-background">
           <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container flex h-16 items-center px-4">
-              <BackButton />
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleBack}
+                className="mr-2"
+              >
+                <ArrowLeft className="h-4 w-4" />
+              </Button>
             </div>
           </header>
 
@@ -129,7 +131,14 @@ export default function AccountSettings() {
           <div className="flex-1 flex flex-col min-w-0">
             <header className="h-16 border-b flex items-center px-4 bg-background sticky top-0 z-10">
               <div className="flex items-center gap-3">
-                <BackButton />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleBack}
+                  className="mr-2"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                </Button>
                 <h1 className="text-lg font-semibold">Account Settings</h1>
               </div>
             </header>
