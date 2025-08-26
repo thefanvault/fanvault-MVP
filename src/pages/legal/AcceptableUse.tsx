@@ -1,10 +1,32 @@
 import { Header } from "@/components/layout/Header";
 import { MobileNav } from "@/components/layout/MobileNav";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const AcceptableUse = () => {
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
+      
+      <header className="border-b bg-background sticky top-0 z-10">
+        <div className="container mx-auto max-w-4xl px-4 h-16 flex items-center">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleBack}
+            className="flex-shrink-0"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+        </div>
+      </header>
       
       <main className="container mx-auto max-w-4xl px-4 pt-8 pb-20 md:pb-8">
         <div className="prose prose-slate dark:prose-invert max-w-none">
