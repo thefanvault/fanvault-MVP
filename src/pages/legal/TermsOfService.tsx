@@ -15,8 +15,8 @@ const TermsOfService = () => {
     <div className="min-h-screen bg-background">
       <Header />
       
-      <header className="border-b bg-background sticky top-0 z-10">
-        <div className="container mx-auto max-w-4xl px-4 h-16 flex items-center">
+      <div className="border-b bg-background sticky top-0 z-50">
+        <div className="container mx-auto max-w-4xl px-4 h-14 flex items-center">
           <Button
             variant="ghost"
             size="icon"
@@ -26,9 +26,9 @@ const TermsOfService = () => {
             <ArrowLeft className="h-5 w-5" />
           </Button>
         </div>
-      </header>
+      </div>
       
-      <main className="container mx-auto max-w-4xl px-4 pt-8 pb-20 md:pb-8">
+      <main className="container mx-auto max-w-4xl px-4 py-8 pb-20 md:pb-8">
         <div className="prose prose-slate dark:prose-invert max-w-none">
           <h1 className="text-3xl font-bold mb-8">Terms of Service</h1>
           
