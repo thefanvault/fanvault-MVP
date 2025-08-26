@@ -7,15 +7,12 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { Layout } from "@/components/layout/Layout";
-import { RoleToggle } from "@/components/ui/role-toggle";
-import { useAuth } from "@/contexts/AuthContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 
 export default function GeneralSettings() {
   const { toast } = useToast();
-  const { user } = useAuth();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   
@@ -54,24 +51,11 @@ export default function GeneralSettings() {
               <div>
                 <h2 className="text-2xl font-bold">General Settings</h2>
                 <p className="text-muted-foreground">
-                  Manage your account type and privacy preferences
+                  Manage your privacy preferences
                 </p>
               </div>
             </div>
 
-            {user && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Account Type</CardTitle>
-                  <CardDescription>
-                    Switch between Fan and Creator modes to access different features
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <RoleToggle />
-                </CardContent>
-              </Card>
-            )}
 
             <Card>
               <CardHeader>
@@ -158,23 +142,10 @@ export default function GeneralSettings() {
                 <div>
                   <h2 className="text-2xl font-bold">General Settings</h2>
                   <p className="text-muted-foreground">
-                    Manage your account type and privacy preferences
+                    Manage your privacy preferences
                   </p>
                 </div>
 
-                {user && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Account Type</CardTitle>
-                      <CardDescription>
-                        Switch between Fan and Creator modes to access different features
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <RoleToggle />
-                    </CardContent>
-                  </Card>
-                )}
 
                 <Card>
                   <CardHeader>
