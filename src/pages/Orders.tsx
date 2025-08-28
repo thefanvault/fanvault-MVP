@@ -5,11 +5,12 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { Layout } from "@/components/layout/Layout";
 import { useAuth } from "@/contexts/AuthContext";
-import { Package, Truck, CheckCircle, Printer } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Package, Truck, CheckCircle, Printer, ArrowLeft } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 const Orders = () => {
   const { userRole } = useAuth();
+  const navigate = useNavigate();
   
   const orders = [
     {
@@ -79,7 +80,15 @@ const Orders = () => {
           
           <div className="flex-1 flex flex-col min-w-0">
             <header className="h-16 border-b flex items-center px-4 bg-background sticky top-0 z-10">
-              <div>
+              <div className="flex items-center gap-3">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => navigate(-1)}
+                  className="md:hidden"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                </Button>
                 <h1 className="text-lg font-semibold">Orders</h1>
               </div>
             </header>
