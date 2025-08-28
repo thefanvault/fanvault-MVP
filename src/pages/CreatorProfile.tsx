@@ -16,7 +16,7 @@ import creatorPhoto from "@/assets/creator-profile-photo.jpg";
 
 const CreatorProfile = () => {
   const { username } = useParams();
-  const { user, profile } = useAuth();
+  const { user, profile, userRole } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
@@ -46,7 +46,9 @@ const CreatorProfile = () => {
   });
 
   // Check if this is the current user's profile
-  const isOwnProfile = user && profile && profile.username === username;
+  // For demo purposes, disable edit functionality when viewing as a fan
+  // In a real app, this would check if the logged-in user owns this profile
+  const isOwnProfile = false; // Always false for now since this is viewing someone else's profile
 
   const handleProfileSave = (profileData: any) => {
     // In a real app, you'd save this to your backend
