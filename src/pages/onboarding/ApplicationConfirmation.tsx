@@ -69,7 +69,9 @@ const ApplicationConfirmation = () => {
               <p className="text-sm text-muted-foreground">Connect your Instagram via Facebook</p>
               <Button
                 onClick={handleConnectInstagram}
-                className="w-full bg-fanvault-gradient hover:opacity-90 text-white rounded-lg h-12 text-base font-medium"
+                variant="premium"
+                size="lg"
+                className="w-full h-12 text-base font-medium"
               >
                 <Instagram className="h-5 w-5 mr-2" />
                 CONNECT
@@ -83,14 +85,18 @@ const ApplicationConfirmation = () => {
             <div className="grid grid-cols-2 gap-4">
               <Button
                 onClick={handleConnectYoutube}
-                className="bg-fanvault-gradient hover:opacity-90 text-white rounded-lg h-12 text-base font-medium"
+                variant="premium"
+                size="lg"
+                className="h-12 text-base font-medium"
               >
                 <Youtube className="h-5 w-5 mr-2" />
                 CONNECT
               </Button>
               <Button
                 onClick={handleConnectTikTok}
-                className="bg-fanvault-gradient hover:opacity-90 text-white rounded-lg h-12 text-base font-medium"
+                variant="premium"
+                size="lg"
+                className="h-12 text-base font-medium"
               >
                 <span className="text-lg mr-2">🎵</span>
                 CONNECT
