@@ -78,6 +78,30 @@ const ApplicationConfirmation = () => {
               </Button>
             </div>
 
+            {/* And/Or Text */}
+            <p className="text-sm text-muted-foreground py-2">and/or</p>
+
+            {/* YouTube and TikTok Buttons */}
+            <div className="grid grid-cols-2 gap-4">
+              <Button
+                onClick={handleConnectYoutube}
+                variant="premium"
+                size="lg"
+                className="h-12 text-base font-medium"
+              >
+                <Youtube className="h-5 w-5 mr-2" />
+                CONNECT
+              </Button>
+              <Button
+                onClick={handleConnectTikTok}
+                variant="premium"
+                size="lg"
+                className="h-12 text-base font-medium"
+              >
+                <span className="text-lg mr-2">🎵</span>
+                CONNECT
+              </Button>
+            </div>
 
             {/* Skip Option */}
             <button
