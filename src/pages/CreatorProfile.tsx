@@ -292,18 +292,20 @@ const CreatorProfile = () => {
               </>
             )}
 
-            {/* Profile Edit Modal */}
-            <ProfileEditModal 
-              open={profileEditOpen}
-              onOpenChange={setProfileEditOpen}
-              profile={{
-                displayName: creatorData.displayName,
-                bio: creatorData.bio,
-                avatar: creatorData.avatar,
-                banner: creatorData.banner
-              }}
-              onSave={handleProfileSave}
-            />
+            {/* Profile Edit Modal - Only for own profile */}
+            {isOwnProfile && (
+              <ProfileEditModal 
+                open={profileEditOpen}
+                onOpenChange={setProfileEditOpen}
+                profile={{
+                  displayName: creatorData.displayName,
+                  bio: creatorData.bio,
+                  avatar: creatorData.avatar,
+                  banner: creatorData.banner
+                }}
+                onSave={handleProfileSave}
+              />
+            )}
           </div>
         </div>
       </SidebarProvider>
