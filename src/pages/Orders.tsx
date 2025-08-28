@@ -6,6 +6,7 @@ import { AppSidebar } from "@/components/layout/AppSidebar";
 import { Layout } from "@/components/layout/Layout";
 import { useAuth } from "@/contexts/AuthContext";
 import { Package, Truck, CheckCircle, Printer } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Orders = () => {
   const { userRole } = useAuth();
@@ -128,8 +129,8 @@ const Orders = () => {
                               <p className="text-lg font-semibold">${order.total.toFixed(2)}</p>
                             </div>
                             <div className="flex flex-col gap-2">
-                              <Button variant="outline" size="sm">
-                                View Details
+                              <Button variant="outline" size="sm" asChild>
+                                <Link to={`/order-details/${order.id}`}>View Details</Link>
                               </Button>
                               {userRole === 'creator' && order.status === 'processing' && (
                                 <Button 

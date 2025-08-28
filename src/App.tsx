@@ -32,6 +32,7 @@ import Forbidden from "./pages/error/Forbidden";
 import AdminModeration from "./pages/admin/AdminModeration";
 import AdminImpersonation from "./pages/admin/AdminImpersonation";
 import Orders from "./pages/Orders";
+import OrderDetails from "./pages/OrderDetails";
 import Messages from "./pages/Messages";
 import MobileNavigation from "./pages/MobileNavigation";
 import Notifications from "./pages/Notifications";
@@ -71,6 +72,7 @@ const App = () => (
         <Route path="/settings/general" element={<GeneralSettings />} />
         <Route path="/mobile/navigation" element={<Navigate to="/settings/home" replace />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/order-details/:orderId" element={<OrderDetails />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/profile" element={<Profile />} />
