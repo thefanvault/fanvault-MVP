@@ -208,56 +208,54 @@ const PaymentAdd = () => {
                         </CardHeader>
                         <CardContent className="space-y-4">
                           {savedPayoutMethods.map((payoutMethod) => (
-                            <div
-                              key={payoutMethod.id}
-                              className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border rounded-lg gap-4"
-                            >
-                              <div className="flex items-center space-x-4 min-w-0">
-                                <Building2 className="h-6 w-6 text-green-600 flex-shrink-0" />
-                                <div className="min-w-0">
-                                  <div className="flex flex-wrap items-center gap-2">
-                                    <span className="font-medium">
-                                      {payoutMethod.bank_name}
-                                    </span>
-                                    <span className="text-muted-foreground">
-                                      •••• {payoutMethod.last_four}
-                                    </span>
-                                    {payoutMethod.is_default && (
-                                      <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
-                                        Default
-                                      </span>
-                                    )}
-                                  </div>
-                                  <p className="text-sm text-muted-foreground capitalize">
-                                    {payoutMethod.account_type} • {payoutMethod.routing_number}
-                                  </p>
-                                  <p className="text-sm text-muted-foreground">
-                                    {payoutMethod.account_holder}
-                                  </p>
-                                </div>
-                              </div>
-                              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
-                                <div className="flex items-center space-x-2">
-                                  <Label htmlFor={`default-payout-${payoutMethod.id}`} className="text-sm">
+                        <div
+                          key={payoutMethod.id}
+                          className="p-4 border rounded-lg space-y-3"
+                        >
+                          <div className="flex items-start space-x-3">
+                            <Building2 className="h-5 w-5 text-green-600 mt-1 flex-shrink-0" />
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="font-medium text-sm md:text-base">
+                                  {payoutMethod.bank_name} •••• {payoutMethod.last_four}
+                                </span>
+                                {payoutMethod.is_default && (
+                                  <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded flex-shrink-0">
                                     Default
-                                  </Label>
-                                  <Switch
-                                    id={`default-payout-${payoutMethod.id}`}
-                                    checked={payoutMethod.is_default}
-                                    onCheckedChange={() => handleToggleDefaultPayout(payoutMethod.id)}
-                                  />
-                                </div>
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  onClick={() => handleDeletePayoutMethod(payoutMethod.id)}
-                                  className="text-red-600 hover:text-red-700 w-full sm:w-auto"
-                                >
-                                  <Trash2 className="h-4 w-4 mr-2 sm:mr-0" />
-                                  <span className="sm:hidden">Remove</span>
-                                </Button>
+                                  </span>
+                                )}
                               </div>
+                              <p className="text-sm text-muted-foreground mt-1 capitalize">
+                                {payoutMethod.account_type} • {payoutMethod.routing_number}
+                              </p>
+                              <p className="text-sm text-muted-foreground">
+                                {payoutMethod.account_holder}
+                              </p>
                             </div>
+                          </div>
+                          
+                          <div className="flex items-center justify-between pt-2 border-t">
+                            <div className="flex items-center space-x-2">
+                              <Label htmlFor={`default-payout-${payoutMethod.id}`} className="text-sm">
+                                Default
+                              </Label>
+                              <Switch
+                                id={`default-payout-${payoutMethod.id}`}
+                                checked={payoutMethod.is_default}
+                                onCheckedChange={() => handleToggleDefaultPayout(payoutMethod.id)}
+                              />
+                            </div>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleDeletePayoutMethod(payoutMethod.id)}
+                              className="text-red-600 hover:text-red-700 flex-shrink-0"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                              <span className="sr-only">Remove payout method</span>
+                            </Button>
+                          </div>
+                        </div>
                           ))}
                         </CardContent>
                       </Card>
@@ -396,25 +394,22 @@ const PaymentAdd = () => {
                       {savedPaymentMethods.map((paymentMethod) => (
                         <div
                           key={paymentMethod.id}
-                          className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 border rounded-lg gap-4"
+                          className="p-4 border rounded-lg space-y-3"
                         >
-                          <div className="flex items-center space-x-4 min-w-0">
-                            <CreditCard className={`h-6 w-6 ${getBrandColor(paymentMethod.brand)} flex-shrink-0`} />
-                            <div className="min-w-0">
-                              <div className="flex flex-wrap items-center gap-2">
-                                <span className="font-medium capitalize">
-                                  {paymentMethod.brand}
-                                </span>
-                                <span className="text-muted-foreground">
-                                  •••• {paymentMethod.last_four}
+                          <div className="flex items-start space-x-3">
+                            <CreditCard className={`h-5 w-5 ${getBrandColor(paymentMethod.brand)} mt-1 flex-shrink-0`} />
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="font-medium text-sm md:text-base capitalize">
+                                  {paymentMethod.brand} •••• {paymentMethod.last_four}
                                 </span>
                                 {paymentMethod.is_default && (
-                                  <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
+                                  <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded flex-shrink-0">
                                     Default
                                   </span>
                                 )}
                               </div>
-                              <p className="text-sm text-muted-foreground">
+                              <p className="text-sm text-muted-foreground mt-1">
                                 Expires {paymentMethod.exp_month}/{paymentMethod.exp_year}
                               </p>
                               <p className="text-sm text-muted-foreground">
@@ -422,7 +417,8 @@ const PaymentAdd = () => {
                               </p>
                             </div>
                           </div>
-                          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+                          
+                          <div className="flex items-center justify-between pt-2 border-t">
                             <div className="flex items-center space-x-2">
                               <Label htmlFor={`default-${paymentMethod.id}`} className="text-sm">
                                 Default
@@ -437,10 +433,10 @@ const PaymentAdd = () => {
                               variant="outline"
                               size="sm"
                               onClick={() => handleDeletePaymentMethod(paymentMethod.id)}
-                              className="text-red-600 hover:text-red-700 w-full sm:w-auto"
+                              className="text-red-600 hover:text-red-700 flex-shrink-0"
                             >
-                              <Trash2 className="h-4 w-4 mr-2 sm:mr-0" />
-                              <span className="sm:hidden">Remove</span>
+                              <Trash2 className="h-4 w-4" />
+                              <span className="sr-only">Remove payment method</span>
                             </Button>
                           </div>
                         </div>
