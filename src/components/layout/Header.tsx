@@ -34,7 +34,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between px-4">
+      <div className="container relative flex h-16 items-center px-4">
         {/* Logo and Role Toggle */}
         <div className="flex items-center space-x-2 md:space-x-4">
           <Link to="/" className="flex-shrink-0">
@@ -49,8 +49,8 @@ export function Header() {
           </div>
         </div>
 
-        {/* Navigation - Desktop */}
-        <nav className="hidden md:flex items-center space-x-6">
+        {/* Navigation - Desktop - Absolutely Centered */}
+        <nav className="hidden md:flex items-center space-x-6 absolute left-1/2 transform -translate-x-1/2">
           <Link to="/" className="text-foreground hover:text-primary transition-colors">
             Home
           </Link>
@@ -60,7 +60,7 @@ export function Header() {
         </nav>
 
         {/* Actions */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 ml-auto">
           {/* Show search icon on mobile only when logged in */}
           {user && (
             <Button variant="ghost" size="icon" className="md:hidden">
