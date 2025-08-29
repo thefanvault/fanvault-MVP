@@ -39,8 +39,8 @@ export function CreatorCard({
         />
       </div>
       
-      <CardContent className={cn("relative", isMobile ? "pt-8 p-4" : "pt-12 p-6")}>
-        <div className={cn("absolute left-4 md:left-6", isMobile ? "-top-6" : "-top-8")}>
+      <CardContent className={cn("relative pt-10 md:pt-12", isMobile ? "p-4" : "p-6")}>
+        <div className={cn("absolute left-4 md:left-6", isMobile ? "-top-5" : "-top-8")}>
           <div className="relative">
             <img 
               src={avatar} 
@@ -55,7 +55,7 @@ export function CreatorCard({
           </div>
         </div>
         
-        <div className={cn("mb-3 md:mb-4", isMobile ? "mt-2" : "")}>
+        <div className="mb-3 md:mb-4">
           <div className="flex items-center space-x-2 mb-1">
             <h3 className={cn("font-bold", isMobile ? "text-base" : "text-lg")}>{displayName}</h3>
             {isVerified && <Badge variant="secondary" className={cn(isMobile ? "text-xs px-1.5 py-0.5" : "")}>Verified</Badge>}
