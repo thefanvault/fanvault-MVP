@@ -61,9 +61,13 @@ export function Header() {
 
         {/* Actions */}
         <div className="flex items-center space-x-2">
-          <Button variant="ghost" size="icon" className="md:hidden">
-            <Search className="h-5 w-5" />
-          </Button>
+          {/* Show search icon on mobile only when logged in */}
+          {user && (
+            <Button variant="ghost" size="icon" className="md:hidden">
+              <Search className="h-5 w-5" />
+            </Button>
+          )}
+          
           {user && (
             <>
               {userRole === 'creator' && (
@@ -84,6 +88,7 @@ export function Header() {
               </Button>
             </>
           )}
+          
           {user ? (
             <Button 
               variant="ghost" 
@@ -95,14 +100,27 @@ export function Header() {
               Logout
             </Button>
           ) : (
-            <div className="hidden md:flex items-center space-x-2">
-              <Button variant="outline" size="sm" asChild>
-                <Link to="/login">Log In</Link>
-              </Button>
-              <Button className="bg-fanvault-gradient" asChild>
-                <Link to="/signup">Sign Up</Link>
-              </Button>
-            </div>
+            <>
+              {/* Desktop buttons */}
+              <div className="hidden md:flex items-center space-x-2">
+                <Button variant="outline" size="sm" asChild>
+                  <Link to="/login">Log In</Link>
+                </Button>
+                <Button className="bg-fanvault-gradient" asChild>
+                  <Link to="/signup">Sign Up</Link>
+                </Button>
+              </div>
+              
+              {/* Mobile buttons */}
+              <div className="flex md:hidden items-center space-x-1">
+                <Button variant="outline" size="sm" className="text-xs px-2" asChild>
+                  <Link to="/login">Log In</Link>
+                </Button>
+                <Button size="sm" className="bg-fanvault-gradient text-xs px-2" asChild>
+                  <Link to="/signup">Sign Up</Link>
+                </Button>
+              </div>
+            </>
           )}
         </div>
       </div>
