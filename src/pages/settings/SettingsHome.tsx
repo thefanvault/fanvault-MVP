@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
-import { ChevronRight, User, Bell, CreditCard, Truck, MessageSquare, Gavel, Settings as SettingsIcon, Home, Package, Crown } from "lucide-react";
+import { ChevronRight, User, Bell, CreditCard, Truck, MessageSquare, Gavel, Settings as SettingsIcon, Home, Package, Crown, LogOut } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 
 export default function SettingsHome() {
   const isMobile = useIsMobile();
   const navigate = useNavigate();
-  const { userRole, profile } = useAuth();
+  const { userRole, profile, signOut } = useAuth();
+  const { toast } = useToast();
   const [checked, setChecked] = useState(false);
 
   // Build dynamic options based on user role
@@ -36,6 +39,23 @@ export default function SettingsHome() {
       { icon: Crown, title: "Become a Creator", description: "Start your creator journey", href: "/onboarding/creator/profile?from=settings" },
     ] : []),
   ];
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast({
+        title: "Signed out",
+        description: "You have been successfully signed out.",
+      });
+      navigate("/");
+    } catch (error) {
+      toast({
+        title: "Sign out failed",
+        description: "An error occurred while signing out.",
+        variant: "destructive",
+      });
+    }
+  };
 
   useEffect(() => {
     setChecked(true);
@@ -79,6 +99,18 @@ export default function SettingsHome() {
                       <ChevronRight className="h-5 w-5 text-muted-foreground" />
                     </Link>
                   ))}
+                  
+                  {/* Sign Out Button */}
+                  <div className="pt-4 mt-6 border-t border-white/10">
+                    <Button
+                      onClick={handleSignOut}
+                      variant="outline"
+                      className="w-full flex items-center justify-center space-x-3 p-4 text-destructive border-destructive/50 hover:bg-destructive/10 hover:border-destructive transition-all duration-200"
+                    >
+                      <LogOut className="h-5 w-5" />
+                      <span className="font-medium">Sign Out</span>
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -111,6 +143,18 @@ export default function SettingsHome() {
                 <ChevronRight className="h-5 w-5 text-muted-foreground" />
               </Link>
             ))}
+            
+            {/* Sign Out Button */}
+            <div className="pt-4 mt-6 border-t border-white/10">
+              <Button
+                onClick={handleSignOut}
+                variant="outline"
+                className="w-full flex items-center justify-center space-x-3 p-4 text-destructive border-destructive/50 hover:bg-destructive/10 hover:border-destructive transition-all duration-200"
+              >
+                <LogOut className="h-5 w-5" />
+                <span className="font-medium">Sign Out</span>
+              </Button>
+            </div>
           </div>
         </div>
       )}
