@@ -368,7 +368,7 @@ const ListNewItem = () => {
                     <SelectValue placeholder="Select wear level" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="blank">Leave blank</SelectItem>
+                    <SelectItem value="blank" className="italic text-muted-foreground opacity-75 hover:opacity-100 transition-opacity">Leave blank</SelectItem>
                     <SelectItem value="like-new">Like New</SelectItem>
                     <SelectItem value="lightly-worn">Lightly Worn</SelectItem>
                     <SelectItem value="worn">Worn</SelectItem>
