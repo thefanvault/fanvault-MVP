@@ -113,9 +113,9 @@ const CreatorProfile = () => {
               
               <Link to="/">
                 <img 
-                  src="/lovable-uploads/cedf3fed-66b4-4eeb-b6ed-d39036f2d2d8.png" 
+                  src="/fanvault-logo.png" 
                   alt="FanVault Logo" 
-                  className="h-8 cursor-pointer"
+                  className="h-8 w-auto cursor-pointer"
                 />
               </Link>
             </div>

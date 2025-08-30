@@ -9,9 +9,9 @@ const Footer = () => {
           <div className="space-y-4">
             <Link to="/" className="flex items-center space-x-2">
               <img 
-                src="/lovable-uploads/cedf3fed-66b4-4eeb-b6ed-d39036f2d2d8.png" 
+                src="/fanvault-logo.png" 
                 alt="FanVault Logo" 
-                className="h-8"
+                className="h-8 w-auto"
               />
             </Link>
             <p className="text-sm text-foreground/80">
