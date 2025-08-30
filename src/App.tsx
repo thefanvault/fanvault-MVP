@@ -70,7 +70,6 @@ const App = () => (
         <Route path="/settings/account" element={<AccountSettings />} />
         <Route path="/settings/notifications" element={<NotificationSettings />} />
         <Route path="/settings/general" element={<GeneralSettings />} />
-        <Route path="/mobile/navigation" element={<Navigate to="/settings/home" replace />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/order-details/:orderId" element={<OrderDetails />} />
           <Route path="/messages" element={<Messages />} />
