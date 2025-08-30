@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ChevronRight, User, Bell, CreditCard, Truck, MessageSquare, Gavel, Settings as SettingsIcon, Home, Package, Crown, LogOut } from "lucide-react";
+import { ChevronRight, User, Bell, CreditCard, Truck, MessageSquare, Gavel, Settings as SettingsIcon, Home, Package, Crown, LogOut, UserPlus } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -23,6 +23,9 @@ export default function SettingsHome() {
     ] : []),
     { icon: User, title: "Account", description: "Manage your profile and account settings", href: "/settings/account" },
     { icon: SettingsIcon, title: "General Settings", description: "App preferences and account type", href: "/settings/general" },
+    ...(userRole === 'creator' ? [
+      { icon: UserPlus, title: "Refer a Creator", description: "Invite creators and get waived fees", href: "/settings/referral" },
+    ] : []),
     { icon: MessageSquare, title: "Messages", description: "View and manage your conversations", href: "/messages" },
     { icon: Bell, title: "Alerts", description: "View your notifications", href: "/notifications" },
     ...(userRole === 'creator' ? [
