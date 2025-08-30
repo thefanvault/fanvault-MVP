@@ -16,15 +16,15 @@ export function MobileNav({ currentPath = "/" }: MobileNavProps) {
   if (!user) {
     return (
       <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 md:hidden z-50">
-        <div className="bg-background/80 backdrop-blur-xl border border-border/50 rounded-full shadow-lg shadow-primary/10">
-          <div className="flex items-center p-2 gap-1">
+        <div className="bg-background/20 backdrop-blur-2xl border border-white/10 rounded-full shadow-2xl shadow-primary/20 hover:shadow-primary/30 transition-all duration-300">
+          <div className="flex items-center p-3 gap-2">
             <Link
               to="/"
               className={cn(
-                "flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300",
+                "flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 backdrop-blur-sm",
                 actualPath === "/" 
-                  ? "bg-primary text-primary-foreground shadow-md" 
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                  ? "bg-primary/90 text-primary-foreground shadow-lg shadow-primary/40 scale-110" 
+                  : "text-foreground/80 hover:text-foreground hover:bg-white/10 hover:scale-105"
               )}
             >
               <Home className="h-5 w-5" />
@@ -32,10 +32,10 @@ export function MobileNav({ currentPath = "/" }: MobileNavProps) {
             <Link
               to="/discover"
               className={cn(
-                "flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300",
+                "flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 backdrop-blur-sm",
                 actualPath === "/discover" 
-                  ? "bg-primary text-primary-foreground shadow-md" 
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                  ? "bg-primary/90 text-primary-foreground shadow-lg shadow-primary/40 scale-110" 
+                  : "text-foreground/80 hover:text-foreground hover:bg-white/10 hover:scale-105"
               )}
             >
               <Search className="h-5 w-5" />
