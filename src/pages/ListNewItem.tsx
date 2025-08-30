@@ -20,7 +20,8 @@ interface ListingData {
   photos: File[];
   title: string;
   description: string;
-  condition: string;
+  wear: string;
+  notableWear: string;
   signed: boolean;
   duration: string;
   startingBid: number;
@@ -41,7 +42,8 @@ const ListNewItem = () => {
     photos: [],
     title: "",
     description: "",
-    condition: "",
+    wear: "",
+    notableWear: "",
     signed: false,
     duration: "",
     startingBid: 0,
@@ -141,7 +143,7 @@ const ListNewItem = () => {
       case 2:
         return listingData.photos.length > 0;
       case 3:
-        return listingData.title.trim() && listingData.description.trim() && listingData.condition;
+        return listingData.title.trim() && listingData.description.trim();
       case 4:
         return listingData.duration && listingData.startingBid > 0;
       case 5:
@@ -348,7 +350,7 @@ const ListNewItem = () => {
                 <Label htmlFor="description">Description *</Label>
                 <Textarea
                   id="description"
-                  placeholder="Describe the item in detail - condition, story, special features..."
+                  placeholder="Tell the story of this item - where it appeared, special features, or anything fans should know..."
                   value={listingData.description}
                   onChange={(e) => updateListingData({ description: e.target.value })}
                   className="min-h-[120px]"
@@ -360,18 +362,39 @@ const ListNewItem = () => {
               </div>
 
               <div className="space-y-2">
-                <Label>Condition *</Label>
-                <Select value={listingData.condition} onValueChange={(value) => updateListingData({ condition: value })}>
+                <Label>Wear (optional)</Label>
+                <Select value={listingData.wear} onValueChange={(value) => updateListingData({ wear: value })}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select condition" />
+                    <SelectValue placeholder="Select wear level" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="new">New</SelectItem>
-                    <SelectItem value="gently-used">Gently Used</SelectItem>
+                    <SelectItem value="">Leave blank</SelectItem>
+                    <SelectItem value="like-new">Like New</SelectItem>
+                    <SelectItem value="lightly-worn">Lightly Worn</SelectItem>
                     <SelectItem value="worn">Worn</SelectItem>
                   </SelectContent>
                 </Select>
+                <p className="text-sm text-muted-foreground">
+                  How much has this item been used or worn?
+                </p>
               </div>
+
+              {listingData.wear && (
+                <div className="space-y-2">
+                  <Label htmlFor="notableWear">Notable wear (optional)</Label>
+                  <Textarea
+                    id="notableWear"
+                    placeholder="Any specific signs of wear, damage, or condition details..."
+                    value={listingData.notableWear}
+                    onChange={(e) => updateListingData({ notableWear: e.target.value })}
+                    className="min-h-[80px]"
+                    maxLength={240}
+                  />
+                  <p className="text-sm text-muted-foreground text-right">
+                    {listingData.notableWear.length}/240
+                  </p>
+                </div>
+              )}
 
               <div className="flex items-center justify-between">
                 <div className="space-y-1">
@@ -556,15 +579,29 @@ const ListNewItem = () => {
                   </div>
                 )}
 
-                <div className="space-y-3">
-                  <h3 className="text-xl font-bold">{listingData.title}</h3>
-                  
-                  <div className="flex items-center space-x-4">
-                    <Badge>{listingData.condition}</Badge>
-                    {listingData.signed && <Badge variant="secondary">Signed</Badge>}
-                  </div>
+                  <div className="space-y-3">
+                    <h3 className="text-xl font-bold">{listingData.title}</h3>
+                    
+                    <div className="flex items-center space-x-4">
+                      {listingData.wear && (
+                        <Badge>
+                          {listingData.wear === 'like-new' && 'Like New'}
+                          {listingData.wear === 'lightly-worn' && 'Lightly Worn'}
+                          {listingData.wear === 'worn' && 'Worn'}
+                        </Badge>
+                      )}
+                      {listingData.signed && <Badge variant="secondary">Signed</Badge>}
+                    </div>
 
-                  <p className="text-muted-foreground">{listingData.description}</p>
+                    <p className="text-muted-foreground">{listingData.description}</p>
+                    
+                    {listingData.notableWear && (
+                      <div className="p-3 bg-muted rounded-lg">
+                        <p className="text-sm">
+                          <span className="font-medium">Notable wear:</span> {listingData.notableWear}
+                        </p>
+                      </div>
+                    )}
 
                   <div className="pt-4 border-t">
                     <div className="grid grid-cols-2 gap-4 text-sm">
