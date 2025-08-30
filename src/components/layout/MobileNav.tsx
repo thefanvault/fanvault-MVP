@@ -13,7 +13,7 @@ export function MobileNav({ currentPath = "/" }: MobileNavProps) {
   const actualPath = location.pathname;
   
   // If user is not logged in, show floating toggle
-  if (!user && !userRole) {
+  if (!user) {
     return (
       <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 md:hidden z-50">
         <div className="bg-background/80 backdrop-blur-xl border border-border/50 rounded-full shadow-lg shadow-primary/10">
