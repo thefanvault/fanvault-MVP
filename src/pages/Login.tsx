@@ -97,9 +97,9 @@ const Login = () => {
         {/* Logo */}
         <div className="text-center mb-8">
           <img 
-            src="/fanvault-logo.png" 
+            src="/lovable-uploads/cedf3fed-66b4-4eeb-b6ed-d39036f2d2d8.png" 
             alt="FanVault Logo" 
-            className="h-12 w-auto mx-auto mb-4"
+            className="h-12 mx-auto mb-4"
           />
         </div>
 
