@@ -93,8 +93,7 @@ const ReferralPage = () => {
           </div>
           <div className="p-4 bg-background/30 rounded-lg border border-dashed">
             <p className="text-sm text-muted-foreground">
-              <strong>Bonus:</strong> Benefits stack! Refer multiple creators and extend your fee-free period. 
-              Fans can also use your link to refer creators (they don't get benefits, but you still do).
+              <strong>Bonus:</strong> Benefits stack! Refer multiple creators and extend your fee-free period.
             </p>
           </div>
         </CardContent>
