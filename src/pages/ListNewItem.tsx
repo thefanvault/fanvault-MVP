@@ -368,7 +368,7 @@ const ListNewItem = () => {
                     <SelectValue placeholder="Select wear level" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Leave blank</SelectItem>
+                    <SelectItem value="blank">Leave blank</SelectItem>
                     <SelectItem value="like-new">Like New</SelectItem>
                     <SelectItem value="lightly-worn">Lightly Worn</SelectItem>
                     <SelectItem value="worn">Worn</SelectItem>
@@ -379,7 +379,7 @@ const ListNewItem = () => {
                 </p>
               </div>
 
-              {listingData.wear && (
+              {listingData.wear && listingData.wear !== "blank" && (
                 <div className="space-y-2">
                   <Label htmlFor="notableWear">Notable wear (optional)</Label>
                   <Textarea
