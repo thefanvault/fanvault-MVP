@@ -175,74 +175,84 @@ const BidDashboard = () => {
       <CardContent className="p-4">
         <div className="flex items-start space-x-4">
           {/* Item Image */}
-          <Link to={`/item/${bid.itemId}`}>
+          <Link to={`/item/${bid.itemId}`} className="flex-shrink-0">
             <img 
               src={bid.imageUrl} 
               alt={bid.title}
-              className="w-20 h-20 object-cover rounded-lg hover:opacity-80 transition-opacity"
+              className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg hover:opacity-80 transition-opacity"
             />
           </Link>
           
           {/* Item Details */}
           <div className="flex-1 min-w-0">
-            <div className="flex items-start justify-between mb-2">
-              <div className="flex-1">
+            {/* Title and Status - Mobile stacked, Desktop inline */}
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 gap-2">
+              <div className="flex-1 min-w-0">
                 <Link 
                   to={`/item/${bid.itemId}`}
-                  className="font-semibold text-foreground hover:text-primary transition-colors line-clamp-2"
+                  className="font-semibold text-foreground hover:text-primary transition-colors line-clamp-2 block"
                 >
                   {bid.title}
                 </Link>
                 <p className="text-sm text-muted-foreground">by {bid.creatorName}</p>
               </div>
-              <div className="ml-2">
+              <div className="flex-shrink-0">
                 {getStatusBadge(bid.status)}
               </div>
             </div>
             
-            {/* Bid Info */}
-            <div className="flex items-center justify-between">
-              <div className="flex space-x-4 text-sm">
-                <div>
-                  <span className="text-muted-foreground">Your bid: </span>
-                  <span className="font-semibold">${bid.yourBid}</span>
+            {/* Bid Info - Always stacked on mobile, inline on larger screens */}
+            <div className="space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div className="flex flex-col xs:flex-row xs:space-x-4 space-y-1 xs:space-y-0 text-sm">
+                  <div>
+                    <span className="text-muted-foreground">Your bid: </span>
+                    <span className="font-semibold">${bid.yourBid}</span>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">Current: </span>
+                    <span className="font-semibold">${bid.currentBid}</span>
+                  </div>
                 </div>
-                <div>
-                  <span className="text-muted-foreground">Current: </span>
-                  <span className="font-semibold">${bid.currentBid}</span>
+                
+                {/* Time info - separate row on mobile */}
+                <div className="flex items-center justify-between sm:justify-end">
+                  <div className="flex items-center space-x-2">
+                    {bid.timeRemaining && (
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <Clock className="w-4 h-4 mr-1" />
+                        <span>{bid.timeRemaining}</span>
+                      </div>
+                    )}
+                    
+                    {bid.endTime && (
+                      <span className="text-sm text-muted-foreground">{bid.endTime}</span>
+                    )}
+                  </div>
                 </div>
               </div>
               
-              {/* Time/Actions */}
-              <div className="flex items-center space-x-2">
-                {bid.timeRemaining && (
-                  <div className="flex items-center text-sm text-muted-foreground">
-                    <Clock className="w-4 h-4 mr-1" />
-                    <span>{bid.timeRemaining}</span>
-                  </div>
-                )}
-                
-                {bid.endTime && (
-                  <span className="text-sm text-muted-foreground">{bid.endTime}</span>
-                )}
-                
-                {bid.status === 'won' && bid.orderId && (
-                  <Button asChild size="sm" variant="outline">
-                    <Link to={`/orders/${bid.orderId}`}>
-                      View Receipt
-                      <ExternalLink className="w-3 h-3 ml-1" />
-                    </Link>
-                  </Button>
-                )}
-                
-                {bid.status === 'outbid' && (
-                  <Button asChild size="sm" className="bg-fanvault-gradient">
-                    <Link to={`/item/${bid.itemId}`}>
-                      Bid Again
-                    </Link>
-                  </Button>
-                )}
-              </div>
+              {/* Action buttons - Full width on mobile */}
+              {(bid.status === 'won' && bid.orderId) || bid.status === 'outbid' ? (
+                <div className="flex justify-end">
+                  {bid.status === 'won' && bid.orderId && (
+                    <Button asChild size="sm" variant="outline" className="w-full sm:w-auto">
+                      <Link to={`/orders/${bid.orderId}`}>
+                        View Receipt
+                        <ExternalLink className="w-3 h-3 ml-1" />
+                      </Link>
+                    </Button>
+                  )}
+                  
+                  {bid.status === 'outbid' && (
+                    <Button asChild size="sm" className="bg-fanvault-gradient w-full sm:w-auto">
+                      <Link to={`/item/${bid.itemId}`}>
+                        Bid Again
+                      </Link>
+                    </Button>
+                  )}
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
