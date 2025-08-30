@@ -34,7 +34,7 @@ import AdminImpersonation from "./pages/admin/AdminImpersonation";
 import Orders from "./pages/Orders";
 import OrderDetails from "./pages/OrderDetails";
 import Messages from "./pages/Messages";
-import MobileNavigation from "./pages/MobileNavigation";
+
 import Notifications from "./pages/Notifications";
 import FaqBidding from "./pages/FaqBidding";
 import Profile from "./pages/Profile";
