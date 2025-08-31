@@ -62,26 +62,28 @@ export function MobileNav({ currentPath = "/" }: MobileNavProps) {
       ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-background border-t md:hidden z-50">
-      <div className="flex items-center justify-around h-16">
-        {navItems.map((item) => {
-          const isActive = actualPath === item.href;
-          return (
-            <Link
-              key={item.href}
-              to={item.href}
-              className={cn(
-                "flex flex-col items-center justify-center space-y-1 px-3 py-2 rounded-lg transition-colors",
-                isActive 
-                  ? "text-primary bg-primary/10" 
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <item.icon className="h-5 w-5" />
-              <span className="text-xs">{item.label}</span>
-            </Link>
-          );
-        })}
+    <nav className="fixed bottom-6 left-4 right-4 md:hidden z-50">
+      <div className="bg-background/20 backdrop-blur-2xl border border-white/10 rounded-full shadow-2xl shadow-primary/20 hover:shadow-primary/30 transition-all duration-300">
+        <div className="flex items-center justify-around px-4 py-3">
+          {navItems.map((item) => {
+            const isActive = actualPath === item.href;
+            return (
+              <Link
+                key={item.href}
+                to={item.href}
+                className={cn(
+                  "flex flex-col items-center justify-center space-y-1 px-3 py-2 rounded-xl transition-all duration-300 backdrop-blur-sm",
+                  isActive 
+                    ? "text-primary-foreground bg-primary/90 shadow-lg shadow-primary/40 scale-110" 
+                    : "text-foreground/80 hover:text-foreground hover:bg-white/10 hover:scale-105"
+                )}
+              >
+                <item.icon className="h-5 w-5" />
+                <span className="text-xs font-medium">{item.label}</span>
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </nav>
   );
