@@ -72,13 +72,18 @@ export function MobileNav({ currentPath = "/" }: MobileNavProps) {
                 key={item.href}
                 to={item.href}
                 className={cn(
-                  "flex flex-col items-center justify-center space-y-1 px-3 py-2 rounded-xl transition-all duration-300 backdrop-blur-sm",
-                  isActive 
-                    ? "text-primary-foreground bg-primary/90 shadow-lg shadow-primary/40 scale-110" 
-                    : "text-foreground/80 hover:text-foreground hover:bg-white/10 hover:scale-105"
+                  "flex flex-col items-center justify-center space-y-1 px-2 py-2 transition-all duration-300 backdrop-blur-sm",
+                  "text-foreground/80 hover:text-foreground hover:scale-105"
                 )}
               >
-                <item.icon className="h-5 w-5" />
+                <div className={cn(
+                  "flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300",
+                  isActive 
+                    ? "bg-primary/90 text-primary-foreground shadow-lg shadow-primary/40 scale-110" 
+                    : ""
+                )}>
+                  <item.icon className="h-5 w-5" />
+                </div>
                 <span className="text-xs font-medium">{item.label}</span>
               </Link>
             );
