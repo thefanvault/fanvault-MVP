@@ -11,6 +11,7 @@ import { Layout } from "@/components/layout/Layout";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
+import { RoleToggle } from "@/components/ui/role-toggle";
 
 export default function AccountSettings() {
   const { toast } = useToast();
@@ -59,6 +60,20 @@ export default function AccountSettings() {
                 Update your account details and how others see you on the platform
               </p>
             </div>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Account Type</CardTitle>
+                <CardDescription>
+                  Switch between Fan and Creator modes
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex justify-center">
+                  <RoleToggle />
+                </div>
+              </CardContent>
+            </Card>
 
             <Card>
               <CardHeader>
@@ -151,6 +166,20 @@ export default function AccountSettings() {
                     Update your account details and how others see you on the platform
                   </p>
                 </div>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Account Type</CardTitle>
+                    <CardDescription>
+                      Switch between Fan and Creator modes
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex justify-center">
+                      <RoleToggle />
+                    </div>
+                  </CardContent>
+                </Card>
 
                 <Card>
                   <CardHeader>

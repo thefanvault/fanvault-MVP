@@ -5,7 +5,7 @@ import { Search, Bell, User, LogOut, Plus } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import { RoleToggle } from "@/components/ui/role-toggle";
+
 
 export function Header() {
   const { user, userRole, signOut } = useAuth();
@@ -35,8 +35,8 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container relative flex h-16 items-center px-4">
-        {/* Logo and Role Toggle */}
-        <div className="flex items-center space-x-2 md:space-x-4">
+        {/* Logo */}
+        <div className="flex items-center">
           <Link to="/" className="flex-shrink-0">
             <img 
               src="/lovable-uploads/cedf3fed-66b4-4eeb-b6ed-d39036f2d2d8.png" 
@@ -44,9 +44,6 @@ export function Header() {
               className="h-6 md:h-8 w-auto cursor-pointer"
             />
           </Link>
-          <div className="scale-75 md:scale-100 origin-left">
-            <RoleToggle />
-          </div>
         </div>
 
         {/* Navigation - Desktop - Absolutely Centered */}
