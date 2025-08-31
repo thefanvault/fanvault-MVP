@@ -35,6 +35,7 @@ const ListNewItem = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isUploading, setIsUploading] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
   
   const [listingData, setListingData] = useState<ListingData>({
     contentUrl: "",
@@ -136,6 +137,45 @@ const ListNewItem = () => {
     updateListingData({ contentVideo: null });
   };
 
+  const validateCurrentStep = () => {
+    const errors: string[] = [];
+    
+    switch (currentStep) {
+      case 1:
+        // Content URL is optional, no validation needed
+        break;
+      case 2:
+        if (listingData.photos.length === 0) {
+          errors.push("At least 1 photo is required");
+        }
+        break;
+      case 3:
+        if (!listingData.title.trim()) {
+          errors.push("Title is required");
+        }
+        if (!listingData.description.trim()) {
+          errors.push("Description is required");
+        }
+        break;
+      case 4:
+        if (!listingData.duration) {
+          errors.push("Auction duration must be selected");
+        }
+        if (!listingData.startingBid || listingData.startingBid <= 0) {
+          errors.push("Starting bid must be greater than $0");
+        }
+        break;
+      case 5:
+        if (!listingData.shippingTier) {
+          errors.push("Shipping tier must be selected");
+        }
+        break;
+    }
+    
+    setValidationErrors(errors);
+    return errors.length === 0;
+  };
+
   const canProceed = () => {
     switch (currentStep) {
       case 1:
@@ -154,8 +194,9 @@ const ListNewItem = () => {
   };
 
   const nextStep = () => {
-    if (canProceed() && currentStep < totalSteps) {
+    if (validateCurrentStep() && currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
+      setValidationErrors([]); // Clear errors when successfully proceeding
     }
   };
 
@@ -271,14 +312,25 @@ const ListNewItem = () => {
 
       case 2:
         return (
-          <div className="space-y-6">
-            <div className="text-center">
-              <Image className="h-12 w-12 mx-auto mb-4 text-primary" />
-              <h2 className="text-2xl font-bold mb-2">Item Photos</h2>
-              <p className="text-muted-foreground">
-                Upload clear photos of your item (at least 1 required)
-              </p>
-            </div>
+            <div className="space-y-6">
+              <div className="text-center">
+                <Image className="h-12 w-12 mx-auto mb-4 text-primary" />
+                <h2 className="text-2xl font-bold mb-2">Item Photos</h2>
+                <p className="text-muted-foreground">
+                  Upload clear photos of your item (at least 1 required)
+                </p>
+              </div>
+
+              {validationErrors.length > 0 && (
+                <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
+                  <p className="text-sm font-medium text-destructive mb-2">Please complete the following:</p>
+                  <ul className="text-sm text-destructive space-y-1">
+                    {validationErrors.map((error, index) => (
+                      <li key={index}>• {error}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {listingData.photos.map((photo, index) => (
@@ -322,44 +374,56 @@ const ListNewItem = () => {
 
       case 3:
         return (
-          <div className="space-y-6">
-            <div className="text-center">
-              <FileText className="h-12 w-12 mx-auto mb-4 text-primary" />
-              <h2 className="text-2xl font-bold mb-2">Item Details</h2>
-              <p className="text-muted-foreground">
-                Tell fans about your item
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="title">Title *</Label>
-                <Input
-                  id="title"
-                  placeholder="Jacket from Summer Night video"
-                  value={listingData.title}
-                  onChange={(e) => updateListingData({ title: e.target.value })}
-                  maxLength={100}
-                />
-                <p className="text-sm text-muted-foreground text-right">
-                  {listingData.title.length}/100
+            <div className="space-y-6">
+              <div className="text-center">
+                <FileText className="h-12 w-12 mx-auto mb-4 text-primary" />
+                <h2 className="text-2xl font-bold mb-2">Item Details</h2>
+                <p className="text-muted-foreground">
+                  Tell fans about your item
                 </p>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="description">Description *</Label>
-                <Textarea
-                  id="description"
-                  placeholder="Tell the story of this item - where it appeared, special features, or anything fans should know..."
-                  value={listingData.description}
-                  onChange={(e) => updateListingData({ description: e.target.value })}
-                  className="min-h-[120px]"
-                  maxLength={500}
-                />
-                <p className="text-sm text-muted-foreground text-right">
-                  {listingData.description.length}/500
-                </p>
-              </div>
+              {validationErrors.length > 0 && (
+                <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
+                  <p className="text-sm font-medium text-destructive mb-2">Please complete the following:</p>
+                  <ul className="text-sm text-destructive space-y-1">
+                    {validationErrors.map((error, index) => (
+                      <li key={index}>• {error}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="title">Title *</Label>
+                  <Input
+                    id="title"
+                    placeholder="Jacket from Summer Night video"
+                    value={listingData.title}
+                    onChange={(e) => updateListingData({ title: e.target.value })}
+                    maxLength={100}
+                    className={validationErrors.some(error => error.includes("Title")) ? "border-destructive" : ""}
+                  />
+                  <p className="text-sm text-muted-foreground text-right">
+                    {listingData.title.length}/100
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="description">Description *</Label>
+                  <Textarea
+                    id="description"
+                    placeholder="Tell the story of this item - where it appeared, special features, or anything fans should know..."
+                    value={listingData.description}
+                    onChange={(e) => updateListingData({ description: e.target.value })}
+                    className={`min-h-[120px] ${validationErrors.some(error => error.includes("Description")) ? "border-destructive" : ""}`}
+                    maxLength={500}
+                  />
+                  <p className="text-sm text-muted-foreground text-right">
+                    {listingData.description.length}/500
+                  </p>
+                </div>
 
               <div className="space-y-2">
                 <Label>Wear (optional)</Label>
@@ -417,52 +481,67 @@ const ListNewItem = () => {
 
       case 4:
         return (
-          <div className="space-y-6">
-            <div className="text-center">
-              <Settings className="h-12 w-12 mx-auto mb-4 text-primary" />
-              <h2 className="text-2xl font-bold mb-2">Auction Settings</h2>
-              <p className="text-muted-foreground">
-                Set your auction duration and pricing
-              </p>
-            </div>
-
             <div className="space-y-6">
-              <div className="space-y-3">
-                <Label>Auction Duration *</Label>
-                <div className="grid grid-cols-3 gap-3">
-                  {[
-                    { value: "1", label: "1 Day" },
-                    { value: "3", label: "3 Days" },
-                    { value: "7", label: "7 Days" }
-                  ].map((option) => (
-                    <Button
-                      key={option.value}
-                      variant={listingData.duration === option.value ? "default" : "outline"}
-                      className="h-12"
-                      onClick={() => updateListingData({ duration: option.value })}
-                    >
-                      {option.label}
-                    </Button>
-                  ))}
-                </div>
+              <div className="text-center">
+                <Settings className="h-12 w-12 mx-auto mb-4 text-primary" />
+                <h2 className="text-2xl font-bold mb-2">Auction Settings</h2>
+                <p className="text-muted-foreground">
+                  Set your auction duration and pricing
+                </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="startingBid">Starting Bid (USD) *</Label>
-                  <div className="relative">
-                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">$</span>
-                    <Input
-                      id="startingBid"
-                      type="number"
-                      min="1"
-                      placeholder="0"
-                      className="pl-8"
-                      value={listingData.startingBid || ""}
-                      onChange={(e) => updateListingData({ startingBid: Number(e.target.value) })}
-                    />
+              {validationErrors.length > 0 && (
+                <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
+                  <p className="text-sm font-medium text-destructive mb-2">Please complete the following:</p>
+                  <ul className="text-sm text-destructive space-y-1">
+                    {validationErrors.map((error, index) => (
+                      <li key={index}>• {error}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <div className="space-y-6">
+                <div className="space-y-3">
+                  <Label className={validationErrors.some(error => error.includes("duration")) ? "text-destructive" : ""}>
+                    Auction Duration *
+                  </Label>
+                  <div className={`grid grid-cols-3 gap-3 ${validationErrors.some(error => error.includes("duration")) ? "ring-2 ring-destructive/20 rounded-lg p-2" : ""}`}>
+                    {[
+                      { value: "1", label: "1 Day" },
+                      { value: "3", label: "3 Days" },
+                      { value: "7", label: "7 Days" }
+                    ].map((option) => (
+                      <Button
+                        key={option.value}
+                        variant={listingData.duration === option.value ? "default" : "outline"}
+                        className="h-12"
+                        onClick={() => updateListingData({ duration: option.value })}
+                      >
+                        {option.label}
+                      </Button>
+                    ))}
                   </div>
                 </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="startingBid" className={validationErrors.some(error => error.includes("Starting bid")) ? "text-destructive" : ""}>
+                      Starting Bid (USD) *
+                    </Label>
+                    <div className="relative">
+                      <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">$</span>
+                      <Input
+                        id="startingBid"
+                        type="number"
+                        min="1"
+                        placeholder="0"
+                        className={`pl-8 ${validationErrors.some(error => error.includes("Starting bid")) ? "border-destructive" : ""}`}
+                        value={listingData.startingBid || ""}
+                        onChange={(e) => updateListingData({ startingBid: Number(e.target.value) })}
+                      />
+                    </div>
+                  </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="reservePrice">Reserve Price (USD)</Label>
@@ -489,46 +568,57 @@ const ListNewItem = () => {
 
       case 5:
         return (
-          <div className="space-y-6">
-            <div className="text-center">
-              <Truck className="h-12 w-12 mx-auto mb-4 text-primary" />
-              <h2 className="text-2xl font-bold mb-2">Shipping Tier</h2>
-              <p className="text-muted-foreground">
-                Choose the shipping category for this item
-              </p>
-            </div>
+            <div className="space-y-6">
+              <div className="text-center">
+                <Truck className="h-12 w-12 mx-auto mb-4 text-primary" />
+                <h2 className="text-2xl font-bold mb-2">Shipping Tier</h2>
+                <p className="text-muted-foreground">
+                  Choose the shipping category for this item
+                </p>
+              </div>
 
-            <div className="grid gap-4">
-              {[
-                { 
-                  value: "light", 
-                  label: "Light", 
-                  description: "Small items, jewelry, cards", 
-                  price: "$5",
-                  icon: Package 
-                },
-                { 
-                  value: "medium", 
-                  label: "Medium", 
-                  description: "Clothing, shoes, accessories", 
-                  price: "$12",
-                  icon: Truck 
-                },
-                { 
-                  value: "heavy", 
-                  label: "Heavy", 
-                  description: "Large items, electronics", 
-                  price: "$25",
-                  icon: Plane 
-                }
-              ].map((tier) => (
-                <Card
-                  key={tier.value}
-                  className={`cursor-pointer transition-all ${
-                    listingData.shippingTier === tier.value ? 'ring-2 ring-primary' : ''
-                  }`}
-                  onClick={() => updateListingData({ shippingTier: tier.value })}
-                >
+              {validationErrors.length > 0 && (
+                <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
+                  <p className="text-sm font-medium text-destructive mb-2">Please complete the following:</p>
+                  <ul className="text-sm text-destructive space-y-1">
+                    {validationErrors.map((error, index) => (
+                      <li key={index}>• {error}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <div className={`grid gap-4 ${validationErrors.some(error => error.includes("Shipping tier")) ? "ring-2 ring-destructive/20 rounded-lg p-2" : ""}`}>
+                {[
+                  { 
+                    value: "light", 
+                    label: "Light", 
+                    description: "Small items, jewelry, cards", 
+                    price: "$5",
+                    icon: Package 
+                  },
+                  { 
+                    value: "medium", 
+                    label: "Medium", 
+                    description: "Clothing, shoes, accessories", 
+                    price: "$12",
+                    icon: Truck 
+                  },
+                  { 
+                    value: "heavy", 
+                    label: "Heavy", 
+                    description: "Large items, electronics", 
+                    price: "$25",
+                    icon: Plane 
+                  }
+                ].map((tier) => (
+                  <Card
+                    key={tier.value}
+                    className={`cursor-pointer transition-all ${
+                      listingData.shippingTier === tier.value ? 'ring-2 ring-primary' : ''
+                    }`}
+                    onClick={() => updateListingData({ shippingTier: tier.value })}
+                  >
                   <CardContent className="p-4 flex items-center space-x-4">
                     <tier.icon className="h-8 w-8 text-primary" />
                     <div className="flex-1">
