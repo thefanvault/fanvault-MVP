@@ -64,14 +64,14 @@ export function MobileNav({ currentPath = "/" }: MobileNavProps) {
   return (
     <nav className="fixed bottom-6 left-4 right-4 md:hidden z-50">
       <div className="bg-background/20 backdrop-blur-2xl border border-white/10 rounded-full shadow-2xl shadow-primary/20 hover:shadow-primary/30 transition-all duration-300">
-        <div className="flex items-center justify-around px-4 py-3">
+        <div className="flex items-center justify-around px-3 py-2">
           {navItems.map((item) => {
             const isActive = actualPath === item.href;
             return (
               <Link
                 key={item.href}
                 to={item.href}
-                className="flex flex-col items-center justify-center space-y-1 px-2 py-2 transition-all duration-300 text-foreground/80 focus:outline-none"
+                className="flex flex-col items-center justify-center space-y-0.5 px-1.5 py-1.5 transition-all duration-300 text-foreground/80 focus:outline-none"
               >
                 <div className={cn(
                   "flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300",
